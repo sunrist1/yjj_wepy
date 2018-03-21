@@ -1,0 +1,77 @@
+<style lang="scss">
+  .tab_box {
+    display: flex;
+    background-color: #fff;
+    padding:10rpx 0;
+    .item {
+      width:33.33%;
+      text-align: center;
+      image{
+        width:80rpx;
+        height: 80rpx;
+        display: block;
+        margin:20rpx auto 0rpx;
+      }
+      text{
+        font-size: 32rpx;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="tab_box">
+    <view class="item">
+      <image src="{{tabboxImg_1}}" ></image>
+      <text>活期宝</text>
+    </view>
+    <view class="item">
+      <image src="{{tabboxImg_2}}"></image>
+      <text>亿推荐</text>
+    </view>
+    <view class="item">
+      <image src="{{tabboxImg_3}}"></image>
+      <text>公募基金</text>
+    </view>
+  </view>
+
+  <view class="tab_box">
+    <view class="item">
+      <image src="{{tabboxImg_4}}"></image>
+      <text>百万理财</text>
+    </view>
+    <view class="item">
+      <image src="{{tabboxImg_5}}"></image>
+      <text>金融学堂</text>
+    </view>
+    <view class="item">
+      <image src="{{tabboxImg_6}}"></image>
+      <text>理财师</text>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import config from '../config.js'
+  
+  export default class Tabbox extends wepy.component {
+    props = {
+      list: {
+        type: Array,
+        default: []
+      }
+    }
+
+    data = {
+      tabboxImg_1: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_1.png`,
+      tabboxImg_2: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_2.png`,
+      tabboxImg_3: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_3.png`,
+      tabboxImg_4: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_4.png`,
+      tabboxImg_5: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_5.png`,
+      tabboxImg_6: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_6.png`
+    }
+
+    onLoad() {
+      console.log(config.service.yjjhost)
+    }
+  }
+</script>

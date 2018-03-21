@@ -1,0 +1,67 @@
+<style lang="scss">
+  .bnotice{
+    height: 55rpx;
+    margin-left: 65rpx;
+    line-height: 55rpx;
+    text {
+      white-space: nowrap;
+      display: block;
+      width:95%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 30rpx;
+      line-height: 40rpx;
+      height: 40rpx;
+      margin-top:10rpx;
+    }
+  }
+  .noticeImg{
+    height: 40rpx;
+    width:40rpx;
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    left: 15rpx;
+    top: 10rpx;
+  }
+  .notice_box{
+    position: relative;
+    margin:8rpx 0rpx;
+  }
+</style>
+<template>
+  <view class="notice_box">
+    <image src="{{noticeImgUrl}}" class="noticeImg"/>
+    <swiper class="bnotice" circular="{{circular}}" indicator-dots="{{indicatorDots}}" vertical='true' autoplay="{{autoplay}}" interval="4000" duration="1500">
+      <block wx:for="{{list.bnotice}}" wx:key="index" wx:for-item="item">
+        <swiper-item>
+          <text>{{item.articleTitle}}</text>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import config from '../config.js'
+  
+  export default class Rollnotices extends wepy.component {
+    props = {
+      list: {
+        type: Array,
+        default: []
+      }
+    }
+
+    data = {
+      indicatorDots: false,
+      autoplay: true,
+      circular: true,
+      noticeImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/notice.png`
+    }
+
+    onLoad() {
+      console.log(config.service.yjjhost)
+    }
+  }
+</script>

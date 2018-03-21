@@ -1,0 +1,56 @@
+<style lang="scss">
+  .newhand_box{
+    margin-top:15rpx;
+    .title{
+      background-color: #fff;
+      padding:15rpx 20rpx;
+      display: flex;
+      border-bottom:1rpx solid #f4f4f4;
+      justify-content: space-between;
+      .left{
+        font-weight: 600;
+        font-size: 34rpx;
+      }
+      .right{
+        font-size: 34rpx;
+        color:#707070;
+        image{
+          display: inline-block;
+          vertical-align: sub;
+          height: 40rpx;
+          width:40rpx;
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="newhand_box">
+    <view class="title">
+      <text class="left">新手基金</text>
+      <view class="right">
+        全部
+        <image src="{{rightIconUrl}}"></image>
+      </view>
+    </view>
+
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import config from '../config.js'
+  
+  export default class Newhand extends wepy.component {
+    props = {
+      
+    }
+
+    data = {
+      rightIconUrl:`${config.service.yjjhost}/public/mobile/images/weapp/right.png`
+    }
+
+    onLoad() {
+      console.log(config.service.yjjhost)
+    }
+  }
+</script>

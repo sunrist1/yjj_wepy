@@ -1,0 +1,79 @@
+<style lang="scss">
+  @import './lib.scss';
+  .aa{
+    color:$orange;
+  }
+</style>
+<template>
+  <view class="page">
+    <!-- 轮播图 -->
+    <carousel :list.sync="nativeData"></carousel>
+
+    <!-- 滚动公告 -->
+    <rollnotices :list.sync="nativeData"></rollnotices>
+
+    <!-- 方块格 -->
+    <tabbox></tabbox>
+
+    <!-- 新手推荐基金 -->
+    <newhand></newhand>
+  </view>
+  
+</template>
+
+<script lang="babel">
+  import wepy from 'wepy'
+  // import config from '../config.js'
+
+  // components
+  import Carousel from '@/components/carousel'
+  import Rollnotices from '@/components/rollnotices'
+  import Tabbox from '@/components/tabbox'
+  import Newhand from '@/components/newhand'
+  
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '亿基金'
+    }
+    components = {
+      carousel: Carousel,
+      rollnotices: Rollnotices,
+      tabbox: Tabbox,
+      newhand: Newhand
+    }
+
+    data = {
+      nativeData: {},
+      banner: []
+    }
+
+    computed = {
+    }
+
+    methods = {
+
+    }
+
+    requestNative () {
+      return new Promise((resolve, reject) => {
+        wepy.request({
+          url: 'https://app1.efoundation.com.cn/mobile/nativeIndex',
+          data: {},
+          header: {
+            'content-type': 'application/json'
+          },
+          success: function(res) {
+            resolve(res.data.data)
+          }
+        })
+      })
+    }
+
+    async onLoad() {
+      this.nativeData = await this.requestNative()
+      this.banner = this.nativeData.banner
+      this.$apply()
+      console.log(this.nativeData)
+    }
+  }
+</script>

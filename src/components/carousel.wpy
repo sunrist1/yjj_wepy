@@ -1,0 +1,52 @@
+<style lang="scss">
+  .carousel_img {
+    height: 380rpx;
+    image{
+      width:750rpx;
+      height: 380rpx;
+    }
+  }
+</style>
+
+<template>
+
+  <swiper class="carousel_img" indicator-dots="{{indicatorDots}}" circular="{{circular}}" autoplay="{{autoplay}}" interval="3000" duration="1000">
+    <block wx:for="{{list.banner}}" wx:key="index" wx:for-item="item">
+      <swiper-item>
+        <image src="http://app1.efoundation.com.cn/{{item.imgUrl}}" class="slide-image" width="355" height="150"/>
+      </swiper-item>
+    </block>
+  </swiper>
+
+</template>
+
+<script>
+  import wepy from 'wepy'
+  
+  export default class Carousel extends wepy.component {
+    props = {
+      list: {
+        type: Array,
+        default: []
+      }
+    }
+    data = {
+      indicatorDots: true,
+      autoplay: true,
+      circular: true
+    }
+
+    computed = {
+
+    }
+
+    onLoad () {
+      // console.log(this.imgList)
+      // console.log(this.list)
+    }
+
+    methods = {
+
+    }
+  }
+</script>
