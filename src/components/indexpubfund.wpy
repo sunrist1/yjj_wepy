@@ -1,13 +1,13 @@
 <style lang="scss">
   @import '../pages/lib.scss';
-  .newhand_box{
+  .goodfund_box{
     margin-top:15rpx;
     .title{
       background-color: #fff;
       padding:15rpx 20rpx;
       display: flex;
-      border-bottom:1rpx solid #f4f4f4;
       justify-content: space-between;
+      border-bottom:1rpx solid #f4f4f4;
       .left{
         font-weight: 600;
         font-size: 34rpx;
@@ -27,7 +27,7 @@
       background-color: #fff;
       text-align: center;
       padding:30rpx 0rpx;
-      border-bottom: 1rpx solid #f4f4f4;
+      border-bottom:1rpx solid #f4f4f4;
       &>text{
         display: block;
       }
@@ -54,7 +54,8 @@
         font-size: 30rpx;
       }
       button{
-        background-color: $orange;
+        background-color: $lightBlue;
+        border-bottom:1rpx solid #f4f4f4;
         width:75%;
         border-radius: 10rpx;
         margin:10rpx auto;
@@ -69,9 +70,9 @@
   }
 </style>
 <template>
-  <view class="newhand_box">
+  <view class="goodfund_box">
     <view class="title">
-      <text class="left">新手基金</text>
+      <text class="left">优选基金</text>
       <view class="right">
         全部
         <image src="{{rightIconUrl}}"></image>
@@ -79,10 +80,18 @@
     </view>
 
     <view class="fund_box">
-      <text class="fund_name">景顺长城沪深300指数增强</text>
+      <text class="fund_name">景顺长城优选混合型证券投资基金</text>
       <view class="interest_num f_orange">+26.86<text>%</text></view>
       <text class="interest_type">近一年收益</text>
       <text class="recommend_des">稳健增值 新人首选</text>
+      <button plain='true'>立即申购</button>
+    </view>
+
+    <view class="fund_box">
+      <text class="fund_name">华安策略优选混合型证券投资基金</text>
+      <view class="interest_num f_green">-26.86<text>%</text></view>
+      <text class="interest_type">近一年收益</text>
+      <text class="recommend_des">策略精选  优良配置</text>
       <button plain='true'>立即申购</button>
     </view>
   </view>
