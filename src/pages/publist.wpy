@@ -1,0 +1,13 @@
+<style lang="scss" scoped>
+
+</style>
+<template>
+  <text>publist</text>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Publist extends wepy.page {
+    
+  }
+</script>
+

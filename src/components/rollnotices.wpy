@@ -57,7 +57,8 @@
       indicatorDots: false,
       autoplay: true,
       circular: true,
-      noticeImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/notice.png`
+      // noticeImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/notice.png`
+      noticeImgUrl: `http://192.168.0.103:3000/notice.png`
     }
 
     onLoad() {

@@ -1,0 +1,11 @@
+<style lang="scss" scoped>
+
+</style>
+<template>
+  <text>Prvlist</text>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Prvlist extends wepy.page{   
+  }
+</script>

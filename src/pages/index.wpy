@@ -3,6 +3,22 @@
   .aa{
     color:$orange;
   }
+  .bottom_tips{
+    text-align: center;
+    padding:40rpx 0;
+    image{
+      width:42rpx;
+      height: 42rpx;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5rpx;
+    }
+    text{
+      font-size: 26rpx;
+      color:#aaa;
+      vertical-align: middle;
+    }
+  }
 </style>
 <template>
   <view class="page">
@@ -20,6 +36,12 @@
 
     <!-- 精选推荐基金 -->
     <indexpubfund></indexpubfund>
+
+    <!-- 底部提示 -->
+    <view class="bottom_tips">
+      <image src="{{shildImgUrl}}"></image>
+      <text>基金销售服务由深圳前海凯恩斯基金销售有限公司提供</text>
+    </view>
   </view>
   
 </template>
@@ -29,11 +51,11 @@
   // import config from '../config.js'
 
   // components
-  import Carousel from '@/components/carousel'
-  import Rollnotices from '@/components/rollnotices'
-  import Tabbox from '@/components/tabbox'
-  import Newhand from '@/components/newhand'
-  import Indexpubfund from '@/components/indexpubfund'
+  import Carousel from '../components/carousel'
+  import Rollnotices from '../components/rollnotices'
+  import Tabbox from '../components/tabbox'
+  import Newhand from '../components/newhand'
+  import Indexpubfund from '../components/indexpubfund'
   
   export default class Index extends wepy.page {
     config = {
@@ -49,7 +71,8 @@
 
     data = {
       nativeData: {},
-      banner: []
+      banner: [],
+      shildImgUrl: 'http://192.168.0.103:3000/shield.png'
     }
 
     computed = {

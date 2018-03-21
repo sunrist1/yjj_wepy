@@ -1,0 +1,13 @@
+<style lang="scss" scoped>
+
+</style>
+<template>
+  <text>hqb</text>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Hqb extends wepy.page {
+    
+  }
+</script>
+

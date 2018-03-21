@@ -1,0 +1,12 @@
+<style lang="scss" scoped>
+
+</style>
+<template>
+  <text>Recommend</text>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Recommend extends wepy.page {
+  }
+</script>
+  

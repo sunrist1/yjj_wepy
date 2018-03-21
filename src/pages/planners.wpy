@@ -1,0 +1,11 @@
+<style lang="scss" scoped>
+
+</style>
+<template>
+  <text>planners</text>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Planners extends wepy.page{
+  }
+</script>

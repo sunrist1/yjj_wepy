@@ -1,0 +1,12 @@
+<style lang="scss" scoped>
+
+</style>
+<template>
+  <text>pub detail</text>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Pubdetail extends wepy.page {
+  }
+</script>
+  

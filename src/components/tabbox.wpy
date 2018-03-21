@@ -20,30 +20,30 @@
 </style>
 <template>
   <view class="tab_box">
-    <view class="item">
-      <image src="{{tabboxImg_1}}" ></image>
+    <view class="item" @tap="toLink" data-link='/pages/hqb'>
+      <image src="{{tabboxImg_1}}"></image>
       <text>活期宝</text>
     </view>
-    <view class="item">
+    <view class="item" @tap="toLink" data-link='/pages/recommend'>
       <image src="{{tabboxImg_2}}"></image>
       <text>亿推荐</text>
     </view>
-    <view class="item">
+    <view class="item" @tap="toLink" data-link='/pages/publist'>
       <image src="{{tabboxImg_3}}"></image>
       <text>公募基金</text>
     </view>
   </view>
 
   <view class="tab_box">
-    <view class="item">
+    <view class="item" @tap="toLink" data-link='/pages/prvlist'>
       <image src="{{tabboxImg_4}}"></image>
       <text>百万理财</text>
     </view>
-    <view class="item">
+    <view class="item" @tap="toLink" data-link='/pages/infpage'>
       <image src="{{tabboxImg_5}}"></image>
       <text>金融学堂</text>
     </view>
-    <view class="item">
+    <view class="item" @tap="toLink" data-link='/pages/planners'>
       <image src="{{tabboxImg_6}}"></image>
       <text>理财师</text>
     </view>
@@ -51,7 +51,7 @@
 </template>
 <script>
   import wepy from 'wepy'
-  import config from '../config.js'
+  // import config from '../config.js'
   
   export default class Tabbox extends wepy.component {
     props = {
@@ -62,16 +62,34 @@
     }
 
     data = {
-      tabboxImg_1: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_1.png`,
-      tabboxImg_2: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_2.png`,
-      tabboxImg_3: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_3.png`,
-      tabboxImg_4: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_4.png`,
-      tabboxImg_5: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_5.png`,
-      tabboxImg_6: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_6.png`
+      // tabboxImg_1: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_1.png`,
+      // tabboxImg_2: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_2.png`,
+      // tabboxImg_3: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_3.png`,
+      // tabboxImg_4: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_4.png`,
+      // tabboxImg_5: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_5.png`,
+      // tabboxImg_6: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_6.png`
+
+      tabboxImg_1: 'http://192.168.0.103:3000/tabbox_1.png',
+      tabboxImg_2: 'http://192.168.0.103:3000/tabbox_2.png',
+      tabboxImg_3: 'http://192.168.0.103:3000/tabbox_3.png',
+      tabboxImg_4: 'http://192.168.0.103:3000/tabbox_4.png',
+      tabboxImg_5: 'http://192.168.0.103:3000/tabbox_5.png',
+      tabboxImg_6: 'http://192.168.0.103:3000/tabbox_6.png'
     }
 
     onLoad() {
-      console.log(config.service.yjjhost)
+    }
+
+    methods = {
+      toLink: function(e) {
+        let targetLink = e.currentTarget.dataset.link
+        console.log(e)
+        console.log(targetLink)
+        wx.navigateTo({
+          url: targetLink
+        })
+      }
+
     }
   }
 </script>
