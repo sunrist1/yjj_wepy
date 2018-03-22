@@ -95,8 +95,8 @@
     // props ={
     // }
     data = {
-      // rightIconUrl: `${config.service.yjjhost}/public/mobile/images/weapp/right.png`
-      rightIconUrl: `http://192.168.0.103:3000/right.png`
+      rightIconUrl: `${config.service.yjjhost}/public/mobile/images/weapp/right.png`
+      // rightIconUrl: `http://192.168.0.103:3000/right.png`
     }
 
     onLoad() {

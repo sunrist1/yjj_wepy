@@ -48,7 +48,7 @@
 
 <script lang="babel">
   import wepy from 'wepy'
-  // import config from '../config.js'
+  import config from '../config.js'
 
   // components
   import Carousel from '../components/carousel'
@@ -72,7 +72,8 @@
     data = {
       nativeData: {},
       banner: [],
-      shildImgUrl: 'http://192.168.0.103:3000/shield.png'
+      // shildImgUrl: 'http://192.168.0.103:3000/shield.png'
+      shildImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/shield.png`
     }
 
     computed = {
