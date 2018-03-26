@@ -1,5 +1,8 @@
 <style lang="scss" scoped>
   @import './lib.scss';
+  .page{
+    background-color: #e8e8e8;
+  }
   .tabbox{
     display: flex;
     justify-content: space-around;
@@ -9,20 +12,288 @@
     line-height: 80rpx;
     background-color: #fff;
   }
+  .publist .title,
+  .prvlist .title{
+    border-bottom: 1rpx solid #f4f4f4;
+    width:100%;
+    padding:20rpx 20rpx;
+    display: flex;
+    font-size: 32rpx;
+    justify-content: space-between;
+    &>view{
+      color:#aaa;
+      padding-right:30rpx;
+      image{
+        width:32rpx;
+        height: 32rpx;
+        vertical-align: middle;
+      }
+    }
+  }
+  .publist{
+    margin:10rpx 0rpx 20rpx;
+    width:100%;
+    background-color: #fff;
+    .item{
+      display: flex;
+      padding:20rpx 5rpx;
+      border-bottom:1rpx solid #f4f4f4;
+      .left{
+        width:40%;
+        text-align: center;
+        border-right: 1rpx solid #e8e8e8;
+        &>text{
+          display: block;
+        }
+      }
+      .right{
+        width:60%;
+        padding-left: 20rpx;
+        text{
+          display: block;
+          width:100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          &:nth-of-type(1){
+            font-size: 36rpx;
+          }
+          &:nth-of-type(2){
+            font-size: 30rpx;
+            color:$cherry;
+            margin:10rpx 0;
+          }
+          &:nth-of-type(3){
+            font-size: 30rpx;
+            color:#666666;
+          }
+        }
+      }
+    }
+  }
+  .prvlist{
+    .fund_item{
+      min-height: 150rpx;
+      width:95%;
+      box-shadow: 1rpx 2rpx 2rpx 5rpx #e8e8e8;
+      background-color: #fff;
+      border-radius: 8rpx;
+      margin:2%;
+      padding:10rpx;
+      .top{
+        font-size: 34rpx;
+        width:100%;
+        white-space: nowrap;
+        overflow: hidden;
+        display: inline-block;
+        text-overflow: ellipsis;
+      }
+      .sum_money{
+        color:#888;
+        font-size: 32rpx;
+      }
+      .content{
+        display: flex;
+        justify-content: space-around;
+        margin:20rpx 0;
+        .item{
+          width: 33.33%;
+          text-align: center;
+          &:nth-of-type(1),
+          &:nth-of-type(2){
+            border-right:1rpx solid #f4f4f4;
+          }
+          text{
+            display: block;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width:100%;
+            line-height: 40rpx;
+            margin:12rpx 0;
+            &:nth-of-type(2){
+              font-size: 30rpx;
+              color:#333;
+            }
+          }
+        }
+      }
+    }
+  }
 </style>
 <template>
   <view class="page">
     <div class="tabbox">
-      <view class="item f_orange">公募基金</view>
-      <view class="item">百万理财</view>
+      <view @tap='changeType' data-type='1' class="item {{showType==1?'f_orange':''}}">公募基金</view>
+      <view @tap='changeType' data-type='2' class="item {{showType==1?'':'f_orange'}}">百万理财</view>
     </div>
+
+    <view class='publist' wx:if='{{showType == 1}}'>
+      <view class='title'>
+        <text>新手基金</text>
+        <view @tap='toPubList'>全部<image src='{{rightIconUrl}}'></image></view>
+      </view>
+
+      <block wx:for="{{newhandList}}" wx:key="*this" wx:item="item">
+        <view class='item'>
+          <view class='left'>
+            <text class="fs_70 {{item.showNum>=0?'f_orange':''}}">{{item.showNum}}<text class='fs_30'>%</text></text>
+            <text class='fs_32 f_gray'>{{item.showType}}</text>
+          </view>
+          <view class='right'>
+            <text>{{item.fundName}}</text>
+            <text>{{item.recommendedReviews}}</text>
+            <text>{{item.typeName}}</text>
+          </view>
+        </view>
+      </block>
+
+      <view class='title'>
+        <text>定投基金</text>
+        <view @tap='toPubList'>全部<image src='{{rightIconUrl}}'></image></view>
+      </view>
+      <block wx:for="{{dingtouList}}" wx:key="*this" wx:item="item">
+        <view class='item'>
+          <view class='left'>
+            <text class="fs_70 {{item.showNum>=0?'f_orange':''}}">{{item.showNum}}<text class='fs_30'>%</text></text>
+            <text class='fs_32 f_gray'>{{item.showType}}</text>
+          </view>
+          <view class='right'>
+            <text>{{item.fundShortName}}</text>
+            <text>{{item.recommendedReviews}}</text>
+            <text>{{item.typeName}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view class='prvlist' wx:else> 
+      <view class="fund_item" data-fundcode='{{item.fundCode}}'>
+          <text class='top'>{{item.fundTitle}}</text>
+          <text class='sum_money'>募集金额:2000万</text>
+
+          <view class="content">
+            
+            <block wx:if="{{item.expectedReturn != '-'}}">
+              <view class="item">
+                <text class='f_cherry fs_44'>{{item.expectedReturn}}%</text>
+                <text>业绩比较基准</text>
+              </view>
+            </block>
+            <block wx:else>
+              <view class="item">
+                <text wx:if='{{item.dangqianjingzhi}}' class='f_cherry fs_44'>{{item.dangqianjingzhi.toFixed(4)}}</text>
+                <text wx:else class='f_cherry fs_44'>1.0000</text>
+                <text>当前净值</text>
+              </view>
+            </block>
+            <view class="item">
+              <text class='fs_36'>{{item.minMoney}}</text>
+              <text>起投金额</text>
+            </view>
+            <view class="item">
+              <text class='fs_36'>{{item.fundLimit}}</text>
+              <text>产品期限</text>
+            </view>
+          </view>
+        </view>
+    </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import config from '../config.js'
+
   export default class Recommend extends wepy.page {
     config = {
       navigationBarTitleText: '亿推荐'
+    }
+
+    data = {
+      rightIconUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/right.png`,
+      showType: 1,
+      newhandList: [],
+      dingtouList: [],
+      simuList: []
+    }
+
+    methods = {
+      changeType(e) {
+        this.showType = e.currentTarget.dataset.type
+        this.$apply()
+      },
+      toPubList() {
+        wepy.switchTab({
+          url: '/pages/publist'
+        })
+      }
+    }
+
+    onLoad() {
+      let that = this
+      wepy.request({
+        method: 'POST',
+        url: `${config.service.recommendPubUrl}`,
+        data: {
+          pageIndex: 1,
+          pageSize: 30
+        },
+        success: function (d) {
+          console.log(d.data)
+          d.data.data.list.forEach(function(el) {
+            if (el.typeCode === 41) {
+              el.showNum = el.wanInterest ? el.wanInterest.toFixed(2) : 0
+              el.showType = '七日年化'
+            } else if (el.yearInterest) {
+              el.showNum = el.yearInterest > 0 ? el.yearInterest.toFixed(2) : 0
+              el.showType = '近一年收益'
+            } else if (el.sixMInterest) {
+              el.showNum = el.sixMInterest > 0 ? el.sixMInterest.toFixed(2) : 0
+              el.showType = '近六月收益'
+            } else if (el.threeMInterest) {
+              el.showNum = el.threeMInterest > 0 ? el.threeMInterest.toFixed(2) : 0
+              el.showType = '近三月收益'
+            } else if (el.oneMInterest) {
+              el.showNum = el.oneMInterest > 0 ? el.oneMInterest.toFixed(2) : 0
+              el.showType = '近一月收益'
+            }
+          })
+          d.data.dingtou.forEach(function(el) {
+            if (el.typeCode === 41) {
+              el.showNum = el.wanInterest ? el.wanInterest.toFixed(2) : 0
+              el.showType = '七日年化'
+            } else if (el.yearInterest) {
+              el.showNum = el.yearInterest > 0 ? el.yearInterest.toFixed(2) : 0
+              el.showType = '近一年收益'
+            } else if (el.sixMInterest) {
+              el.showNum = el.sixMInterest > 0 ? el.sixMInterest.toFixed(2) : 0
+              el.showType = '近六月收益'
+            } else if (el.threeMInterest) {
+              el.showNum = el.threeMInterest > 0 ? el.threeMInterest.toFixed(2) : 0
+              el.showType = '近三月收益'
+            } else if (el.oneMInterest) {
+              el.showNum = el.oneMInterest > 0 ? el.oneMInterest.toFixed(2) : 0
+              el.showType = '近一月收益'
+            }
+          })
+          that.newhandList = d.data.data.list
+          that.dingtouList = d.data.dingtou
+          that.$apply()
+        }
+      })
+
+      wepy.request({
+        method: 'POST',
+        url: `${config.service.recommendPrvUrl}`,
+        data: {
+          pageIndex: 1,
+          pageSize: 30
+        },
+        success: function (d) {
+          console.log(d.data)
+        }
+      })
     }
   }
 </script>

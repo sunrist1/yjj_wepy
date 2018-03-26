@@ -7,7 +7,6 @@
   .type_list{
     background-color: #fff;
     width: 18%;
-    // height: 1200rpx;
     .active{
       background-color: #f8f8f8;
     }
@@ -31,7 +30,6 @@
   }
   .fund_list{
     width:82%;
-    // height: 1200rpx;
     .fund_item{
       min-height: 150rpx;
       width:95%;
@@ -152,10 +150,10 @@
     }
 
     data = {
-      gushouImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/prv_gushou.png`,
-      guquanImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/prv_guquan.png`,
-      yingshiImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/prv_yingshi.png`,
-      zhengquanImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/prv_zhengquan.png`,
+      gushouImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/prv_gushou.png`,
+      guquanImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/prv_guquan.png`,
+      yingshiImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/prv_yingshi.png`,
+      zhengquanImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/prv_zhengquan.png`,
       sysHeight: '',
       prvFundList: [],
       currentType: '',

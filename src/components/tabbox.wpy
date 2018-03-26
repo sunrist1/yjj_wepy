@@ -62,19 +62,12 @@
     }
 
     data = {
-      tabboxImg_1: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_1.png`,
-      tabboxImg_2: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_2.png`,
-      tabboxImg_3: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_3.png`,
-      tabboxImg_4: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_4.png`,
-      tabboxImg_5: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_5.png`,
-      tabboxImg_6: `${config.service.yjjhost}/public/mobile/images/weapp/tabbox_6.png`
-
-      // tabboxImg_1: 'http://192.168.0.103:3000/tabbox_1.png',
-      // tabboxImg_2: 'http://192.168.0.103:3000/tabbox_2.png',
-      // tabboxImg_3: 'http://192.168.0.103:3000/tabbox_3.png',
-      // tabboxImg_4: 'http://192.168.0.103:3000/tabbox_4.png',
-      // tabboxImg_5: 'http://192.168.0.103:3000/tabbox_5.png',
-      // tabboxImg_6: 'http://192.168.0.103:3000/tabbox_6.png'
+      tabboxImg_1: `${config.service.imgUrlPath}/public/mobile/images/weapp/tabbox_1.png`,
+      tabboxImg_2: `${config.service.imgUrlPath}/public/mobile/images/weapp/tabbox_2.png`,
+      tabboxImg_3: `${config.service.imgUrlPath}/public/mobile/images/weapp/tabbox_3.png`,
+      tabboxImg_4: `${config.service.imgUrlPath}/public/mobile/images/weapp/tabbox_4.png`,
+      tabboxImg_5: `${config.service.imgUrlPath}/public/mobile/images/weapp/tabbox_5.png`,
+      tabboxImg_6: `${config.service.imgUrlPath}/public/mobile/images/weapp/tabbox_6.png`
     }
 
     onLoad() {
@@ -83,8 +76,6 @@
     methods = {
       toLink: function(e) {
         let targetLink = e.currentTarget.dataset.link
-        console.log(e)
-        console.log(targetLink)
         if (targetLink.indexOf('publist') >= 0 || targetLink.indexOf('infpage') >= 0) {
           wepy.switchTab({
             url: targetLink
@@ -95,7 +86,6 @@
           })
         }
       }
-
     }
   }
 </script>

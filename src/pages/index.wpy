@@ -73,7 +73,7 @@
       nativeData: {},
       banner: [],
       // shildImgUrl: 'http://192.168.0.103:3000/shield.png'
-      shildImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/shield.png`
+      shildImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/shield.png`
     }
 
     computed = {
