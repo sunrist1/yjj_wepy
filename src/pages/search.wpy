@@ -183,7 +183,9 @@
 
   export default class Search extends wepy.page {
     config = {
-      navigationBarTitleText: '搜索公募基金'
+      navigationBarTitleText: '搜索公募基金',
+      navigationBarBackgroundColor: '#f97365',
+      navigationBarTextStyle: 'white'
     }
 
     data = {
