@@ -1,11 +1,28 @@
 <style lang="scss" scoped>
-
+  @import './lib.scss';
+  .tabbox{
+    display: flex;
+    justify-content: space-around;
+    border-bottom:2rpx solid #f4f4f4;
+    box-shadow: 0rpx 1rpx 2rpx 3rpx #e8e8e8;
+    height: 80rpx;
+    line-height: 80rpx;
+    background-color: #fff;
+  }
 </style>
 <template>
-  <text>Recommend</text>
+  <view class="page">
+    <div class="tabbox">
+      <view class="item f_orange">公募基金</view>
+      <view class="item">百万理财</view>
+    </div>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
   export default class Recommend extends wepy.page {
+    config = {
+      navigationBarTitleText: '亿推荐'
+    }
   }
 </script>
