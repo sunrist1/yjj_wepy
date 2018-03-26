@@ -31,11 +31,14 @@ let config = {
         // 首页信息
         indexDataUrl: `${yjjhost}/mobile/nativeIndex`,
 
-        // 基金列表接口
+        // 活期宝数据接口
         hqbDataUrl: `${yjjhost}/mobile/publicfund/hqbInfo`,
 
-        // 基金列表接口
+        // 公募基金列表接口
         publicFundListUrl: `${yjjhost}/mobile/publicfund/getPublicFundList`,
+
+        // 私募基金列表接口
+        privateFundListUrl: `${yjjhost}/mobile/privatefund/getPrivateFundList`,
 
         // 资讯列表接口
         jrktUrl: `${yjjhost}/mobile/about/getJrktList`,

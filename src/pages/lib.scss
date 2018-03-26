@@ -1,12 +1,23 @@
+// $imagePath: 'https://app1.efoundation.com.cn//public/mobile/images/weapp/';
+$imagePath: 'http://192.168.1.211:8088:/public/mobile/images/weapp';
+
 $orange:#ff6801;
 $lightBlue:#4d7dea;
+
+@for $i from 1 through 100 {
+  .fs_#{$i} { font-size: 1rpx * $i; }
+}
 
 .page{
   background-color: #f8f8f8;
 }
 
+.f_cherry{
+  color:#ff3445;
+}
+
 .f_orange{
-  color:$orange;
+  color:#fd6a3f;
 }
 .f_green {
   color: #4ebd30;

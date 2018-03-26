@@ -1,13 +1,411 @@
 <style lang="scss" scoped>
+  @import './lib.scss';
+  .page{
+    height: 100%;
+    background-color: #edf0f5;
+  }
+  .type_list{
+    position: fixed;
+    z-index: 999;
+    top:0;
+    left: 0;
+    border-bottom: 2rpx solid #eee;
+    box-shadow: 2rpx 2rpx 3rpx 3rpx #eee;
+    height: 80rpx;
+    background-color: #fff;
+    width:100%;
+    padding-right: 12%;
+    box-sizing: border-box;
+  }
+  .scroll_box{
+    white-space: nowrap;
+    width: 99%;
+    height: 80rpx;
+  }
+  .type_item{
+    display: inline-block;
+    width:150rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    font-size: 32rpx;
+  } 
+  .search_btn{
+    position: absolute;
+    right: 0;
+    top:0;
+    width:12%;
+    text-align: center;
+    padding-top:10rpx;
+    box-sizing: border-box;
+    box-shadow: -2rpx -2rpx 3rpx 3rpx #eee;
+    height: 80rpx;
+    background-color: #fff;
+  }
+  .search_btn image{
+    width: 60rpx;
+    height: 60rpx;
+  }
 
+  .fund_list{
+    margin-top: 80rpx;
+  }
+  .fund_list .fundname_list{
+    width:35%;
+    display: inline-block;
+    vertical-align: top;
+    border-right:1rpx solid #fafafa;
+    box-sizing: border-box;
+  }
+  .fund_list .fundname_list .title{
+    text-align: center;
+    width:100%;
+    line-height: 80rpx;
+    height: 80rpx;
+    font-size: 30rpx;
+    background-color: #fff;
+  }
+  .fund_list .fundname_list .item{
+    height:100rpx;
+    font-size: 30rpx;
+    line-height: 100rpx;
+    width:100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-top:1rpx solid #fafafa;
+    box-sizing: border-box;
+    padding-left:8rpx;
+    background-color:#fff;
+  }
+
+  .fund_list .fundname_list .fund_name .type{
+    width:36rpx;
+    height: 36rpx;
+    line-height: 36rpx;
+    text-align: center;
+    border-radius: 10rpx;
+    border:1rpx solid #455D7A;
+    color:#455D7A;
+    font-size: 30rpx;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .fund_list .fundname_list .fund_name .context{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8rpx;
+    width:80%;
+  }
+
+  .fund_list .fundname_list .fund_name .context .name,
+  .fund_list .fundname_list .fund_name .context .code{
+    font-size: 30rpx;
+    color:#333;
+    line-height: 40rpx;
+    display: block;
+    width:98%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+
+  .fund_list .scroll_box{
+    width:65%;
+    display: inline-block;
+    vertical-align: top;
+    white-space: nowrap;
+    box-sizing: border-box;
+    font-size: 0px;
+  }
+  .fund_list .scroll_box .item{
+    background-color: #fff;
+    box-sizing: border-box;
+  }
+  .fund_list .scroll_box .item view{
+    box-sizing: border-box;
+    border-right:1px solid #eee;;
+    border-bottom:1px solid #eee;
+    background-color: #fff;
+  }
+
+  .fund_list .scroll_box .title view{
+    display: inline-block;
+    font-size: 30rpx;
+    width:160rpx;
+    text-align: center;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-right:1rpx solid #edf0f5;
+    box-sizing: border-box;
+    background-color: #fff;
+  }
+  .fund_list .scroll_box .title view image{
+    width:28rpx;
+    height: 28rpx;
+    vertical-align: middle;
+  }
+  .fund_list .scroll_box .title view:nth-child(odd),
+  .fund_list .scroll_box .item view:nth-child(odd){
+    background-color: #edf0f5;
+  }
+  .fund_list .scroll_box .item view{
+    display: inline-block;
+    width:160rpx;
+    text-align: center;
+    height: 100rpx;
+    line-height: 100rpx;
+    box-sizing: border-box;
+  }
+  .fund_list .scroll_box .item view{
+    font-size: 30rpx;
+    vertical-align: middle;
+    border-right:1rpx solid #edf0f5;
+    box-sizing: border-box;
+  }
+  .fund_list .scroll_box .item .netWorth_box{
+    display:inline-flex;
+    flex-direction: column;
+    vertical-align: top;
+    justify-content: space-around;
+    padding:25rpx 0;
+  }
+  .fund_list .scroll_box .item view .netWorth{
+    display: block;
+    line-height: 30rpx;
+    font-weight: bold;
+  }
+  .fund_list .scroll_box .item view .netWorthDate{
+    display: block;
+    line-height: 30rpx;
+    font-size: 22rpx;
+    margin-top: 10rpx;
+  }
 </style>
 <template>
-  <text>publist</text>
+  <view class='page'>
+    <!--基金类型列表  -->
+    <view class='type_list'>
+      <scroll-view class='scroll_box' scroll-x>
+        <view class="type_item {{fundType==''?'f_orange':''}}" bindtap="changeFundType" data-type=''>全部</view>
+        <view class="type_item {{fundType=='0'?'f_orange':''}}" bindtap="changeFundType" data-type='0'>股票型</view>
+        <view class="type_item {{fundType=='1'?'f_orange':''}}" bindtap="changeFundType" data-type='1'>债券型</view>
+        <view class="type_item {{fundType=='41'?'f_orange':''}}" bindtap="changeFundType" data-type='41'>货币型</view>
+        <view class="type_item {{fundType=='3'?'f_orange':''}}" bindtap="changeFundType" data-type='3'>混合型</view>
+        <view class="type_item {{fundType=='5'?'f_orange':''}}" bindtap="changeFundType" data-type='5'>指数型</view>
+        <view class="type_item {{fundType=='6'?'f_orange':''}}" bindtap="changeFundType" data-type='6'>QDII</view>
+        <view class="type_item {{fundType=='8'?'f_orange':''}}" bindtap="changeFundType" data-type='8'>保本型</view>
+      </scroll-view>
+
+      <view class='search_btn'>
+        <image src='{{searchImgUrl}}' bindtap='toSearch' mode='scaleToFill'></image>
+      </view> 
+    </view>
+
+    <!-- 基金列表  -->
+    <view class='fund_list'>
+      <view class='fundname_list'>
+        <view class='title'>基金名称</view>
+        <block wx:for="{{publicFundList}}" wx:key="*this" wx:for-item="item">
+          <view class='item fund_name' bindtap='toDetail' data-code='{{item.fundCode}}'>
+            <view class='type'>{{item.typeShortName}}</view>
+            <view class='context'>
+              <text class='name'>{{item.fundShortName}}</text>
+              <text class='code'>{{item.fundCode}}</text>
+            </view>
+          </view>
+        </block>
+        
+      </view>
+
+      <scroll-view class='scroll_box' style='height:{{publicFundList.length * 102}}rpx' scroll-x scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+        <view class='title'>
+          <view>{{fundType=='41'?'万份收益':'最新净值'}}</view>
+          <view bindtap="changeSortType" data-sort="dayInterest">
+            {{fundType=='41'?'七日年化':'日涨跌'}}
+            <image src="{{sort=='dayInterest'?activeSortImgSrc:sortImgSrc}}"></image>
+          </view>
+          <view bindtap="changeSortType" data-sort="oneMInterest">
+            近一月
+            <image src="{{sort=='oneMInterest'?activeSortImgSrc:sortImgSrc}}"></image>
+          </view>
+          <view bindtap="changeSortType" data-sort="threeMInterest">
+            近三月
+            <image src="{{sort=='threeMInterest'?activeSortImgSrc:sortImgSrc}}"></image>
+          </view>
+          <view bindtap="changeSortType" data-sort="sixMInterest">
+            近半年
+            <image src="{{sort=='sixMInterest'?activeSortImgSrc:sortImgSrc}}"></image>
+          </view>
+          <view bindtap="changeSortType" data-sort="yearInterest">
+            近一年
+            <image src="{{sort=='yearInterest'?activeSortImgSrc:sortImgSrc}}"></image>
+          </view>
+        </view>
+        <block wx:for="{{publicFundList}}" wx:key="*this" wx:for-item="item">
+          <view class='item'>
+            <!-- 基金净值  -->
+            <view class='netWorth_box'>
+              <text class='netWorth'>{{fundType=='41'?item.wanMoney:item.netWorth}}</text>
+              <text class='netWorthDate'>{{item.updateDateTimeUTC}}</text>
+            </view>
+
+            <!--日涨跌  -->
+            <view class="{{item.dayInterest >= 0?'f_orange':'f_green'}}">{{item.dayInterest}}% </view>
+
+            <!--月涨跌  -->
+            <view class="{{item.oneMInterest >= 0?'f_orange':'f_green'}}"> {{item.oneMInterest}}% </view>
+
+            <!--三月涨跌  -->
+            <view class="{{item.threeMInterest >= 0?'f_orange':'f_green'}}"> {{item.threeMInterest}}% </view>
+
+            <!--半年涨跌  -->
+            <view class="{{item.sixMInterest >= 0?'f_orange':'f_green'}}"> {{item.sixMInterest}}% </view>
+
+            <!--一年涨跌  -->
+            <view class="{{item.yearInterest > 0?'f_orange':'f_green'}}"> {{item.yearInterest}}% </view>
+
+          </view>
+        </block>
+      </scroll-view>
+    </view>
+
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import config from '../config.js'
+
   export default class Publist extends wepy.page {
-    
+    config = {
+      navigationBarTitleText: '公募基金列表'
+    }
+
+    data = {
+      searchImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/search.png`,
+      sortImgSrc: `${config.service.yjjhost}/public/mobile/images/weapp/sort-descending.png`,
+      activeSortImgSrc: `${config.service.yjjhost}/public/mobile/images/weapp/sort-descending_2.png`,
+      toView: 'all',
+      scrollTop: 100,
+      publicFundList: [],
+      // 列表请求参数
+      pageIndex: 1,
+      pageSize: 20,
+      isQueryAll: 0,
+      sort: 'dayInterest',
+      // sort== 净值:netWorth  一月:oneMInterest 三月:threeMInterest  半年:sixMInterest  一年:yearInterest 万份收益:wanInterest
+      fundType: '',
+      key: ''
+    }
+
+    onShow() {
+      this.getPubFundList()
+    }
+
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom() {
+      // 加载更多
+      var that = this
+      that.pageIndex = that.data.pageIndex++
+      that.$apply()
+      that.getPubFundList()
+    }
+
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage() {
+
+    }
+
+    /**
+     * 请求基金列表数据
+     */
+    getPubFundList(clean = 0) {
+      var that = this
+      var reqData = {
+        pageIndex: that.data.pageIndex,
+        pageSize: that.data.pageSize,
+        isQueryAll: that.data.isQueryAll,
+        sort: that.data.sort,
+        type: that.data.fundType,
+        key: that.data.key
+      }
+      wepy.request({
+        url: config.service.publicFundListUrl,
+        method: 'post',
+        data: reqData,
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          if (clean === 1) {
+            that.publicFundList = []
+            that.$apply()
+          }
+          var list = res.data.data.list
+          list.forEach(function(el) {
+            var time = new Date(el.updateDateTime * 1000)
+            el.typeShortName = el.typeName.substring(0, 1)
+            el.updateDateTimeUTC = time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate()
+            el.dayInterest = el.dayInterest ? el.dayInterest.toFixed(2) : '--'
+            el.oneMInterest = el.oneMInterest ? el.oneMInterest.toFixed(2) : '--'
+            el.threeMInterest = el.threeMInterest ? el.threeMInterest.toFixed(2) : '--'
+            el.sixMInterest = el.sixMInterest ? el.sixMInterest.toFixed(2) : '--'
+            el.yearInterest = el.yearInterest ? el.yearInterest.toFixed(2) : '--'
+          })
+
+          // var localList = that.data.publicFundList
+          that.publicFundList = that.data.publicFundList.concat(list)
+          that.$apply()
+        }
+      })
+    }
+
+    /**
+     * 修改请求基金类型并刷新列表数据
+     */
+    changeFundType(e) {
+      var that = this
+      that.fundType = e.target.dataset.type
+      that.$apply()
+      that.getPubFundList(1)
+    }
+
+    /**
+     * 修改请求基金的排序类型
+     */
+    changeSortType(e) {
+      var that = this
+      var sort = e.target.dataset.sort
+      that.sort = sort
+      that.$apply()
+      that.getPubFundList(1)
+
+    }
+
+    /**
+     * 跳转详情页
+     */
+    toDetail(e) {
+      var code = e.currentTarget.dataset.code
+      console.log(code)
+      wepy.navigateTo({
+        url: '/pages/pubdetail?id=' + code
+      })
+    }
+
+    /**
+     * 跳转到搜索页
+     */
+    toSearch() {
+      wepy.navigateTo({
+        url: '/pages/search'
+      })
+    }
   }
 </script>
-

@@ -9,4 +9,3 @@
   export default class Recommend extends wepy.page {
   }
 </script>
-  

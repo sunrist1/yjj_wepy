@@ -85,9 +85,15 @@
         let targetLink = e.currentTarget.dataset.link
         console.log(e)
         console.log(targetLink)
-        wx.navigateTo({
-          url: targetLink
-        })
+        if (targetLink.indexOf('publist') >= 0 || targetLink.indexOf('infpage') >= 0) {
+          wepy.switchTab({
+            url: targetLink
+          })
+        } else {
+          wepy.navigateTo({
+            url: targetLink
+          })
+        }
       }
 
     }

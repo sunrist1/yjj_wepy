@@ -23,16 +23,42 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index',
-      'pages/hqb',
       'pages/recommend',
+      'pages/index',
+      'pages/search',
       'pages/publist',
-      'pages/pubdetail',
       'pages/prvlist',
+      'pages/hqb',
+      'pages/pubdetail',
       'pages/prvdetail',
       'pages/infpage',
       'pages/planners'
     ],
+    tabBar: {
+      selectedColor: '#fe602b',
+      color: '#515151',
+      list: [{
+        pagePath: 'pages/index',
+        text: '首页',
+        iconPath: 'images/homepage.png',
+        selectedIconPath: 'images/homepage_fill.png'
+      }, {
+        pagePath: 'pages/publist',
+        text: '基金',
+        iconPath: 'images/dynamic.png',
+        selectedIconPath: 'images/dynamic_fill.png'
+      }, {
+        pagePath: 'pages/publist',
+        text: '个人',
+        iconPath: 'images/people.png',
+        selectedIconPath: 'images/people_fill.png'
+      }, {
+        pagePath: 'pages/infpage',
+        text: '资讯',
+        iconPath: 'images/message.png',
+        selectedIconPath: 'images/message_fill.png'
+      }]
+    },
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
@@ -55,7 +81,11 @@ export default class extends wepy.app {
         p.timestamp = +new Date()
         console.log('config request: ', p)
         // 必须返回OBJECT参数对象，否则无法发送请求到服务端
-
+        wepy.showToast({
+          title: 'loading',
+          icon: 'loading',
+          duration: 3000
+        })
         return p
       },
 
@@ -71,6 +101,7 @@ export default class extends wepy.app {
       },
 
       complete (p) {
+        wepy.hideToast()
         console.log('request complete: ', p)
       }
     })

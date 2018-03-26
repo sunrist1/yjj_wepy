@@ -62,7 +62,7 @@
     }
 
     onLoad() {
-      console.log(config.service.yjjhost)
+      // console.log(config.service.yjjhost)
     }
   }
 </script>

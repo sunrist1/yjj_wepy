@@ -1,11 +1,239 @@
 <style lang="scss" scoped>
-
+  @import './lib.scss';
+  .page{
+    border-top:1rpx solid #f4f4f4;
+    display: flex;
+  }
+  .type_list{
+    background-color: #fff;
+    width: 18%;
+    // height: 1200rpx;
+    .active{
+      background-color: #f8f8f8;
+    }
+    .type_item{
+      text-align: center;
+      height: 150rpx;
+      font-size: 30rpx;
+      padding: 20rpx 0;
+      &:first-of-type{
+        height: 70rpx;
+        line-height: 90rpx;
+      }
+      image{
+        width:50%;
+        display: block;
+        margin: 20rpx auto 10rpx;
+        height: 60rpx;
+        width: 60rpx;
+      }
+    }
+  }
+  .fund_list{
+    width:82%;
+    // height: 1200rpx;
+    .fund_item{
+      min-height: 150rpx;
+      width:95%;
+      box-shadow: 1rpx 2rpx 2rpx 5rpx #e8e8e8;
+      background-color: #fff;
+      border-radius: 8rpx;
+      margin:2%;
+      padding:10rpx;
+      .top{
+        font-size: 34rpx;
+        width:100%;
+        white-space: nowrap;
+        overflow: hidden;
+        display: inline-block;
+        text-overflow: ellipsis;
+      }
+      .sum_money{
+        color:#888;
+        font-size: 32rpx;
+      }
+      .content{
+        display: flex;
+        justify-content: space-around;
+        margin:20rpx 0;
+        .item{
+          width: 33.33%;
+          text-align: center;
+          &:nth-of-type(1),
+          &:nth-of-type(2){
+            border-right:1rpx solid #f4f4f4;
+          }
+          text{
+            display: block;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width:100%;
+            line-height: 40rpx;
+            margin:12rpx 0;
+            &:nth-of-type(2){
+              font-size: 30rpx;
+              color:#333;
+            }
+          }
+        }
+      }
+    }
+  }
 </style>
+
 <template>
-  <text>Prvlist</text>
+  <view class="page">
+    <view class='type_list' style="height:{{sysHeight}}">
+      <view class="type_item {{currentType==''?'active':''}}" @tap="changeListType" data-type=''>全部</view>
+      <view class="type_item {{currentType=='2'?'active':''}}" @tap="changeListType" data-type='2'>
+        <image src='{{gushouImgUrl}}'></image>
+        固定收益
+      </view>
+      <view class="type_item {{currentType=='3'?'active':''}}" @tap="changeListType" data-type='3'>
+        <image src='{{guquanImgUrl}}'></image>
+        股权投资
+      </view>
+      <view class="type_item {{currentType=='4'?'active':''}}" @tap="changeListType" data-type='4'>
+        <image src='{{yingshiImgUrl}}'></image>
+        影视创新
+      </view>
+      <view class="type_item {{currentType=='5'?'active':''}}" @tap="changeListType" data-type='5'>
+        <image src='{{zhengquanImgUrl}}'></image>
+        证券投资
+      </view>
+    </view>
+
+    <scroll-view class="fund_list" scroll-y style='height:{{sysHeight}}' bindscrolltolower="getMoreList">
+      <block wx:for="{{prvFundList}}" wx:key="*this" wx:item="item">
+        <view class="fund_item" data-fundcode='{{item.fundCode}}'>
+          <text class='top'>{{item.fundTitle}}</text>
+          <text class='sum_money'>募集金额:2000万</text>
+
+          <view class="content">
+            
+            <block wx:if="{{item.expectedReturn != '-'}}">
+              <view class="item">
+                <text class='f_cherry fs_44'>{{item.expectedReturn}}%</text>
+                <text>业绩比较基准</text>
+              </view>
+            </block>
+            <block wx:else>
+              <view class="item">
+                <text wx:if='{{item.dangqianjingzhi}}' class='f_cherry fs_44'>{{item.dangqianjingzhi.toFixed(4)}}</text>
+                <text wx:else class='f_cherry fs_44'>1.0000</text>
+                <text>当前净值</text>
+              </view>
+            </block>
+            <view class="item">
+              <text class='fs_36'>{{item.minMoney}}</text>
+              <text>起投金额</text>
+            </view>
+            <view class="item">
+              <text class='fs_36'>{{item.fundLimit}}</text>
+              <text>产品期限</text>
+            </view>
+          </view>
+        </view>
+      </block>
+      
+    </scroll-view>
+  </view>
 </template>
+
 <script>
   import wepy from 'wepy'
-  export default class Prvlist extends wepy.page{   
+  import config from '../config.js'
+
+  export default class Prvlist extends wepy.page {
+    config = {
+      navigationBarTitleText: '百万理财'
+    }
+
+    data = {
+      gushouImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/prv_gushou.png`,
+      guquanImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/prv_guquan.png`,
+      yingshiImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/prv_yingshi.png`,
+      zhengquanImgUrl: `${config.service.yjjhost}/public/mobile/images/weapp/prv_zhengquan.png`,
+      sysHeight: '',
+      prvFundList: [],
+      currentType: '',
+      currentPageIndex: 1,
+      currentPageSize: 15,
+      nomore: false
+    }
+
+    methods = {
+      changeListType (e) {
+        let that = this
+        that.currentType = e.currentTarget.dataset.type.toString()
+        that.clearListData()
+        that.getFundList()
+      }
+    }
+
+    clearListData() {
+      this.nomore = false
+      this.prvFundList = []
+      this.currentPageIndex = 1
+      this.$apply()
+    }
+
+    // 请求数据列表
+    getFundList() {
+      let that = this
+      if (that.nomore) {
+        wepy.showToast({
+          title: '无更多数据',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      wepy.request({
+        method: 'POST',
+        url: `${config.service.privateFundListUrl}`,
+        data: {
+          cat: that.currentType,
+          key: '',
+          pageIndex: that.currentPageIndex,
+          pageSize: that.currentPageSize
+        },
+        success: function (d) {
+          if (d.data.data.list.length < 1) {
+            wepy.showToast({
+              title: '无更多数据',
+              icon: 'none',
+              duration: 2000
+            })
+            console.log('nomore')
+            that.nomore = true
+            that.$apply()
+            return
+          }
+          let data = that.prvFundList
+          d.data.data.list.forEach(function(el) {
+            data.push(el)
+          })
+          that.prvFundList = data
+          console.log(that.prvFundList)
+          that.$apply()
+        }
+      })
+    }
+    getMoreList() {
+      this.currentPageIndex = this.currentPageIndex + 1
+      this.getFundList()
+    }
+
+    onLoad() {
+      let res = wepy.getSystemInfoSync()
+      var height = (res.screenHeight * 2 + 50) + 'rpx'
+      this.sysHeight = height
+      console.log(height)
+      this.$apply()
+      this.getFundList()
+    }
   }
 </script>

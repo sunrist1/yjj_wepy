@@ -32,10 +32,10 @@
     <tabbox></tabbox>
 
     <!-- 新手推荐基金 -->
-    <newhand></newhand>
+    <newhand :list.sync="nativeData"></newhand>
 
     <!-- 精选推荐基金 -->
-    <indexpubfund></indexpubfund>
+    <indexpubfund :list.sync="nativeData"></indexpubfund>
 
     <!-- 底部提示 -->
     <view class="bottom_tips">
