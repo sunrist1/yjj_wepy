@@ -18,7 +18,7 @@
       .item{
         display: flex;
         justify-content: space-around;
-        height: 70rpx;
+        min-height: 70rpx;
         border-bottom:1rpx solid #e8e8e8;
         line-height: 70rpx;
         .lt_text{
@@ -34,6 +34,9 @@
         text{
           color:#666;
           font-size: 32rpx;  
+        }
+        .remark_text{
+          width:80%;
         }
         .f_orange{
           color:#fd6a3f;
@@ -51,16 +54,18 @@
           <text>申购金额(M)</text>
           <text>申购费率</text>
         </view>
-        <block wx:for="{{shuhuiRateList}}" wx:for-item="item" wx:key="index">
+        <block wx:for="{{shengouRateList}}" wx:for-item="item" wx:key="index">
           <view class="item">
             <!-- <text>T＜1个月</text> -->
+            <text class="remark_text" wx:if="{{item.REMARK}}">{{item.REMARK}}</text>
             <text wx:if="{{item.UP == null && item.DOWN != null}}">{{item.DOWN}}万＜M</text>
             <text wx:elif="{{item.UP != null && item.DOWN == null}}">M＜{{item.UP}}万</text>
             <text wx:elif="{{item.UP != null && item.DOWN != null}}">{{item.DOWN}}万≤M≤{{item.UP}}万</text>
             <text wx:else>{{item.FEERATIO}}</text>
 
-            <text wx:if="{{item.UP != null || item.DOWN != null}}">{{item.FEERATIO}}%</text>
-            <view wx:else></view>
+            <block wx:if="{{item.UP != null || item.DOWN != null}}">
+              <text>{{item.FEERATIO}}%</text>
+            </block>
           </view>
         </block>
         <!-- <view class="item">
@@ -69,18 +74,13 @@
             <text class='lt_text'>1.00%</text>
             <text class='f_orange'>0.10%</text>
           </text>
-        </view>
-        <view class="item">
-          <text>300万≤M≤500万</text>
-          <text>
-            <text class='lt_text'>0.80%</text>
-            <text class='f_orange'>0.08%</text>
-          </text>
-        </view>
-        <view class="item">
-          <text>500万＜M</text>
-          <text>1000.00元</text>
         </view> -->
+
+        <block wx:if="{{shengouRateList.length < 1}}">
+          <view class='item'>
+            <text class="remark_text">该基金不收取申购费</text>
+          </view>
+        </block>
       </view>
     </view>
 
@@ -94,13 +94,19 @@
         <block wx:for="{{shuhuiRateList}}" wx:for-item="item" wx:key="index">
           <view class="item">
             <!-- <text>T＜1个月</text> -->
+            <text class="remark_text" wx:if="{{item.REMARK}}">{{item.REMARK}}</text>
             <text wx:if="{{item.UP == null && item.DOWN != null}}">{{item.DOWN}}{{item.UNIT}}＜T</text>
             <text wx:elif="{{item.UP != null && item.DOWN == null}}">T＜{{item.UP}}{{item.UNIT}}</text>
             <text wx:elif="{{item.UP != null && item.DOWN != null}}">{{item.DOWN}}{{item.UNIT}}≤T≤{{item.UP}}{{item.UNIT}}</text>
-            <text wx:else>{{item.FEERATIO}}</text>
+            <!-- <text wx:else>{{item.FEERATIO}}</text> -->
 
-            <text wx:if="{{item.UP != null || item.DOWN != null}}">{{item.FEERATIO}}%</text>
-            <view wx:else></view>
+            <!-- <text wx:if="{{item.REMARK != null}}"></text>
+            <text wx:elif="{{(item.UP != null || item.DOWN != null) && item.REMARK == null}}">{{item.FEERATIO}}%</text>
+            <view wx:else></view> -->
+
+            <block wx:if="{{item.UP != null || item.DOWN != null}}">
+              <text>{{item.FEERATIO}}%</text>
+            </block>
           </view>
         </block>
         <!-- <view class="item">
@@ -108,17 +114,13 @@
           <text>
             <text>0.50%</text>
           </text>
-        </view>
-        <view class="item">
-          <text>12个月≤M≤24个月</text>
-          <text>
-            <text>0.25%</text>
-          </text>
-        </view>
-        <view class="item">
-          <text>24个月＜M</text>
-          <text>免手续费</text>
         </view> -->
+
+        <block wx:if="{{shuhuiRateList.length < 1}}">
+          <view class='item'>
+            <text class="remark_text">该基金不收取赎回费</text>
+          </view>
+        </block>
       </view>
     </view>
   </view>
@@ -141,8 +143,8 @@
 
     onLoad(option) {
       console.log(option)
-      this.fundCode = option.fundcode ? option.fundcode : '260101'
-      this.windCode = option.windcode ? option.windcode : '260101.OF'
+      this.fundCode = option.fundcode ? option.fundcode : '210012'
+      this.windCode = option.windcode ? option.windcode : '210012.OF'
 
       this.getShengouRate()
       this.getShuhuiRate()

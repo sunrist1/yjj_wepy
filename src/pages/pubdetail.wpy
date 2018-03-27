@@ -361,10 +361,10 @@
             res.data.data.managersStr += el.MAN
           })
 
-          res.data.data.yearApr.ONE = res.data.data.yearApr.ONE.toFixed(2)
-          res.data.data.yearApr.SIX = res.data.data.yearApr.SIX.toFixed(2)
-          res.data.data.yearApr.THREE = res.data.data.yearApr.THREE.toFixed(2)
-          res.data.data.yearApr.YEAR = res.data.data.yearApr.YEAR.toFixed(2)
+          res.data.data.yearApr.ONE = res.data.data.yearApr.ONE ? res.data.data.yearApr.ONE.toFixed(2) : 0
+          res.data.data.yearApr.SIX = res.data.data.yearApr.SIX ? res.data.data.yearApr.SIX.toFixed(2) : 0
+          res.data.data.yearApr.THREE = res.data.data.yearApr.THREE ? res.data.data.yearApr.THREE.toFixed(2) : 0
+          res.data.data.yearApr.YEAR = res.data.data.yearApr.YEAR ? res.data.data.yearApr.YEAR.toFixed(2) : 0
           that.fundInfo = res.data.data
           console.log(that.fundInfo)
           if (that.fundInfo.data.F_INFO_FIRSTINVESTTYPE.indexOf('货币') >= 0) {

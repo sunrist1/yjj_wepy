@@ -6,6 +6,6 @@
 </template>
 <script>
   import wepy from 'wepy'
-  export default class Planners extends wepy.page{
+  export default class Planners extends wepy.page {
   }
 </script>
