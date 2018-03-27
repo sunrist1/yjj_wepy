@@ -1,0 +1,21 @@
+<style lang="scss" scoped>
+
+</style>
+<template>
+  <web-view src="{{pageUrl}}"></web-view>
+</template>
+<script>
+  import wepy from 'wepy'
+  
+  export default class Webpage extends wepy.page {
+    data = {
+      pageUrl: ''
+    }
+
+    onLoad(option) {
+      console.log(option)
+      this.pageUrl = option.url
+      this.$apply()
+    }
+  }
+</script>

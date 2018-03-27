@@ -203,7 +203,13 @@
         </view>
         <view class="right">
           <text>{{isCurrency?'七日年化收益':'日涨幅'}}</text>
-          <text class='f_cherry fs_50'>{{isCurrency?fundInfo.interest.APR:increseData}}%</text>
+          <block wx:if="{{isCurrency}}">
+            <text class="fs_50 {{fundInfo.interest.APR>=0 ? 'f_orange':'f_green'}}">{{undInfo.interest.APR}}%</text>
+          </block>
+          <block wx:else>
+            <text class="fs_50 {{increseData>=0 ? 'f_orange':'f_green'}}">{{increseData}}%</text>
+            <!-- <text class='f_cherry fs_50'>{{isCurrency?fundInfo.interest.APR:increseData}}%</text> -->
+          </block>
         </view>
       </view>
       <view class="box_3">
@@ -333,7 +339,7 @@
     onLoad(option) {
       let that = this
       that.fundCode = option.id ? option.id : '260101'
-      console.log(option.id)
+      // console.log(option.id)
       that.$apply()
 
       // 获取详情信息
