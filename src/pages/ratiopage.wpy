@@ -1,0 +1,197 @@
+<style lang="scss" scoped>
+  @import './lib.scss';
+  .ratio_card{
+    margin-bottom:20rpx;
+    background-color: #fff;
+    border-top:1rpx solid #e8e8e8;
+    padding:20rpx;
+    >.title{
+      margin:15rpx 0;
+    }
+    .table_box{
+      width:9 0%;
+      margin:20rpx auto;
+      border:1rpx solid #e8e8e8;
+      .title{
+        background-color: #ffe5cf;
+      }
+      .item{
+        display: flex;
+        justify-content: space-around;
+        height: 70rpx;
+        border-bottom:1rpx solid #e8e8e8;
+        line-height: 70rpx;
+        .lt_text{
+          text-decoration: line-through;
+          margin:0 8rpx;
+          color:#666;
+        }
+        >text{
+          width:50%;
+          display: inline-block;
+          text-align: center;
+        }
+        text{
+          color:#666;
+          font-size: 32rpx;  
+        }
+        .f_orange{
+          color:#fd6a3f;
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class='page'>
+    <view class="ratio_card">
+      <view class='title'>申购费率</view>
+      <view class="table_box">
+        <view class="item title">
+          <text>申购金额(M)</text>
+          <text>申购费率</text>
+        </view>
+        <block wx:for="{{shuhuiRateList}}" wx:for-item="item" wx:key="index">
+          <view class="item">
+            <!-- <text>T＜1个月</text> -->
+            <text wx:if="{{item.UP == null && item.DOWN != null}}">{{item.DOWN}}万＜M</text>
+            <text wx:elif="{{item.UP != null && item.DOWN == null}}">M＜{{item.UP}}万</text>
+            <text wx:elif="{{item.UP != null && item.DOWN != null}}">{{item.DOWN}}万≤M≤{{item.UP}}万</text>
+            <text wx:else>{{item.FEERATIO}}</text>
+
+            <text wx:if="{{item.UP != null || item.DOWN != null}}">{{item.FEERATIO}}%</text>
+            <view wx:else></view>
+          </view>
+        </block>
+        <!-- <view class="item">
+          <text>100万≤M≤300万</text>
+          <text>
+            <text class='lt_text'>1.00%</text>
+            <text class='f_orange'>0.10%</text>
+          </text>
+        </view>
+        <view class="item">
+          <text>300万≤M≤500万</text>
+          <text>
+            <text class='lt_text'>0.80%</text>
+            <text class='f_orange'>0.08%</text>
+          </text>
+        </view>
+        <view class="item">
+          <text>500万＜M</text>
+          <text>1000.00元</text>
+        </view> -->
+      </view>
+    </view>
+
+    <view class="ratio_card">
+      <view class='title'>赎回费率</view>
+      <view class="table_box">
+        <view class="item title">
+          <text>持有期限(T)</text>
+          <text>赎回费率</text>
+        </view>
+        <block wx:for="{{shuhuiRateList}}" wx:for-item="item" wx:key="index">
+          <view class="item">
+            <!-- <text>T＜1个月</text> -->
+            <text wx:if="{{item.UP == null && item.DOWN != null}}">{{item.DOWN}}{{item.UNIT}}＜T</text>
+            <text wx:elif="{{item.UP != null && item.DOWN == null}}">T＜{{item.UP}}{{item.UNIT}}</text>
+            <text wx:elif="{{item.UP != null && item.DOWN != null}}">{{item.DOWN}}{{item.UNIT}}≤T≤{{item.UP}}{{item.UNIT}}</text>
+            <text wx:else>{{item.FEERATIO}}</text>
+
+            <text wx:if="{{item.UP != null || item.DOWN != null}}">{{item.FEERATIO}}%</text>
+            <view wx:else></view>
+          </view>
+        </block>
+        <!-- <view class="item">
+          <text>1个月≤M≤12个月</text>
+          <text>
+            <text>0.50%</text>
+          </text>
+        </view>
+        <view class="item">
+          <text>12个月≤M≤24个月</text>
+          <text>
+            <text>0.25%</text>
+          </text>
+        </view>
+        <view class="item">
+          <text>24个月＜M</text>
+          <text>免手续费</text>
+        </view> -->
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import config from '../config.js'
+
+  export default class Ratiopage extends wepy.page {
+    config = {
+      navigationBarTitleText: '基金费率'
+    }
+
+    data = {
+      fundCode: '',
+      windCode: '',
+      shuhuiRateList: [],
+      shengouRateList: []
+    }
+
+    onLoad(option) {
+      console.log(option)
+      this.fundCode = option.fundcode ? option.fundcode : '260101'
+      this.windCode = option.windcode ? option.windcode : '260101.OF'
+
+      this.getShengouRate()
+      this.getShuhuiRate()
+    }
+
+    /**
+     * 申购费率
+     */
+    getShengouRate() {
+      var that = this
+      wepy.request({
+        url: config.service.fundShengouRate,
+        method: 'post',
+        data: {
+          windcode: that.windCode,
+          fundcode: that.fundCode
+        },
+        header: {
+          'content-type': 'application/json'
+        },
+        success(res) {
+          console.log(res)
+          that.shengouRateList = res.data.data.list
+          that.$apply()
+        }
+      })
+    }
+
+    /**
+     * 赎回费率
+     */
+    getShuhuiRate() {
+      var that = this
+      wepy.request({
+        url: config.service.fundShuhuiRate,
+        method: 'post',
+        data: {
+          windcode: that.windCode,
+          fundcode: that.fundCode
+        },
+        header: {
+          'content-type': 'application/json'
+        },
+        success(res) {
+          console.log(res)
+          that.shuhuiRateList = res.data.data.list
+          that.$apply()
+        }
+      })
+    }
+  }
+</script>

@@ -81,7 +81,7 @@
       </view>
     </view>
 
-    <view class="fund_box">
+    <view class="fund_box" @tap='toPubDetail' data-fundcode='{{list.newhand.fundCode}}'>
       <text class="fund_name">{{list.newhand.fundName}}</text>
       <view class="interest_num {{list.newhand.wanInterest>0?'f_orange':'f_green'}}">{{list.newhand.wanInterest}}<text>%</text></view>
       <text class="interest_type">七日年化</text>
@@ -112,11 +112,17 @@
         wepy.switchTab({
           url: '/pages/publist'
         })
+      },
+      toPubDetail(e) {
+        let fundcode = e.currentTarget.dataset.fundcode
+        wepy.navigateTo({
+          url: '/pages/pubdetail?id=' + fundcode
+        })
       }
     }
 
     onLoad() {
-      // console.log(config.service.yjjhost)
+      console.log(this.list)
     }
   }
 </script>

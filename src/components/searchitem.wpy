@@ -1,0 +1,115 @@
+<style lang="less">
+  .search-item{
+    border-bottom:1rpx solid #455D7A;
+    padding:24rpx 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 32rpx;
+    color:#455D7A;
+  }
+
+  .key_word{
+    color:#F95959;
+  }
+</style>
+<template>
+  <view class='search-item' @tap='toDetail'>
+    <!-- <rich-text nodes="{{item.fundNameNodes}}"></rich-text>
+    <rich-text nodes="{{item.fundCodeNodes}}"></rich-text> -->
+    <text>{{item.fundShortName}}</text>
+    <text>{{item.fundCode}}</text>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class Searchitem extends wepy.component {
+    props = {
+      item: {
+        type: Object,
+        default: {}
+      }
+    }
+
+    data = {
+      fundNameNodes: '',
+      fundCodeNodes: ''
+    }
+
+    onLoad() {
+      // var that = this
+      // var key = that.item.key
+      // var fundName = that.item.fundShortName
+      // var fundCode = that.item.fundCode
+
+      // var fundNameNodes = fundName.replace(new RegExp(key, 'gm'), '<span class="key_word">' + key + '</span>')
+      // var fundCodeNodes = fundCode.replace(new RegExp(key, 'gm'), '<span class="key_word">' + key + '</span>')
+
+      // that.fundNameNodes = fundNameNodes
+      // that.fundCodeNodes = fundCodeNodes
+      // this.$apply()
+    }
+
+    watch = {
+      item (newValue, oldValue) {
+        console.log(`num value: ${oldValue} -> ${newValue}`)
+      }
+    }
+
+    /**
+     * 组件的方法列表
+     */
+    methods = {
+      toDetail: function () {
+        var that = this
+        var code = that.item.fundCode
+        var fundShortName = that.item.fundShortName
+        wepy.getStorage({
+          key: 'searchHistory',
+          success(res) {
+            var list = res.data
+            list.push({
+              fundShortName: fundShortName,
+              fundCode: code,
+              addTime: new Date().getTime()
+            })
+
+            list.sort(function (a, b) {
+              return b.addTime - a.addTime
+            })
+
+            // 搜索历史去重
+            list.forEach(function (el, index) {
+              for (var i = index + 1; i < list.length; i++) {
+                if (list[index].fundCode === list[i].fundCode) {
+                  list.splice(i, 1)
+                }
+              }
+            })
+            console.log(list)
+            wepy.setStorage({
+              key: 'searchHistory',
+              data: list
+            })
+          },
+          fail(res) {
+            var list = [{
+              fundShortName: fundShortName,
+              fundCode: code,
+              addTime: new Date().getTime()
+            }]
+            wepy.setStorage({
+              key: 'searchHistory',
+              data: list
+            })
+          },
+          complete(res) {
+            wepy.navigateTo({
+              url: '/pages/pubdetail?id=' + code
+            })
+          }
+        })
+      }
+    }
+  }
+</script>

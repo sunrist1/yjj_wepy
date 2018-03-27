@@ -84,7 +84,7 @@
     </view>
 
     <block wx:for="{{list.publicfund}}" wx:key="*this" wx:item="item">
-      <view class="fund_box">
+      <view class="fund_box" @tap='toPubDetail' data-fundcode='{{item.fundCode}}'>
         <text class="fund_name">{{item.fundName}}</text>
         <view class="interest_num {{item.yearInterest>0?'f_orange':'f_green'}}">{{item.yearInterest}}<text>%</text></view>
         <text class="interest_type">近一年收益</text>
@@ -115,6 +115,12 @@
       toPubList (e) {
         wepy.switchTab({
           url: '/pages/publist'
+        })
+      },
+      toPubDetail(e) {
+        let fundcode = e.currentTarget.dataset.fundcode
+        wepy.navigateTo({
+          url: '/pages/pubdetail?id=' + fundcode
         })
       }
     }

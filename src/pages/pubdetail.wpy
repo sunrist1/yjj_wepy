@@ -1,12 +1,489 @@
 <style lang="scss" scoped>
+  @import './lib.scss';
+  .top_box{
+    background-color: #fff;
+    .box_1{
+      padding:20rpx;
+      border-bottom:1rpx solid #e8e8e8;
+      .fund_name{
+        font-size: 40rpx;
+      }
+      .fund_info{
+        margin:10rpx 0;
+        text{
+          margin-right:15rpx;
+        }
+      }
+    }
+    .box_2{
+      display: flex;
+      padding:15rpx 0;
+      border-bottom:1rpx solid #e8e8e8;
+      &>view{
+        &:nth-of-type(1){
+          border-right:1rpx solid #e8e8e8;
+        }
+        width:50%;
+        text{
+          display: block;
+          width:100%;
+          text-align: center;
+          margin-top:8rpx;
+          
+        }
+      }
+    }
+    .box_3{
+      display: flex;
+      padding:15rpx 0;
+      border-bottom: 1rpx solid #e8e8e8;
+      &>.item{
+        text-align: center;
+        font-size: 30rpx;
+        &:nth-of-type(1),
+        &:nth-of-type(2){
+          border-right: 1rpx solid #e8e8e8;
+        }
+        &:nth-of-type(1),
+        &:nth-of-type(3){
+          width:28%;
+        }
+        &:nth-of-type(2){
+          width:44%;
+          text{
+            background-color: $cherry;
+            color:#fff;
+            border-radius: 15rpx;
+            padding:0rpx 20rpx;
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
 
+  .chart_box{
+    margin-top:20rpx;
+    padding:20rpx;
+    background-color: #fff;
+    .chart_title{
+      font-size: 36rpx;
+      color:#666;
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 10rpx;
+
+      text{
+        &:nth-of-type(2){
+          font-size: 34rpx;
+        }
+      }
+    }
+    .chart{
+      height: 320rpx;
+      width:100%;
+      margin:10rpx auto;
+      background-color: #e8e8e8;
+    }
+    .type_list{
+      display: flex;
+      margin-top:20rpx;
+      justify-content: space-around;
+      .item{
+        background-color: #ccc;
+        padding:0rpx 15rpx;
+        border-radius: 8rpx;
+        font-size: 34rpx;
+        line-height: 60rpx;
+        height: 60rpx;
+        color:#fff;
+      }
+      .active{
+        background-color: #ff9d68;
+      }
+    }
+  }
+
+  .ratio_item{
+    background-color: #fff;
+    padding-left:20rpx;
+    color:#666;
+    position: relative;
+    width:100%;
+    border-bottom:1rpx solid #f4f4f4;
+    height: 80rpx;
+    font-size: 36rpx;
+    line-height: 80rpx;
+    margin-top: 20rpx;
+    margin-bottom: 20rpx;
+    image{
+      height: 40rpx;
+      width:40rpx;
+      vertical-align: sub;
+    }
+    .right_icon{
+      position: absolute;
+      right: 30rpx;
+      top:20rpx;
+    }
+  }
+
+  .info_box{
+    margin-top:20rpx;
+    background-color: #fff;
+    .title{
+      background-color: #fff;
+      padding-left:20rpx;
+      color:#666;
+      position: relative;
+      width:100%;
+      border-bottom:1rpx solid #f4f4f4;
+      font-size: 36rpx;
+      line-height: 80rpx;
+      height: 80rpx;
+      image{
+        height: 40rpx;
+        width:40rpx;
+        vertical-align: sub;
+      }
+    }
+    .info_list{
+      padding:20rpx 0;
+      .item{
+        display: flex;
+        color:#666;
+        justify-content: space-between;
+        padding:0 20rpx;
+        margin:15rpx 0;
+        text{
+          max-width: 70%;
+          font-size: 34rpx;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  .content_card{
+    margin-top: 20rpx;
+    background-color: #fff;
+    padding:20rpx;
+    .title{
+      border-bottom:1rpx solid #f4f4f4;
+      padding: 15rpx 0;
+      font-size: 36rpx;
+    }
+    .content{
+      margin-top:20rpx;
+      font-size: 36rpx;
+      line-height: 50rpx;
+      color:#666;
+      text-indent: 1.5em;
+    }
+  }
 </style>
 <template>
-  <text>pub detail</text>
+  <view class="page">
+    <view class="top_box">
+      <view class="box_1">
+        <text class="fund_name">{{fundInfo.data.F_INFO_FULLNAME}}</text>
+        <view class='fund_info fs_32'>
+          <text>{{fundInfo.data.F_INFO_TYPE}}</text>
+          <text class='f_gray'>({{fundInfo.fundCode}})</text>
+          <text class='f_orange'>可以买入</text>
+          <text class='f_orange'>可以卖出</text>
+        </view>
+      </view>
+      <view class="box_2">
+        <view class="left">
+          <text>{{isCurrency?'万份收益':'净值'}}({{isCurrency?fundInfo.interest.F_INFO_ENDDATE:fundInfo.nav.PRICE_DATE}})</text>
+          <text class='fs_50'>{{isCurrency?fundInfo.interest.WAN:fundInfo.nav.NAV}}</text>
+        </view>
+        <view class="right">
+          <text>{{isCurrency?'七日年化收益':'日涨幅'}}</text>
+          <text class='f_cherry fs_50'>{{isCurrency?fundInfo.interest.APR:increseData}}%</text>
+        </view>
+      </view>
+      <view class="box_3">
+        <view class="item">{{fundInfo.minMoney >= 100 ? fundInfo.minMoney : 100}}元起购</view>
+        <view class="item">
+          申购费率{{fundInfo.feeRatio}}%
+          <text>1折</text>
+        </view>
+        <view class="item">
+          {{fundInfo.data.RISK_LEVEL}}
+        </view>
+      </view>
+    </view>
+
+    <view class="chart_box">
+      <view class='chart_title'>
+        <text>单位净值</text>
+        <text>近六月: <text class='f_cherry'>{{fundInfo.yearApr.THREE}}%</text></text>
+      </view>
+      <view class='chart'></view>
+      <view class="type_list">
+        <view class="item">近一月</view>
+        <view class="item">近三月</view>
+        <view class="item active">近六月</view>
+        <view class="item">近半年</view>
+      </view>
+    </view>
+
+    <view class="ratio_item" @tap='toRatioPage'>
+      <image src='{{tradeImgUrl}}'></image>
+      交易费率
+      <image class='right_icon' src='{{rightIconUrl}}'></image>
+    </view>
+
+    <view class="info_box">
+      <view class="title">
+        <image src='{{profileImgUrl}}'></image>
+        基金档案
+      </view>
+
+      <view class="info_list">
+        <view class="item">
+          <text>基金名称</text>
+          <text>{{fundInfo.data.F_INFO_FULLNAME}}</text>
+        </view>
+        <view class="item">
+          <text>基金代码</text>
+          <text>{{fundInfo.fundCode}}</text>
+        </view>
+        <view class="item">
+          <text>基金类型</text>
+          <text>{{fundInfo.data.F_INFO_TYPE}}</text>
+        </view>
+        <view class="item">
+          <text>基金状态</text>
+          <text>交易</text>
+        </view>
+        <view class="item">
+          <text>状态日期</text>
+          <text>{{fundInfo.data.F_INFO_SETUPDATE}}</text>
+        </view>
+        <view class="item">
+          <text>分红方式</text>
+          <text>{{fundInfo.kingFund.dividend == '1'?'现金分红':'红利再投'}}</text>
+        </view>
+        <view class="item">
+          <text>成立时间</text>
+          <text>{{fundInfo.data.F_INFO_SETUPDATE}}</text>
+        </view>
+        <view class="item">
+          <text>托管人名称</text>
+          <text>{{fundInfo.data.F_INFO_CUSTODIANBANK}}</text>
+        </view>
+        <view class="item">
+          <text>基金公司</text>
+          <text>{{fundInfo.data.FUNDCOMPANY}}</text>
+        </view>
+        <view class="item">
+          <text>基金经理</text>
+          <text>{{fundInfo.managersStr}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="content_card">
+      <view class="title">投资目标:</view>
+      <view class='content'>{{fundInfo.data.TZMB}}</view>
+    </view>
+
+    <view class="content_card">
+      <view class="title">风险收益特征:</view>
+      <view class='content'>{{fundInfo.data.RISK_RETURN}}</view>
+    </view>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import config from '../config.js'
+
   export default class Pubdetail extends wepy.page {
+    config = {
+      navigationBarTitleText: '基金详情',
+      navigationBarBackgroundColor: '#ff9d68',
+      navigationBarTextStyle: 'white'
+    }
+
+    data = {
+      rightIconUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/right.png`,
+      inboxImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/inbox.png`,
+      outboxImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/outbox.png`,
+      profileImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/profile.png`,
+      tradeImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/trade.png`,
+      fundCode: '',
+      fundInfo: {},
+      isCurrency: false,
+      increseData: '',
+      navType: '6month'
+    }
+
+    toRatioPage() {
+      let that = this
+      wepy.navigateTo({
+        url: '/pages/ratiopage?fundcode=' + that.fundCode + '&windcode=' + that.fundInfo.data.WINDCODE
+      })
+    }
+
+    onLoad(option) {
+      let that = this
+      that.fundCode = option.id ? option.id : '260101'
+      console.log(option.id)
+      that.$apply()
+
+      // 获取详情信息
+      this.getFundInfo()
+    }
+
+    /**
+     * 获取基金详情信息
+     */
+    getFundInfo() {
+      var that = this
+      wepy.request({
+        url: config.service.fundDetailUrl,
+        method: 'post',
+        data: {
+          fundCode: that.fundCode
+        },
+        header: {
+          'content-type': 'application/json'
+        },
+        success(res) {
+          res.data.data.feeRatio = (res.data.data.feeRatio * 1 * 0.1).toFixed(2)
+          res.data.data.managersStr = ''
+          res.data.data.managers.forEach(function(el) {
+            res.data.data.managersStr += el.MAN
+          })
+
+          res.data.data.yearApr.ONE = res.data.data.yearApr.ONE.toFixed(2)
+          res.data.data.yearApr.SIX = res.data.data.yearApr.SIX.toFixed(2)
+          res.data.data.yearApr.THREE = res.data.data.yearApr.THREE.toFixed(2)
+          res.data.data.yearApr.YEAR = res.data.data.yearApr.YEAR.toFixed(2)
+          that.fundInfo = res.data.data
+          console.log(that.fundInfo)
+          if (that.fundInfo.data.F_INFO_FIRSTINVESTTYPE.indexOf('货币') >= 0) {
+            that.isCurrency = true
+          }
+          that.$apply()
+
+          // 回调请求走势图
+          that.getFundChartData()
+          // 获取申购费率
+          // that.getShengouRate()
+          // 获取赎回费率
+          // that.getShuhuiRate()
+        }
+      })
+    }
+
+    // 获取净值走势数据
+    getFundChartData() {
+      var that = this
+      var url = that.isCurrency ? config.service.wanNavTrade : config.service.fundNavTrade
+      wepy.request({
+        url: url,
+        method: 'post',
+        data: {
+          windcode: that.fundInfo.data.WINDCODE,
+          datetype: that.navType
+        },
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success(res) {
+          console.log(res.data.data)
+          var chartData = res.data.data.list
+          if (chartData.length < 1) {
+            wepy.showToast({
+              title: '无相关数据',
+              icon: 'none',
+              duration: 2000
+            })
+            return
+          }
+          if (!that.increseData) {
+            var length = chartData.length
+            if (that.isCurrency) {
+              that.increseData = ((chartData[length - 1].WAN - chartData[length - 2].WAN) / chartData[length - 2].WAN * 100).toFixed(2)
+            } else {
+              that.increseData = ((chartData[length - 1].NAVVALUE - chartData[length - 2].NAVVALUE) / chartData[length - 2].NAVVALUE * 100).toFixed(2)
+            }
+          }
+          that.$apply()
+          /* var windowWidth = 320;
+          try {
+            var res = wx.getSystemInfoSync();
+            windowWidth = res.windowWidth;
+          } catch (e) {
+            console.error('getSystemInfoSync failed!');
+          }
+
+          var valueList = [],
+              dateList = [];
+
+          chartData.forEach(function(el){
+            dateList.push(el.DATEVALUE.substring(4))
+            if (that.data.isCurrency){
+              valueList.push(el.WAN)
+              // valueList.push(el.APR)
+            }else{
+              valueList.push(el.NAVVALUE)
+            }
+          })
+
+          var chartName = '净值',
+              yTitle ='净值走势(元)';
+          if (that.data.isCurrency){
+            chartName = '万份收益';
+            yTitle = '万份收益走势';
+          }
+          var valueListCache = [];
+          valueList.forEach(function(el){
+            valueListCache.push(el)
+          })
+          var sortList = valueList.sort(function(a,b){
+            return a - b;
+          })
+          lineChart = new wxCharts({
+            canvasId: 'lineCanvas_1',
+            type: 'line',
+            categories: dateList,
+            animation: true,
+            // background: '#f5f5f5',
+            series: [{
+              name: chartName,
+              data: valueListCache,
+              color:'#455D7A',
+              format: function (val, name) {
+                return val.toFixed(2);
+              }
+            }],
+            xAxis: {
+              disableGrid: true
+            },
+            yAxis: {
+              title: yTitle,
+              format: function (val) {
+                return val.toFixed(2);
+              },
+              min: sortList[0]-0.02
+            },
+            width: windowWidth,
+            height: 200,
+            dataLabel: false,
+            dataPointShape: false,
+            extra: {
+              lineStyle: 'straight'
+            }
+          }); */
+        }
+      })
+    }
   }
 </script>
-  

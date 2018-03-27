@@ -136,7 +136,7 @@
       </view>
 
       <block wx:for="{{newhandList}}" wx:key="*this" wx:item="item">
-        <view class='item'>
+        <view class='item' @tap='toPubDetail' data-fundcode='{{item.fundCode}}'>
           <view class='left'>
             <text class="fs_70 {{item.showNum>=0?'f_orange':''}}">{{item.showNum}}<text class='fs_30'>%</text></text>
             <text class='fs_32 f_gray'>{{item.showType}}</text>
@@ -154,7 +154,7 @@
         <view @tap='toPubList'>全部<image src='{{rightIconUrl}}'></image></view>
       </view>
       <block wx:for="{{dingtouList}}" wx:key="*this" wx:item="item">
-        <view class='item'>
+        <view class='item' @tap='toPubDetail' data-fundcode='{{item.fundCode}}'>
           <view class='left'>
             <text class="fs_70 {{item.showNum>=0?'f_orange':''}}">{{item.showNum}}<text class='fs_30'>%</text></text>
             <text class='fs_32 f_gray'>{{item.showType}}</text>
@@ -226,6 +226,12 @@
       toPubList() {
         wepy.switchTab({
           url: '/pages/publist'
+        })
+      },
+      toPubDetail(e) {
+        let fundcode = e.currentTarget.dataset.fundcode
+        wepy.navigateTo({
+          url: '/pages/pubdetail?id=' + fundcode
         })
       }
     }

@@ -1,7 +1,7 @@
 <style lang="scss">
   /* =============== 搜索框 begin ===============  */
   .search_bar{
-    background-color: #f97365;
+    background-color: #ff9d68;
     padding:15rpx 25rpx;
     font-size: 0;
   }
@@ -144,9 +144,9 @@
       </view>
 
       <view class='history_list'>
-        <block wx:for="{{searchHistory}}" wx:key="index">
-          <search-item fundName="{{item.fundName}}" fundCode="{{item.fundCode}}" key=""></search-item>
-        </block>
+        <repeat for="{{searchHistory}}" key="index" item="item">
+          <searchitem :item.sync="item"></searchitem>
+        </repeat>
 
         <view wx:if="{{searchHistory.length == 0}}" style='text-align:center'>
           <image class='emptyImg' src='{{emptyImgUrl}}' mode='widthFix'></image>
@@ -169,10 +169,10 @@
     </view>
 
     <!--搜索结果  -->
-    <view class='result_box'  wx:if="{{showSearch}}">
-      <block wx:for="{{resultList}}" wx:key="index">
-        <search-item fundName="{{item.fundShortName}}" fundCode="{{item.fundCode}}" key="{{searchKey}}"></search-item>
-      </block>
+    <view class='result_box' wx:if="{{showSearch}}">
+      <repeat for="{{resultList}}" key="index" item="item">
+        <searchitem :item.sync="item"></searchitem>
+      </repeat>
       <view wx:if="{{resultList.length == 0}}" style='text-align:center'>暂无匹配数据</view>
     </view> 
   </view>
@@ -181,11 +181,18 @@
   import wepy from 'wepy'
   import config from '../config.js'
 
+  // components
+  import Searchitem from '../components/searchitem'
+
   export default class Search extends wepy.page {
     config = {
       navigationBarTitleText: '搜索公募基金',
-      navigationBarBackgroundColor: '#f97365',
+      navigationBarBackgroundColor: '#ff9d68',
       navigationBarTextStyle: 'white'
+    }
+
+    components = {
+      searchitem: Searchitem
     }
 
     data = {
@@ -215,7 +222,7 @@
           })
           console.log(list)
           that.searchHistory = list
-          this.$apply()
+          that.$apply()
         }
       })
     }
@@ -234,7 +241,7 @@
       that.searchKey = value
       that.showSearch = true
       that.inputValue = value
-      this.$apply()
+      that.$apply()
       var reqData = {
         pageIndex: 1,
         pageSize: 20,
@@ -253,8 +260,11 @@
         success: function (res) {
           that.resultList = []
           var list = res.data.data.list
+          list.forEach(function(el) {
+            el.key = value
+          })
           that.resultList = list
-          this.$apply()
+          that.$apply()
         }
       })
     }

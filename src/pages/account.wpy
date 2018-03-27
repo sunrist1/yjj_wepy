@@ -1,0 +1,11 @@
+<style lang="scss">
+
+</style>
+<template>
+  <text>account</text>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Account extends wepy.page {
+  }
+</script>

@@ -24,14 +24,16 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
+      'pages/ratiopage',
+      'pages/pubdetail',
+      'pages/search',
       'pages/publist',
       'pages/recommend',
-      'pages/search',
       'pages/prvlist',
       'pages/hqb',
-      'pages/pubdetail',
       'pages/prvdetail',
       'pages/infpage',
+      'pages/account',
       'pages/planners'
     ],
     tabBar: {
@@ -48,7 +50,7 @@ export default class extends wepy.app {
         iconPath: 'images/dynamic.png',
         selectedIconPath: 'images/dynamic_fill.png'
       }, {
-        pagePath: 'pages/publist',
+        pagePath: 'pages/account',
         text: '个人',
         iconPath: 'images/people.png',
         selectedIconPath: 'images/people_fill.png'
