@@ -78,6 +78,24 @@
         }
       }
     }
+    .item_closed{
+      color: #999!important;
+      position: relative;
+      &::after{
+        content: "";
+        background-image: url('#{$imagePath}/beclosed.png');
+        display: block;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        background-size: 100% 100%;
+        width: 150rpx;
+        height: 150rpx;
+      }
+      text{
+        color: #999!important;
+      }
+    }
   }
 </style>
 
@@ -105,12 +123,11 @@
 
     <scroll-view class="fund_list" scroll-y style='height:{{sysHeight}}' bindscrolltolower="getMoreList">
       <block wx:for="{{prvFundList}}" wx:key="*this" wx:item="item">
-        <view class="fund_item" data-fundcode='{{item.fundCode}}'>
+        <view @tap='toPrvDetail' class="fund_item {{item.fundStatus == 2?'item_closed':''}}" data-fundcode='{{item.fundCode}}'>
           <text class='top'>{{item.fundTitle}}</text>
           <text class='sum_money'>募集金额:2000万</text>
 
           <view class="content">
-            
             <block wx:if="{{item.expectedReturn != '-'}}">
               <view class="item">
                 <text class='f_cherry fs_44'>{{item.expectedReturn}}%</text>
@@ -168,6 +185,12 @@
         that.currentType = e.currentTarget.dataset.type.toString()
         that.clearListData()
         that.getFundList()
+      },
+      toPrvDetail(e){
+        let fundCode = e.currentTarget.dataset.fundcode;
+        wepy.navigateTo({
+          url: '/pages/prvdetail?id=' + fundCode
+        })
       }
     }
 

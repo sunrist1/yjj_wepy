@@ -24,18 +24,18 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
+      'pages/planners',
+      'pages/prvlist',
       'pages/ratiopage',
       'pages/pubdetail',
       'pages/search',
       'pages/publist',
       'pages/recommend',
-      'pages/prvlist',
       'pages/hqb',
       'pages/prvdetail',
       'pages/infpage',
       'pages/account',
-      'pages/webpage',
-      'pages/planners'
+      'pages/webpage'
     ],
     tabBar: {
       selectedColor: '#fe602b',

@@ -2,10 +2,15 @@
 
 </style>
 <template>
-  <text>prv detail</text>
+  
 </template>
 <script>
   import wepy from 'wepy'
+
   export default class Prvdetail extends wepy.page {
+
+    onLoad(option) {
+      console.log(option)
+    }
   }
 </script>

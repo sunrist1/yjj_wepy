@@ -1,11 +1,152 @@
 <style lang="scss" scoped>
+  @import './lib.scss';
 
+  .area_box{
+    padding:20rpx 30rpx;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background: #fff;
+    height: 60rpx;
+    border-top:1rpx solid #e8e8e8;
+    border-bottom: 1rpx solid #e8e8e8;
+    box-shadow: 0rpx 1rpx 2rpx 5rpx #e8e8e8;
+    z-index: 9999;
+    .selectText{
+      position: absolute;
+      right:70rpx;
+      top:20rpx;
+      image{
+        display: inline-block;
+        height: 50rpx;
+        width: 50rpx;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .planners_list{
+    position: relative;
+    width:720rpx;
+    margin-top:100rpx;
+    padding:20rpx;
+    box-sizing: border-box;
+    column-count:3;
+    -moz-column-count:3;
+    -webkit-column-count:3;
+    .item{
+      padding:0px;
+      background: #fff;
+      white-space: nowrap;
+      box-shadow:1rpx 3rpx 2rpx 3rpx #e8e8e8; 
+      margin-bottom:20rpx;
+      width: 240rpx;
+      // box-sizing: border-box;
+      column-break-inside:avoid;
+      -webkit-column-break-inside:avoid;
+      display: block;
+      border:1rpx solid #eee;
+      text{
+        display: block;
+        font-size: 30rpx;
+        line-height: 36rpx;
+        padding:10rpx 0 0 10rpx;
+      }
+      image{
+        width: 100%;
+        height:auto;
+        display: block;
+      }
+    }
+  }
 </style>
 <template>
-  <text>planners</text>
+  <view class="">
+
+    <view class='area_box'>
+      <picker @change="bindPickerChange" value="{{index}}" range="{{array}}">
+        <view class="picker">
+          当前选择：
+          <view class='selectText'>
+            {{array[index]}}<image src='{{downImgUrl}}'></image>
+          </view>
+        </view>
+      </picker>
+    </view>
+
+    <view class="planners_list">
+      <block wx:for="{{plannersList}}" wx:item="item" wx:key='index'>
+        <view class="item">
+          <image src='{{imgPath}}{{item.headImg}}' mode='widthFix'></image>
+          <text class='name'>{{item.realName}}</text>
+          <text class='num'>ID:{{item.plannersID}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import config from '../config.js'
+
   export default class Planners extends wepy.page {
+    config = {
+      navigationBarTitleText: '理财师'
+    }
+
+    data = {
+      downImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/down.png`,
+      array: ['全国', '深圳', '中山', '广州', '佛山', '珠海', '济南', '青岛', '华北', '长沙'],
+      arrayStr: ['', 'shenzhen', 'zhongshan', 'guangzhou', 'foshan', 'zhuhai', 'qingdao', 'huabei', 'changsha'],
+      index: 0,
+      imgPath: '',
+      pageIndex: 1,
+      plannersList: [],
+      region: ''
+    }
+
+    methods = {
+      bindPickerChange(e) {
+        console.log('picker发送选择改变，携带值为', e.detail.value)
+        this.index = e.detail.value
+        this.region = this.arrayStr[e.detail.value]
+        this.plannersList = []
+        this.getPlanners()
+        this.$apply()
+      }
+    }
+
+    onLoad() {
+      this.getPlanners('')
+      this.imgPath = config.service.yjjhost
+    }
+
+    getPlanners() {
+      let that = this
+      wepy.request({
+        method: 'POST',
+        url: `${config.service.plannersListUrl}`,
+        data: {
+          businessType: '0',
+          key: '',
+          pageIndex: that.pageIndex,
+          pageSize: 10,
+          region: that.region
+        },
+        success: function (d) {
+          var list = that.plannersList
+          list = list.concat(d.data.data.list)
+          console.log(list)
+          that.plannersList = list
+          that.$apply()
+        }
+      })
+    }
+
+    onReachBottom() {
+      this.pageIndex = this.pageIndex + 1
+      this.getPlanners()
+    }
   }
 </script>
