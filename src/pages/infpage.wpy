@@ -1,11 +1,172 @@
 <style lang="scss">
+  @import './lib.scss';
 
+  .tab_box{
+    display: flex;
+    justify-content: space-around;
+    background-color: #fff;
+    border-bottom:20rpx solid #f4f4f4;
+    width: 100%;
+    position: fixed;
+    top:0;
+    left:0;
+    .item{
+      display: inline-block;
+      width:25%;
+      text-align: center;
+      height: 80rpx;
+      line-height: 80rpx;
+      font-size: 34rpx;
+    }
+    .active{
+      color:$lightOrange;
+      border-bottom:5rpx solid $lightOrange;
+    }
+  }
+  .list{
+    margin-top:100rpx;
+    background-color: #fff;
+    .item{
+      border-bottom:2rpx solid #eee;
+      display: flex;
+      justify-content: space-between;
+      height: 180rpx;
+      padding:18rpx;
+      box-sizing: border-box;
+      .left{
+        width:70%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .title{
+          width:80%;
+          display: block;
+          font-size: 34rpx;
+        }
+        .bottom{
+          .type{
+            display: inline-block;
+            border:2rpx solid $lightOrange;
+            color:$lightOrange;
+            padding:0 15rpx;
+            margin-right: 20rpx;
+            border-radius: 8rpx;
+            font-size: 30rpx;
+          }
+          .datetime{
+            color:#999;
+          }
+          font-size: 32rpx;
+        }
+      }
+      .right{
+        width:30%;
+        image{
+          width:95%;
+          height: 150rpx;
+        }
+      }
+    }
+  }
 </style>
 <template>
-  <text>infpage</text>
+  <view class="page">
+
+    <view class="tab_box">
+      <view data-type='jrkt' @tap='changeType' class="item {{type=='jrkt'?'active':''}}">金融课堂</view>
+      <view data-type='treasureTitle' @tap='changeType' class="item {{type=='treasureTitle'?'active':''}}">财富头条</view>
+      <view data-type='tjcl' @tap='changeType' class="item {{type=='tjcl'?'active':''}}">投基策略</view>
+    </view>
+
+    <view class="list" wx:if="{{type=='jrkt'}}">
+      <view class="item">
+        <view class="left">
+          <text class='title'>新手买基金必读</text>
+          <view class="bottom">
+            <view class='type'>私募锦囊</view>
+            <text class='datetime'>2018-2-3</text>
+          </view>
+        </view>
+        <view class="right">
+          <image mode='widthFix' src='https://app1.efoundation.com.cn//upload/article/08cfd3e7-5c3d-459d-bf84-4a9466dba75a.jpg'></image>
+        </view>
+      </view>
+      
+    </view>
+
+    <view class="list" wx:if="{{type=='treasureTitle'}}">
+      treasureTitle
+    </view>
+
+    <view class="list" wx:if="{{type=='tjcl'}}">
+      tjcl
+    </view>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import config from '../config.js'
+
   export default class Infpage extends wepy.page {
+    config = {
+      navigationBarTitleText: '资讯中心'
+    }
+
+    data = {
+      type: 'jrkt',
+      jrktPageIndex: 1,
+      jrktList: [],
+      trtlPageIndex: 1,
+      trtlList: [],
+      tjckPageIndex: 1,
+      tjclList: []
+    }
+
+    onLoad() {
+      this.getNewsData('jrkt')
+    }
+
+    methods = {
+      changeType(e) {
+        let that = this
+        let type = e.currentTarget.dataset.type
+        that.type = type
+        that.$apply()
+      }
+    }
+
+    getNewsData(type) {
+      let that = this
+      let reqData = {}
+      let reqUrl = ''
+      if (type === 'jrkt') {
+        reqData = {
+          pageIndex: that.jrktPageIndex
+        }
+        reqUrl = config.service.jrktUrl
+      } else if (type === 'treasureTitle') {
+        reqData = {
+          pageIndex: that.trtlPageIndex
+        }
+        reqUrl = config.service.newsAjaxUrl
+      } else if (type === 'tjcl') {
+        reqData = {
+          pageIndex: that.tjckPageIndex
+        }
+        reqUrl = config.service.newsAjaxUrl
+      }
+      reqData.pageSize = 15
+      wepy.request({
+        url: reqUrl,
+        method: 'post',
+        data: reqData,
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success(res) {
+          console.log(res)
+        }
+      })
+    }
   }
 </script>

@@ -80,7 +80,7 @@
       }
     }
     .chart{
-      height: 320rpx;
+      height: 480rpx;
       width:100%;
       margin:10rpx auto;
       background-color: #e8e8e8;
@@ -204,7 +204,7 @@
         <view class="right">
           <text>{{isCurrency?'七日年化收益':'日涨幅'}}</text>
           <block wx:if="{{isCurrency}}">
-            <text class="fs_50 {{fundInfo.interest.APR>=0 ? 'f_orange':'f_green'}}">{{undInfo.interest.APR}}%</text>
+            <text class="fs_50 {{fundInfo.interest.APR>=0 ? 'f_orange':'f_green'}}">{{fundInfo.interest.APR}}%</text>
           </block>
           <block wx:else>
             <text class="fs_50 {{increseData>=0 ? 'f_orange':'f_green'}}">{{increseData}}%</text>
@@ -226,15 +226,28 @@
 
     <view class="chart_box">
       <view class='chart_title'>
-        <text>单位净值</text>
-        <text>近六月: <text class='f_cherry'>{{fundInfo.yearApr.THREE}}%</text></text>
+        <text>{{isCurrency?'万份收益':'单位净值'}}</text>
+        <text>
+          <block  wx:if="{{isCurrency}}">
+            <block wx:if="{{navType == 'month'}}">近一月: <text class="{{rateIncrese>=0?'f_cherry':'f_green'}}">{{rateIncrese}}%</text></block>
+            <block wx:if="{{navType == '3month'}}">近三月: <text class="{{rateIncrese>=0?'f_cherry':'f_green'}}">{{rateIncrese}}%</text></block>
+            <block wx:if="{{navType == '6month'}}">近六月: <text class="{{rateIncrese>=0?'f_cherry':'f_green'}}">{{rateIncrese}}%</text></block>
+            <block wx:if="{{navType == '1year'}}">近一年: <text class="{{rateIncrese>=0?'f_cherry':'f_green'}}">{{rateIncrese}}%</text></block>
+          </block>
+          <block wx:else>
+            <block wx:if="{{navType == 'month'}}">近一月: <text class="{{fundInfo.yearApr.ONE>=0?'f_cherry':'f_green'}}">{{fundInfo.yearApr.ONE}}%</text></block>
+            <block wx:if="{{navType == '3month'}}">近三月: <text class="{{fundInfo.yearApr.THREE>=0?'f_cherry':'f_green'}}">{{fundInfo.yearApr.THREE}}%</text></block>
+            <block wx:if="{{navType == '6month'}}">近六月: <text class="{{fundInfo.yearApr.SIX>=0?'f_cherry':'f_green'}}">{{fundInfo.yearApr.SIX}}%</text></block>
+            <block wx:if="{{navType == '1year'}}">近一年: <text class="{{fundInfo.yearApr.YEAR>=0?'f_cherry':'f_green'}}">{{fundInfo.yearApr.YEAR}}%</text></block>
+          </block>
+        </text>
       </view>
-      <view class='chart'></view>
+      <canvas class='chart' canvas-id='lineCanvas' class='chart_box'></canvas>
       <view class="type_list">
-        <view class="item">近一月</view>
-        <view class="item">近三月</view>
-        <view class="item active">近六月</view>
-        <view class="item">近半年</view>
+        <view @tap='changeType' data-type='month' class="item {{navType == 'month'?'active':''}}">近一月</view>
+        <view @tap='changeType' data-type='3month' class="item {{navType == '3month'?'active':''}}">近三月</view>
+        <view @tap='changeType' data-type='6month' class="item {{navType == '6month'?'active':''}}">近六月</view>
+        <view @tap='changeType' data-type='1year' class="item {{navType == '1year'?'active':''}}">近一年</view>
       </view>
     </view>
 
@@ -308,6 +321,7 @@
 <script>
   import wepy from 'wepy'
   import config from '../config.js'
+  var wxCharts = require('../utils/wxcharts/wxcharts.js')
 
   export default class Pubdetail extends wepy.page {
     config = {
@@ -326,7 +340,16 @@
       fundInfo: {},
       isCurrency: false,
       increseData: '',
+      rateIncrese: 0,
       navType: '6month'
+    }
+
+    methods = {
+      changeType(e) {
+        let that = this
+        let type = e.currentTarget.dataset.type
+        that.getFundChartData(type)
+      }
     }
 
     toRatioPage() {
@@ -379,7 +402,7 @@
           that.$apply()
 
           // 回调请求走势图
-          that.getFundChartData()
+          that.getFundChartData('3month')
           // 获取申购费率
           // that.getShengouRate()
           // 获取赎回费率
@@ -389,8 +412,15 @@
     }
 
     // 获取净值走势数据
-    getFundChartData() {
+    getFundChartData(type) {
       var that = this
+      if (type === that.navType) {
+        return
+      } else {
+        that.increseData = []
+        that.navType = type
+        that.$apply()
+      }
       var url = that.isCurrency ? config.service.wanNavTrade : config.service.fundNavTrade
       wepy.request({
         url: url,
@@ -422,63 +452,68 @@
             }
           }
           that.$apply()
-          /* var windowWidth = 320;
+          let windowWidth = 320
           try {
-            var res = wx.getSystemInfoSync();
-            windowWidth = res.windowWidth;
+            let w = wepy.getSystemInfoSync()
+            windowWidth = w.windowWidth
           } catch (e) {
-            console.error('getSystemInfoSync failed!');
+            console.error('getSystemInfoSync failed!')
           }
 
-          var valueList = [],
-              dateList = [];
+          let valueList = []
+          let dateList = []
 
-          chartData.forEach(function(el){
+          chartData.forEach(function(el) {
             dateList.push(el.DATEVALUE.substring(4))
-            if (that.data.isCurrency){
+            if (that.data.isCurrency) {
               valueList.push(el.WAN)
               // valueList.push(el.APR)
-            }else{
+            } else {
               valueList.push(el.NAVVALUE)
             }
           })
 
-          var chartName = '净值',
-              yTitle ='净值走势(元)';
-          if (that.data.isCurrency){
-            chartName = '万份收益';
-            yTitle = '万份收益走势';
+          let chartName = '净值'
+          // let yTitle = '净值走势(元)'
+          if (that.data.isCurrency) {
+            // chartName = '万份收益'
+            // yTitle = '万份收益走势'
+            let increase = (valueList[valueList.length - 1] - valueList[0]) / Math.abs(valueList[0]) * 100
+            console.log(`increass:${increase}`)
+            that.rateIncrese = increase.toFixed(2)
+            that.$apply()
           }
-          var valueListCache = [];
-          valueList.forEach(function(el){
+          var valueListCache = []
+          valueList.forEach(function(el) {
             valueListCache.push(el)
           })
-          var sortList = valueList.sort(function(a,b){
-            return a - b;
+          var sortList = valueList.sort(function(a, b) {
+            return a - b
           })
-          lineChart = new wxCharts({
-            canvasId: 'lineCanvas_1',
-            type: 'line',
+          new wxCharts({
+            canvasId: 'lineCanvas',
+            type: 'area',
             categories: dateList,
-            animation: true,
+            animation: false,
+            legend: false,
             // background: '#f5f5f5',
             series: [{
               name: chartName,
               data: valueListCache,
-              color:'#455D7A',
+              color: '#ff9d68',
               format: function (val, name) {
-                return val.toFixed(2);
+                return val.toFixed(2)
               }
             }],
             xAxis: {
               disableGrid: true
             },
             yAxis: {
-              title: yTitle,
+              // title: yTitle,
               format: function (val) {
-                return val.toFixed(2);
+                return val.toFixed(2)
               },
-              min: sortList[0]-0.02
+              min: sortList[0] - 0.02
             },
             width: windowWidth,
             height: 200,
@@ -487,7 +522,7 @@
             extra: {
               lineStyle: 'straight'
             }
-          }); */
+          })
         }
       })
     }

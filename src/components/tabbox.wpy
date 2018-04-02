@@ -41,7 +41,7 @@
     </view>
     <view class="item" @tap="toLink" data-link='/pages/infpage'>
       <image src="{{tabboxImg_5}}"></image>
-      <text>金融学堂</text>
+      <text>资讯中心</text>
     </view>
     <view class="item" @tap="toLink" data-link='/pages/planners'>
       <image src="{{tabboxImg_6}}"></image>
