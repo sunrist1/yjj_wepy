@@ -207,7 +207,7 @@
             <text class="fs_50 {{fundInfo.interest.APR>=0 ? 'f_orange':'f_green'}}">{{fundInfo.interest.APR}}%</text>
           </block>
           <block wx:else>
-            <text class="fs_50 {{increseData>=0 ? 'f_orange':'f_green'}}">{{increseData}}%</text>
+            <text class="fs_50 {{increase>=0 ? 'f_orange':'f_green'}}">{{increase}}%</text>
             <!-- <text class='f_cherry fs_50'>{{isCurrency?fundInfo.interest.APR:increseData}}%</text> -->
           </block>
         </view>
@@ -228,7 +228,7 @@
       <view class='chart_title'>
         <text>{{isCurrency?'万份收益':'单位净值'}}</text>
         <text>
-          <block  wx:if="{{isCurrency}}">
+          <block wx:if="{{isCurrency}}">
             <block wx:if="{{navType == 'month'}}">近一月: <text class="{{rateIncrese>=0?'f_cherry':'f_green'}}">{{rateIncrese}}%</text></block>
             <block wx:if="{{navType == '3month'}}">近三月: <text class="{{rateIncrese>=0?'f_cherry':'f_green'}}">{{rateIncrese}}%</text></block>
             <block wx:if="{{navType == '6month'}}">近六月: <text class="{{rateIncrese>=0?'f_cherry':'f_green'}}">{{rateIncrese}}%</text></block>
@@ -339,7 +339,8 @@
       fundCode: '',
       fundInfo: {},
       isCurrency: false,
-      increseData: '',
+      increseData: [],
+      increase: '',
       rateIncrese: 0,
       navType: '6month'
     }
@@ -443,12 +444,12 @@
             })
             return
           }
-          if (!that.increseData) {
+          if (!that.increase) {
             var length = chartData.length
             if (that.isCurrency) {
-              that.increseData = ((chartData[length - 1].WAN - chartData[length - 2].WAN) / chartData[length - 2].WAN * 100).toFixed(2)
+              that.increase = ((chartData[length - 1].WAN - chartData[length - 2].WAN) / chartData[length - 2].WAN * 100).toFixed(2)
             } else {
-              that.increseData = ((chartData[length - 1].NAVVALUE - chartData[length - 2].NAVVALUE) / chartData[length - 2].NAVVALUE * 100).toFixed(2)
+              that.increase = ((chartData[length - 1].NAVVALUE - chartData[length - 2].NAVVALUE) / chartData[length - 2].NAVVALUE * 100).toFixed(2)
             }
           }
           that.$apply()
