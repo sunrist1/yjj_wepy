@@ -65,6 +65,7 @@
       }
       .right{
         width:30%;
+        overflow: hidden;
         image{
           width:100%;
           height: 220rpx;
@@ -238,11 +239,12 @@
               obj.link = config.service.yjjhost + '/mobile/about/articleDetail?courseID=' + el.courseID
               timList.push(obj)
             })
-            timList.sort(function(a, b) {
-              return b.editDatetime - a.editDatetime
-            })
+            
             // console.log(cacheList)
             let list = that.jrktList.concat(timList)
+            list.sort(function(a, b) {
+              return b.editDatetime - a.editDatetime
+            })
             that.jrktList = list
             that.$apply()
           }
@@ -280,10 +282,10 @@
               obj.link = config.service.yjjhost + '/mobile/news/' + type + '/' + el.articleID + '.html'
               timList.push(obj)
             })
-            timList.sort(function(a, b) {
+            let list = that.trtlList.concat(timList)
+            list.sort(function(a, b) {
               return b.editDatetime - a.editDatetime
             })
-            let list = that.trtlList.concat(timList)
             that.trtlList = list
             that.$apply()
           }
@@ -324,10 +326,10 @@
               obj.link = config.service.yjjhost + '/mobile/news/' + type + '/' + el.articleID + '.html'
               timList.push(obj)
             })
-            timList.sort(function(a, b) {
+            let list = that.tjclList.concat(timList)
+            list.sort(function(a, b) {
               return b.editDatetime - a.editDatetime
             })
-            let list = that.tjclList.concat(timList)
             that.tjclList = list
             that.$apply()
           }
