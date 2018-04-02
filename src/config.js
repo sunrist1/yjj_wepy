@@ -11,8 +11,8 @@ let yjjhost = 'https://app1.efoundation.com.cn'  //pro
 // let yjjhost = 'http://192.168.1.76'  // 76测试环境
 
 // let imgUrlPath = 'http://192.168.0.101:3000'
-let imgUrlPath = 'http://192.168.1.211:8088'
-// let imgUrlPath = 'https://app1.efoundation.com.cn'
+// let imgUrlPath = 'http://192.168.1.211:8088'
+let imgUrlPath = 'https://app1.efoundation.com.cn'
 
 let config = {
 

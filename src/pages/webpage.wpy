@@ -14,7 +14,18 @@
 
     onLoad(option) {
       console.log(option)
-      this.pageUrl = option.url
+      let url = ''
+      for (let i in option) {
+        console.log(i)
+        console.log(option[i])
+        if (i !== 'url') {
+          url += i + '=' + option[i] + '?'
+        } else {
+          url += option[i] + '?'
+        }
+      }
+      console.log(url)
+      this.pageUrl = url
       this.$apply()
     }
   }

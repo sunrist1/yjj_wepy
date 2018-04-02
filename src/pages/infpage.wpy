@@ -30,8 +30,8 @@
       border-bottom:2rpx solid #eee;
       display: flex;
       justify-content: space-between;
-      height: 180rpx;
-      padding:18rpx;
+      height: 220rpx;
+      padding:25rpx;
       box-sizing: border-box;
       .left{
         width:70%;
@@ -39,9 +39,12 @@
         flex-direction: column;
         justify-content: space-between;
         .title{
-          width:80%;
+          width:90%;
           display: block;
-          font-size: 34rpx;
+          font-size: 32rpx;
+          // white-space: nowrap;
+          // overflow: hidden;
+          // text-overflow: ellipsis;
         }
         .bottom{
           .type{
@@ -55,6 +58,7 @@
           }
           .datetime{
             color:#999;
+            white-space: nowrap;
           }
           font-size: 32rpx;
         }
@@ -62,8 +66,8 @@
       .right{
         width:30%;
         image{
-          width:95%;
-          height: 150rpx;
+          width:100%;
+          height: 220rpx;
         }
       }
     }
@@ -78,28 +82,62 @@
       <view data-type='tjcl' @tap='changeType' class="item {{type=='tjcl'?'active':''}}">投基策略</view>
     </view>
 
+
+    <!-- 金融课堂 -->
     <view class="list" wx:if="{{type=='jrkt'}}">
-      <view class="item">
-        <view class="left">
-          <text class='title'>新手买基金必读</text>
-          <view class="bottom">
-            <view class='type'>私募锦囊</view>
-            <text class='datetime'>2018-2-3</text>
+      <block wx:for="{{jrktList}}" wx:key="index" wx:item="item">  
+        <view class="item" data-link='{{item.link}}' @tap='toJrktDetail'>
+          <view class="left">
+            <text class='title'>{{item.title}}</text>
+            <view class="bottom">
+              <view class='type'>{{item.typeName}}</view>
+              <text class='datetime'>{{item.time}}</text>
+            </view>
+          </view>
+          <view class="right">
+            <image mode='widthFix' src="{{item.photoUrl}}"></image>
           </view>
         </view>
-        <view class="right">
-          <image mode='widthFix' src='https://app1.efoundation.com.cn//upload/article/08cfd3e7-5c3d-459d-bf84-4a9466dba75a.jpg'></image>
-        </view>
-      </view>
+      </block>
       
     </view>
 
+
+    <!-- 财富头条 -->
     <view class="list" wx:if="{{type=='treasureTitle'}}">
-      treasureTitle
+      <block wx:for="{{trtlList}}" wx:key="index" wx:item="item">  
+        <view class="item" data-link='{{item.link}}' @tap='toArticleDetail'>
+          <view class="left">
+            <text class='title'>{{item.articleTitle}}</text>
+            <view class="bottom">
+              <view class='type'>{{item.articleTypeName}}</view>
+              <text class='datetime'>{{item.addDatetimeF}}</text>
+            </view>
+          </view>
+          <view class="right">
+            <image mode='widthFix' src="{{item.photoUrl}}"></image>
+          </view>
+        </view>
+      </block>
     </view>
 
+
+    <!-- 投基策略 -->
     <view class="list" wx:if="{{type=='tjcl'}}">
-      tjcl
+      <block wx:for="{{tjclList}}" wx:key="index" wx:item="item">  
+        <view class="item" data-link='{{item.link}}' @tap='toArticleDetail'>
+          <view class="left">
+            <text class='title'>{{item.articleTitle}}</text>
+            <view class="bottom">
+              <view class='type'>{{item.articleTypeName}}</view>
+              <text class='datetime'>{{item.addDatetimeF}}</text>
+            </view>
+          </view>
+          <view class="right">
+            <image mode='widthFix' src="{{item.photoUrl}}"></image>
+          </view>
+        </view>
+      </block>
     </view>
   </view>
 </template>
@@ -113,17 +151,22 @@
     }
 
     data = {
-      type: 'jrkt',
-      jrktPageIndex: 1,
+      imgPathUrl: '',
+      type: 'treasureTitle',
+      jrktPageIndex: 0,
       jrktList: [],
-      trtlPageIndex: 1,
+      trtlPageIndex: 0,
       trtlList: [],
-      tjckPageIndex: 1,
+      tjclPageIndex: 0,
       tjclList: []
     }
 
     onLoad() {
-      this.getNewsData('jrkt')
+      this.getNewsData()
+    }
+
+    onReachBottom() {
+      this.getNewsData()
     }
 
     methods = {
@@ -132,40 +175,163 @@
         let type = e.currentTarget.dataset.type
         that.type = type
         that.$apply()
+      },
+      toJrktDetail(e) {
+        let link = e.currentTarget.dataset.link
+        let linkArr = link.split('?')
+
+        wepy.navigateTo({
+          url: '/pages/webpage?url=' + linkArr[0] + '&' + linkArr[1]
+        })
+      },
+      toArticleDetail(e) {
+        let link = e.currentTarget.dataset.link
+        console.log(link)
+
+        wepy.navigateTo({
+          url: '/pages/webpage?url=' + link
+        })
       }
     }
 
-    getNewsData(type) {
+    getNewsData() {
       let that = this
-      let reqData = {}
-      let reqUrl = ''
-      if (type === 'jrkt') {
-        reqData = {
-          pageIndex: that.jrktPageIndex
-        }
-        reqUrl = config.service.jrktUrl
-      } else if (type === 'treasureTitle') {
-        reqData = {
-          pageIndex: that.trtlPageIndex
-        }
-        reqUrl = config.service.newsAjaxUrl
-      } else if (type === 'tjcl') {
-        reqData = {
-          pageIndex: that.tjckPageIndex
-        }
-        reqUrl = config.service.newsAjaxUrl
-      }
-      reqData.pageSize = 15
-      wepy.request({
-        url: reqUrl,
-        method: 'post',
-        data: reqData,
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success(res) {
-          console.log(res)
-        }
+      that.jrktPageIndex = that.jrktPageIndex + 1
+      that.trtlPageIndex = that.trtlPageIndex + 1
+      that.tjclPageIndex = that.tjclPageIndex + 1
+      that.operaJrkt()
+      that.operaTreasureTitle()
+      that.operaTjcl()
+    }
+
+    // 处理金融课堂数据
+    operaJrkt() {
+      let that = this
+      let typeList = ['smjn', 'peztc', 'xtzn', 'jxsp']
+      typeList.forEach(function(el) {
+        wepy.request({
+          url: config.service.jrktUrl,
+          method: 'post',
+          data: {
+            pageIndex: that.jrktPageIndex,
+            recommendedStatus: '0',
+            subType: '',
+            type: el,
+            pageSize: 5
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success(res) {
+            let cacheList = res.data.bannerDatas.data.list
+            let timList = []
+            cacheList.forEach(function(el) {
+              el.photoUrl = config.service.imgUrlPath + el.photoUrl
+              let time = new Date(el.editDatetime * 1000)
+              el.time = time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate()
+              let obj = {}
+              obj.time = el.time
+              obj.title = el.title
+              obj.typeName = el.typeName
+              obj.photoUrl = el.photoUrl
+              obj.editDatetime = el.editDatetime
+              obj.link = config.service.yjjhost + '/mobile/about/articleDetail?courseID=' + el.courseID
+              timList.push(obj)
+            })
+            timList.sort(function(a, b) {
+              return b.editDatetime - a.editDatetime
+            })
+            // console.log(cacheList)
+            let list = that.jrktList.concat(timList)
+            that.jrktList = list
+            that.$apply()
+          }
+        })
+      })
+    }
+
+    // 处理财富头条数据
+    operaTreasureTitle() {
+      let that = this
+      let typeList = ['medias', 'industrys', 'hitea', 'books']
+      typeList.forEach(function(el) {
+        wepy.request({
+          url: config.service.newsAjaxUrl,
+          method: 'post',
+          data: {
+            pageIndex: that.trtlPageIndex,
+            articleType: el,
+            pageSize: 5
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success(res) {
+            let type = el
+            let cacheList = res.data.data.list
+            let timList = []
+            cacheList.forEach(function(el) {
+              let obj = {}
+              obj.photoUrl = config.service.imgUrlPath + el.articlePhoto
+              obj.articleTitle = el.articleTitle
+              obj.articleTypeName = el.articleTypeName
+              obj.addDatetimeF = el.addDatetimeF
+              obj.editDatetime = el.editDatetime
+              obj.link = config.service.yjjhost + '/mobile/news/' + type + '/' + el.articleID + '.html'
+              timList.push(obj)
+            })
+            timList.sort(function(a, b) {
+              return b.editDatetime - a.editDatetime
+            })
+            let list = that.trtlList.concat(timList)
+            that.trtlList = list
+            that.$apply()
+          }
+        })
+      })
+    }
+
+    // 处理财富头条数据
+    operaTjcl() {
+      let that = this
+      let typeList = ['goldFund', 'themeFund', 'hotPoint', 'industryDiscuss']
+      typeList.forEach(function(el) {
+        wepy.request({
+          url: config.service.newsAjaxUrl,
+          method: 'post',
+          data: {
+            pageIndex: that.tjclPageIndex,
+            articleType: el,
+            pageSize: 5
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success(res) {
+            let type = el
+            let cacheList = res.data.data.list
+            let timList = []
+            cacheList.sort(function(a, b) {
+              return b.editDatetime - a.editDatetime
+            })
+            cacheList.forEach(function(el) {
+              let obj = {}
+              obj.photoUrl = config.service.imgUrlPath + el.articlePhoto
+              obj.articleTitle = el.articleTitle
+              obj.articleTypeName = el.articleTypeName
+              obj.addDatetimeF = el.addDatetimeF
+              obj.editDatetime = el.editDatetime
+              obj.link = config.service.yjjhost + '/mobile/news/' + type + '/' + el.articleID + '.html'
+              timList.push(obj)
+            })
+            timList.sort(function(a, b) {
+              return b.editDatetime - a.editDatetime
+            })
+            let list = that.tjclList.concat(timList)
+            that.tjclList = list
+            that.$apply()
+          }
+        })
       })
     }
   }
