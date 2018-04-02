@@ -239,8 +239,6 @@
               obj.link = config.service.yjjhost + '/mobile/about/articleDetail?courseID=' + el.courseID
               timList.push(obj)
             })
-            
-            // console.log(cacheList)
             let list = that.jrktList.concat(timList)
             list.sort(function(a, b) {
               return b.editDatetime - a.editDatetime
