@@ -369,6 +369,19 @@
       // 获取详情信息
       this.getFundInfo()
     }
+    onShareAppMessage() {
+      let that = this
+      return {
+        title: that.fundInfo.data.F_INFO_FULLNAME,
+        path: '/pages/pubdetail?id=' + that.fundInfo.fundCode,
+        success: function(res) {
+          // 转发成功
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
+    }
 
     /**
      * 获取基金详情信息
