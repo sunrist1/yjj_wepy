@@ -1,16 +1,288 @@
 <style lang="scss" scoped>
+  @import './lib.scss';
+  .top_half{
+    padding:20rpx;
+    .fundname{
+      display: block;
+      width:100%;
+      text-align: center;
+      font-size: 34rpx;
+    }
+    .earning{
+      font-size: 32rpx;
+      display: block;
+      margin:20rpx;
+      text-align: center;
+      width:100%;
+      color:#666;
+      text{
+        margin-left:10rpx;
+        font-weight: 600;
+      }
+    }
+    .status{
+      display: flex;
+      width:100%;
+      justify-content: space-around;
+      .item{
+        font-size: 32rpx;
+        color:#666;
+        &::before{
+          content:"";
+          display: inline-block;
+          width:10rpx;
+          height: 10rpx;
+          background-color: $cherry;
+          margin-right: 10rpx;
+          vertical-align: middle;
+        }
+      }
+    }
+    .chart_img{
+      width:90%;
+      display: block;
+      margin:20rpx auto;
+    }
+  }
 
+  .info_box{
+    background-color: #fff;
+    border-bottom:2rpx solid #f4f4f4;
+    .tab_box{
+      display: flex;
+      justify-content: space-around;
+      .item{
+        width:30%;
+        text-align: center;
+        display: inline-block;
+        line-height: 80rpx;
+        height: 80rpx;
+        font-size: 34rpx;
+      }
+      .active{
+        border-bottom:5rpx solid $cherry;
+        color:$cherry;
+      }
+    }
+  }
+  .info_item{
+    background-color: #fff;
+    .item{
+      display: flex;
+      justify-content: space-between;
+      padding:20rpx 30rpx;
+      border-bottom:2rpx solid #f4f4f4;
+      .left{
+        width:35%;
+        font-size: 32rpx;
+        &::before{
+          content:"";
+          display: inline-block;
+          width:10rpx;
+          height: 10rpx;
+          background-color: $cherry;
+          margin-right: 10rpx;
+          vertical-align: middle;
+        }
+      }
+      .right{
+        font-size: 32rpx;
+        width:65%;
+        text-align: right;
+        text{
+          display: block;
+          margin-bottom:20rpx;
+          text-align: left;
+        }
+      }
+    }
+    .lightspot{
+      padding:30rpx;
+      .title{
+        font-weight: 600;
+        color:#333;
+        font-size: 40rpx;
+        margin-bottom: 50rpx;
+      }
+      .content{
+        line-height: 60rpx;
+        text-indent: 2em;
+        font-size: 35rpx;
+      }
+    }
+  }
 </style>
 <template>
-  
+  <view class="page">
+    <view class="top_half">
+      <text class="fundname">九州证券大夏五号集合资产管理计划</text>
+      <text class='earning'>业绩比较基准<text class='f_cherry'>8.5%</text></text>
+      <view class="status">
+        <text class='item'>本期募集 0 元</text>
+        <text class='item'>剩余额度 3 亿</text>
+      </view>
+
+      <image class='chart_img' mode='widthFix' src='https://app1.efoundation.com.cn//upload/private/ab719e5a-f3b4-4d5e-8cd7-bc63be3ec187.png'></image>
+    </view>
+
+    <view class="info_box">
+      <view class="tab_box">
+        <view @tap='changeTab' data-target='baseInfo' class="item {{curTab ==='baseInfo' ? 'active':''}}">基本信息</view>
+        <view @tap='changeTab' data-target='lightSpot' class="item {{curTab ==='lightSpot' ? 'active':''}}">产品亮点</view>
+        <view @tap='changeTab' data-target='payBank' class="item {{curTab ==='payBank' ? 'active':''}}">打款账号</view>
+      </view>
+    </view>
+
+    <view class="info_item" wx:if="{{curTab === 'baseInfo'}}">
+      <view class="item">
+        <view class="left">产品代码</view>
+        <view class="right">CFJ00017</view>
+      </view>
+      <view class="item">
+        <view class="left">产品名称</view>
+        <view class="right">新余兴振达投资管理合伙企业（有限合伙）</view>
+      </view>
+      <view class="item">
+        <view class="left">产品类型</view>
+        <view class="right">股权产品</view>
+      </view>
+      <view class="item">
+        <view class="left">托管机构</view>
+        <view class="right">浦发银行</view>
+      </view>
+      <view class="item">
+        <view class="left">管理人</view>
+        <view class="right">珠海财富嘉资产管理有限公司</view>
+      </view>
+      <view class="item">
+        <view class="left">投资顾问</view>
+        <view class="right">深圳市绿石创投基金有限公司</view>
+      </view>
+      <view class="item">
+        <view class="left">产品期限</view>
+        <view class="right">3+1+1年</view>
+      </view>
+      <view class="item">
+        <view class="left">认购起点</view>
+        <view class="right">100万</view>
+      </view>
+      <view class="item">
+        <view class="left">递增金额</view>
+        <view class="right">10万</view>
+      </view>
+      <view class="item">
+        <view class="left">产品规模</view>
+        <view class="right">5000万</view>
+      </view>
+      <view class="item">
+        <view class="left">业绩比较基准</view>
+        <view class="right">
+          <text>1. 收益率等于或低于8%时, 管理人不提取业绩报酬；</text>
+          <text>2. 收益率高于8%时, 管理人提取20%作为业绩报酬；剩余80%按比例分配至有限合伙人。</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class="left">付息方式</view>
+        <view class="right">到期一次性支付</view>
+      </view>
+      <view class="item">
+        <view class="left">认购费率</view>
+        <view class="right">1%</view>
+      </view>
+      <view class="item">
+        <view class="left">托管费率</view>
+        <view class="right">0.05%</view>
+      </view>
+      <view class="item">
+        <view class="left">管理费率</view>
+        <view class="right">2%</view>
+      </view>
+      <view class="item">
+        <view class="left">存续规模</view>
+        <view class="right">5000万</view>
+      </view>
+      <view class="item">
+        <view class="left">投资领域</view>
+        <view class="right">新能源行业未上市公司股权</view>
+      </view>
+      <view class="item">
+        <view class="left">产品简报</view>
+        <view class="right">
+          <text class='f_cherry pdf_link'>【简版】新余兴振达投资管理合伙企业（有限合伙）.pdf</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class="left">其他资料</view>
+        <view class="right">
+          <text class='pdf_link f_cherry'>【合伙协议用印】新余兴振达投资管理合伙企业（有限合伙）合伙协议.pdf.pdf</text>
+          <text class='pdf_link f_cherry'>【推荐短信】新余兴振达投资合伙企业（有限合伙）.pdf.pdf</text>
+          <text class='pdf_link f_cherry'>【PPT】新余兴振达投资合伙企业募集说明书.pdf.pdf</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="info_item" wx:if="{{curTab === 'lightSpot'}}">
+      <view class="lightspot">
+        <text class="title">产品亮点</text>
+        <view class="content">行业优势显著：随着国家出台一系列新能源汽车优惠、补贴政策以及工信部提出制定燃油车禁售时间表，新能源汽车替代燃油车成为老百姓主要出行工具已是未来趋势，种种迹象表明行业将进入快速成长期。 技术过硬，专利优势明显：本基金所投资的新能源标的多为新能源汽车上下游企业，这些企业均在所属细分领域拥有过硬的技术并获得申请专利，核心竞争力强。 终端客户多为新能源汽车行业领头羊企业：所投资标的企业终端客户多为国轩高科（002074）、天津力神（国有控股的混合所有制高科技企业） 、中航锂电等公司，订单量大，合作时期长，预计未来业绩会有大幅上涨。</view>
+      </view>
+    </view>
+
+    <view class="info_item" wx:if="{{curTab === 'payBank'}}">
+      <view class="item">
+        <view class="left">开户行</view>
+        <view class="right">啊啊啊啊啊</view>
+      </view>
+      <view class="item">
+        <view class="left">募集银行</view>
+        <view class="right">浦发银行</view>
+      </view>
+      <view class="item">
+        <view class="left">募集账号</view>
+        <view class="right">12184372364867</view>
+      </view>
+      <view class="item">
+        <view class="left">打款备注</view>
+        <view class="right">哈哈哈哈哈</view>
+      </view>
+    </view>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
 
   export default class Prvdetail extends wepy.page {
+    config = {
+      navigationBarTitleText: '基金详情'
+    }
+
+    data = {
+      curTab: 'baseInfo' // baseInfo lightSpot payBank
+    }
 
     onLoad(option) {
       console.log(option)
+    }
+
+    onShareAppMessage() {
+      return {
+        title: '私募基金详情',
+        path: '/pages/prvdetail',
+        success: function(res) {
+          // 转发成功
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
+    }
+
+    methods = {
+      changeTab(e) {
+        let target = e.currentTarget.dataset.target
+        this.curTab = target
+        this.$apply()
+      }
     }
   }
 </script>

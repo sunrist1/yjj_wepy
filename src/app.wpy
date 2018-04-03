@@ -24,6 +24,7 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
+      'pages/prvdetail',
       'pages/infpage',
       'pages/pubdetail',
       'pages/hqb',
@@ -33,7 +34,6 @@ export default class extends wepy.app {
       'pages/search',
       'pages/publist',
       'pages/recommend',
-      'pages/prvdetail',
       'pages/account',
       'pages/webpage'
     ],

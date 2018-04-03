@@ -83,6 +83,21 @@
 
     }
 
+    onShareAppMessage() {
+      // let that = this
+      return {
+        title: '亿基金——选对好基金,就上亿基金',
+        path: '/pages/index',
+        imageUrl: `${config.service.yjjhost}/public/mobile/images/weapp/share_index.jpg`,
+        success: function(res) {
+          // 转发成功
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
+    }
+
     requestNative () {
       return new Promise((resolve, reject) => {
         wepy.request({
