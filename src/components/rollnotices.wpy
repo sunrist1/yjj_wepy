@@ -35,7 +35,7 @@
     <swiper class="bnotice" circular="{{circular}}" indicator-dots="{{indicatorDots}}" vertical='true' autoplay="{{autoplay}}" interval="4000" duration="1500">
       <block wx:for="{{list.bnotice}}" wx:key="index" wx:for-item="item">
         <swiper-item>
-          <text @tap='toWebpage' data-id="{{item.articleID}}">{{item.articleTitle}}</text>
+          <text @tap="toWebpage({{item.articleID}})" data-id="">{{item.articleTitle}}</text>
         </swiper-item>
       </block>
     </swiper>
@@ -62,8 +62,8 @@
     }
 
     methods = {
-      toWebpage(e) {
-        let id = e.currentTarget.dataset.id
+      toWebpage(id) {
+        // let id = e.currentTarget.dataset.id
         // /mobile/news/notices/12064.html
         let url = config.service.yjjhost + '/mobile/news/notices/' + id + '.html'
         wepy.navigateTo({
