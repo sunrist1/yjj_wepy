@@ -115,14 +115,25 @@
 <template>
   <view class="page">
     <view class="top_half">
-      <text class="fundname">九州证券大夏五号集合资产管理计划</text>
-      <text class='earning'>业绩比较基准<text class='f_cherry'>8.5%</text></text>
+      <text class="fundname">{{fundInfo.fundTitle}}</text>
+        <block wx:if='{{fundInfo.fundCat == 2}}'>
+          <text class='earning'>业绩比较基准<text class='f_cherry'>{{fundInfo.yearInterest}}</text></text>
+        </block>
+        <block wx:else>
+          <text class='earning' wx:if='{{fundInfo.dangqianJingzhi != null}}'>当前净值 <text class='f_cherry'>{{fundInfo.dangqianJingzhi}}</text></text>
+          <text class='earning' wx:else>当前净值 <text class='f_cherry'>1.0000</text></text>
+        </block>
       <view class="status">
-        <text class='item'>本期募集 0 元</text>
-        <text class='item'>剩余额度 3 亿</text>
+        <text class='item'>本期募集 {{fundInfo.thisMoney}}</text>
+        <block wx:if="{{fundInfo.fundStatus != '2' && fundInfo.fundMoney != '0元'}}">
+          <text class='item'>剩余额度 {{fundInfo.surplusMoney}}</text>
+        </block>
+        <block wx:else>
+          <text class='item'>到账金额 {{fundInfo.realMoney}}</text>
+        </block>
       </view>
 
-      <image class='chart_img' mode='widthFix' src='https://app1.efoundation.com.cn//upload/private/ab719e5a-f3b4-4d5e-8cd7-bc63be3ec187.png'></image>
+      <image class='chart_img' mode='widthFix' src='https://app1.efoundation.com.cn/{{fundInfo.yearInterestUrl}}'></image>
     </view>
 
     <view class="info_box">
@@ -134,122 +145,174 @@
     </view>
 
     <view class="info_item" wx:if="{{curTab === 'baseInfo'}}">
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.fundCode}}'>
         <view class="left">产品代码</view>
-        <view class="right">CFJ00017</view>
+        <view class="right">{{fundInfo.fundCode}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.fundTitle}}'>
         <view class="left">产品名称</view>
-        <view class="right">新余兴振达投资管理合伙企业（有限合伙）</view>
+        <view class="right">{{fundInfo.fundTitle}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if="{{fundInfo.categoryName}}">
         <view class="left">产品类型</view>
-        <view class="right">股权产品</view>
+        <view class="right">{{fundInfo.categoryName}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if="{{fundInfo.tuoguanJigou}}">
         <view class="left">托管机构</view>
-        <view class="right">浦发银行</view>
+        <view class="right">{{fundInfo.tuoguanJigou}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if="{{fundInfo.guanliRen}}">
         <view class="left">管理人</view>
-        <view class="right">珠海财富嘉资产管理有限公司</view>
+        <view class="right">{{fundInfo.guanliRen}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if="{{fundInfo.shoutuoRen}}">
+        <view class="left">受托人</view>
+        <view class="right">{{fundInfo.shoutuoRen}}</view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.touziGuwen}}'>
         <view class="left">投资顾问</view>
-        <view class="right">深圳市绿石创投基金有限公司</view>
+        <view class="right">{{fundInfo.touziGuwen}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.fundLimit}}'>
         <view class="left">产品期限</view>
-        <view class="right">3+1+1年</view>
+        <view class="right">{{fundInfo.fundLimit}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.minMoney}}'>
         <view class="left">认购起点</view>
-        <view class="right">100万</view>
+        <view class="right">{{fundInfo.minMoney}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.dizengMoney}}'>
         <view class="left">递增金额</view>
-        <view class="right">10万</view>
+        <view class="right">{{fundInfo.dizengMoney}}万</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.chanpinGuimo}}'>
         <view class="left">产品规模</view>
-        <view class="right">5000万</view>
+        <view class="right">{{fundInfo.chanpinGuimo}}</view>
       </view>
       <view class="item">
         <view class="left">业绩比较基准</view>
         <view class="right">
-          <text>1. 收益率等于或低于8%时, 管理人不提取业绩报酬；</text>
-          <text>2. 收益率高于8%时, 管理人提取20%作为业绩报酬；剩余80%按比例分配至有限合伙人。</text>
+          <text wx:if='{{fundInfo.yearInterest1}}'>{{fundInfo.yearInterest1}}</text>
+          <text wx:if='{{fundInfo.yearInterest2}}'>{{fundInfo.yearInterest2}}</text>
+          <text wx:if='{{fundInfo.yearInterest3}}'>{{fundInfo.yearInterest3}}</text>
+          <text wx:if='{{fundInfo.yearInterest4}}'>{{fundInfo.yearInterest4}}</text>
+          <text wx:if='{{fundInfo.yearInterest5}}'>{{fundInfo.yearInterest5}}</text>
         </view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.dangqianJingzhi}}'>
+        <view class="left">当前净值</view>
+        <view class="right">{{fundInfo.dangqianJingzhi}}</view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.leijiJingzhi > 0}}'>
+        <view class="left">累计净值</view>
+        <view class="right">{{fundInfo.leijiJingzhi}}</view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.fuxiFangshi}}'>
         <view class="left">付息方式</view>
-        <view class="right">到期一次性支付</view>
+        <view class="right">{{fundInfo.fuxiFangshi}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.rengouFee}}'>
         <view class="left">认购费率</view>
-        <view class="right">1%</view>
+        <view class="right">{{fundInfo.rengouFee}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.tuoguanFee}}'>
         <view class="left">托管费率</view>
-        <view class="right">0.05%</view>
+        <view class="right">{{fundInfo.tuoguanFee}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.guanliFee}}'>
         <view class="left">管理费率</view>
-        <view class="right">2%</view>
+        <view class="right">{{fundInfo.guanliFee}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.cunxuQi}}'>
+        <view class="left">存续期</view>
+        <view class="right">{{fundInfo.cunxuQi}}</view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.fengbiQi}}'>
+        <view class="left">封闭期</view>
+        <view class="right">{{fundInfo.fengbiQi}}</view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.foundDatetime > 0}}'>
+        <view class="left">成立时间</view>
+        <view class="right">{{fundInfo.foundDatetime}}</view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.kaifangri}}'>
+        <view class="left">开放日</view>
+        <view class="right">{{fundInfo.kaifangri}}</view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.cunxuGuimo}}'>
         <view class="left">存续规模</view>
-        <view class="right">5000万</view>
+        <view class="right">{{fundInfo.cunxuGuimo}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.chaoeBaochou}}'>
+        <view class="left">超额报酬</view>
+        <view class="right">{{fundInfo.chaoeBaochou}}</view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.touziLingyu}}'>
         <view class="left">投资领域</view>
-        <view class="right">新能源行业未上市公司股权</view>
+        <view class="right">{{fundInfo.touziLingyu}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.jianbaoFujian.label}}'>
         <view class="left">产品简报</view>
         <view class="right">
-          <text class='f_cherry pdf_link'>【简版】新余兴振达投资管理合伙企业（有限合伙）.pdf</text>
+          <text @tap='toPdf' data-href='{{fundInfo.jianbaoFujian.href}}' class='pdf_link f_cherry'>{{fundInfo.jianbaoFujian.label}}</text>
         </view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.jianbaoFujian1.label}}'>
         <view class="left">其他资料</view>
         <view class="right">
-          <text class='pdf_link f_cherry'>【合伙协议用印】新余兴振达投资管理合伙企业（有限合伙）合伙协议.pdf.pdf</text>
-          <text class='pdf_link f_cherry'>【推荐短信】新余兴振达投资合伙企业（有限合伙）.pdf.pdf</text>
-          <text class='pdf_link f_cherry'>【PPT】新余兴振达投资合伙企业募集说明书.pdf.pdf</text>
+          <text @tap='toPdf' data-href='{{fundInfo.jianbaoFujian1.href}}' class='pdf_link f_cherry'>{{fundInfo.jianbaoFujian1.label}}</text>
+          <text @tap='toPdf' wx:if='{{fundInfo.jianbaoFujian2.label}}' data-href='{{fundInfo.jianbaoFujian2.href}}' class='pdf_link f_cherry'>{{fundInfo.jianbaoFujian2.label}}</text>
+          <text @tap='toPdf' wx:if='{{fundInfo.jianbaoFujian3.label}}' data-href='{{fundInfo.jianbaoFujian3.href}}' class='pdf_link f_cherry'>{{fundInfo.jianbaoFujian3.label}}</text>
+          <text @tap='toPdf' wx:if='{{fundInfo.jianbaoFujian4.label}}' data-href='{{fundInfo.jianbaoFujian4.href}}' class='pdf_link f_cherry'>{{fundInfo.jianbaoFujian4.label}}</text>
+          <text @tap='toPdf' wx:if='{{fundInfo.jianbaoFujian5.label}}' data-href='{{fundInfo.jianbaoFujian5.href}}' class='pdf_link f_cherry'>{{fundInfo.jianbaoFujian5.label}}</text>
         </view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.note}}'>
+        <view class="left">备注</view>
+        <view class="right">{{fundInfo.note}}</view>
       </view>
     </view>
 
     <view class="info_item" wx:if="{{curTab === 'lightSpot'}}">
       <view class="lightspot">
         <text class="title">产品亮点</text>
-        <view class="content">行业优势显著：随着国家出台一系列新能源汽车优惠、补贴政策以及工信部提出制定燃油车禁售时间表，新能源汽车替代燃油车成为老百姓主要出行工具已是未来趋势，种种迹象表明行业将进入快速成长期。 技术过硬，专利优势明显：本基金所投资的新能源标的多为新能源汽车上下游企业，这些企业均在所属细分领域拥有过硬的技术并获得申请专利，核心竞争力强。 终端客户多为新能源汽车行业领头羊企业：所投资标的企业终端客户多为国轩高科（002074）、天津力神（国有控股的混合所有制高科技企业） 、中航锂电等公司，订单量大，合作时期长，预计未来业绩会有大幅上涨。</view>
+        <view class="content">{{fundInfo.fundLiangdian}}</view>
       </view>
     </view>
 
     <view class="info_item" wx:if="{{curTab === 'payBank'}}">
-      <view class="item">
-        <view class="left">开户行</view>
-        <view class="right">啊啊啊啊啊</view>
+      <view class="item" wx:if='{{fundInfo.kaihuMing}}'>
+        <view class="left">开户名</view>
+        <view class="right">{{fundInfo.kaihuMing}}</view>
       </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.mujiBank}}'>
         <view class="left">募集银行</view>
-        <view class="right">浦发银行</view>
+        <view class="right">{{fundInfo.mujiBank}}</view>
       </view>
-      <view class="item">
-        <view class="left">募集账号</view>
-        <view class="right">12184372364867</view>
-      </view>
-      <view class="item">
+      <view class="item" wx:if='{{fundInfo.beizhu}}'>
         <view class="left">打款备注</view>
-        <view class="right">哈哈哈哈哈</view>
+        <view class="right">{{fundInfo.beizhu}}</view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.mujiAccount}}'>
+        <view class="left">募集账号</view>
+        <view class="right">{{fundInfo.mujiAccount}}</view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.fahangEdu}}'>
+        <view class="left">发行额度</view>
+        <view class="right">{{fundInfo.fahangEdu}}万</view>
+      </view>
+      <view class="item" wx:if='{{fundInfo.chengliGuimo}}'>
+        <view class="left">成立规模</view>
+        <view class="right">{{fundInfo.chengliGuimo}}万</view>
       </view>
     </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import config from '../config.js'
+  var wxCharts = require('../utils/wxcharts/wxcharts.js')
+  // var WxParse = require('../utils/wxParse/wxParse.js')
 
   export default class Prvdetail extends wepy.page {
     config = {
@@ -257,11 +320,16 @@
     }
 
     data = {
-      curTab: 'baseInfo' // baseInfo lightSpot payBank
+      curTab: 'baseInfo', // baseInfo lightSpot payBank
+      fundCode: '',
+      fundInfo: {}
     }
 
     onLoad(option) {
       console.log(option)
+      this.fundCode = option.id ? option.id : '11151648730561'
+      this.$apply()
+      this.getfundDetail()
     }
 
     onShareAppMessage() {
@@ -282,7 +350,60 @@
         let target = e.currentTarget.dataset.target
         this.curTab = target
         this.$apply()
+      },
+      toPdf(e) {
+        let href = e.currentTarget.dataset.href
+        console.log(href)
+        wepy.navigateTo({
+          url: '/pages/webpage?url=' + href
+        })
       }
+    }
+
+    getfundDetail() {
+      let that = this
+      wepy.request({
+        url: config.service.prvDetailUrl,
+        method: 'post',
+        data: {
+          fundCode: that.fundCode
+        },
+        header: {
+          'content-type': 'application/json'
+        },
+        success(res) {
+          console.log(res.data)
+          res.data.jianbaoFujian = that.filterHref(res.data.jianbaoFujian)
+          res.data.qitaFujian1 = that.filterHref(res.data.qitaFujian1)
+          res.data.qitaFujian2 = that.filterHref(res.data.qitaFujian2)
+          res.data.qitaFujian3 = that.filterHref(res.data.qitaFujian3)
+          res.data.qitaFujian4 = that.filterHref(res.data.qitaFujian4)
+          res.data.qitaFujian5 = that.filterHref(res.data.qitaFujian5)
+
+          res.data.fundLiangdian = that.delHtmlTag(res.data.fundLiangdian)
+          that.fundInfo = res.data
+          that.$apply()
+        }
+      })
+    }
+
+    filterHref(str) {
+      if (str == null) return
+      let that = this
+      let result = {}
+      str.split('"').forEach(function(el, index) {
+        if (el.indexOf('href') >= 0) {
+          result.href = str.split('"')[index + 1]
+          let label = that.delHtmlTag(str.split('"')[index + 2])
+          label = label.replace('>', '')
+          result.label = label
+        }
+      })
+      return result
+    }
+
+    delHtmlTag(str) {
+      return str.replace(/<[^>]+>/g, '')
     }
   }
 </script>

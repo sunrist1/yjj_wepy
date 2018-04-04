@@ -16,8 +16,6 @@
       console.log(option)
       let url = ''
       for (let i in option) {
-        console.log(i)
-        console.log(option[i])
         if (i !== 'url') {
           url += i + '=' + option[i] + '?'
         } else {

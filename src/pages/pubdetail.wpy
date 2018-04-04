@@ -389,7 +389,7 @@
     getFundInfo() {
       var that = this
       wepy.request({
-        url: config.service.fundDetailUrl,
+        url: config.service.pubDetailUrl,
         method: 'post',
         data: {
           fundCode: that.fundCode

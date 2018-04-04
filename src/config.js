@@ -4,15 +4,15 @@
 
 // 此处主机域名修改成腾讯云解决方案分配的域名
 let host = 'https://imezdcv9.qcloud.la'  // pro
-let yjjhost = 'https://app1.efoundation.com.cn'  //pro
-// let yjjhost = 'http://192.168.1.211:8088'  // dev
+// let yjjhost = 'https://app1.efoundation.com.cn'  //pro
+let yjjhost = 'http://192.168.1.211:8088'  // dev
 // let yjjhost = 'http://192.168.0.105:3000'  // home
 // let yjjhost = 'http://192.168.1.73'  // 73测试环境
 // let yjjhost = 'http://192.168.1.76'  // 76测试环境
 
 // let imgUrlPath = 'http://192.168.0.101:3000'
-// let imgUrlPath = 'http://192.168.1.211:8088'
-let imgUrlPath = 'https://app1.efoundation.com.cn'
+let imgUrlPath = 'http://192.168.1.211:8088'
+// let imgUrlPath = 'https://app1.efoundation.com.cn'
 
 let config = {
 
@@ -55,8 +55,11 @@ let config = {
       jrktUrl: `${yjjhost}/mobile/about/getJrktList`,
       newsAjaxUrl: `${yjjhost}/mobile/news/newsAjax`,  // 财富头条和投基策略的请求链接
 
-        // 基金详情信息
-      fundDetailUrl: `${yjjhost}/mobile/publicfund/getPublicFundDetail`,
+        // 公募基金详情信息
+      pubDetailUrl: `${yjjhost}/mobile/publicfund/getPublicFundDetail`,
+
+      // 私募基金详情信息
+    prvDetailUrl: `${yjjhost}/mobile/privatefund/getPrivateFundDetail`,
 
         // 详情页净值走势
       fundNavTrade: `${yjjhost}/mobile/publicfund/navTrade`,
