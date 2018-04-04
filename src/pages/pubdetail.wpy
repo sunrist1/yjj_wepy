@@ -400,9 +400,11 @@
         success(res) {
           res.data.data.feeRatio = (res.data.data.feeRatio * 1 * 0.1).toFixed(2)
           res.data.data.managersStr = ''
-          res.data.data.managers.forEach(function(el) {
-            res.data.data.managersStr += el.MAN
-          })
+          if (res.data.data.managers && res.data.data.managers.length > 0) {
+            res.data.data.managers.forEach(function(el) {
+              res.data.data.managersStr += el.MAN
+            })
+          }
 
           res.data.data.yearApr.ONE = res.data.data.yearApr.ONE ? res.data.data.yearApr.ONE.toFixed(2) : 0
           res.data.data.yearApr.SIX = res.data.data.yearApr.SIX ? res.data.data.yearApr.SIX.toFixed(2) : 0
