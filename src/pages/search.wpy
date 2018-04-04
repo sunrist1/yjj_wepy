@@ -161,10 +161,10 @@
         热门搜索
       </view>
       <view class='item_list'>
-        <view class='hot_fund_item' bindtap='toDetail' data-code="260108">景顺长城新兴成长</view>
-        <view class='hot_fund_item' bindtap='toDetail' data-code="040008">华安策略优选</view>
-        <view class='hot_fund_item' bindtap='toDetail' data-code="002425">金鹰元溪C</view>
-        <view class='hot_fund_item' bindtap='toDetail' data-code="260101">景顺长城优选</view>
+        <view class='hot_fund_item' bindtap="toDetail('260108')">景顺长城新兴成长</view>
+        <view class='hot_fund_item' bindtap="toDetail('040008')">华安策略优选</view>
+        <view class='hot_fund_item' bindtap="toDetail('002425')">金鹰元溪C</view>
+        <view class='hot_fund_item' bindtap="toDetail('260101')">景顺长城优选</view>
       </view>
     </view>
 
@@ -207,6 +207,15 @@
       inputValue: '',
 
       searchHistory: []  // 搜索历史
+    }
+
+    methods = {
+      toPubDetail(fundcode) {
+        // let fundcode = e.currentTarget.dataset.fundcode
+        wepy.navigateTo({
+          url: '/pages/pubdetail?id=' + fundcode
+        })
+      }
     }
 
     onShow() {

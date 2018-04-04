@@ -20,30 +20,30 @@
 </style>
 <template>
   <view class="tab_box">
-    <view class="item" @tap="toLink" data-link='/pages/hqb'>
+    <view class="item" @tap="toLink('/pages/hqb')">
       <image src="{{tabboxImg_1}}"></image>
       <text>活期宝</text>
     </view>
-    <view class="item" @tap="toLink" data-link='/pages/recommend'>
+    <view class="item" @tap="toLink('/pages/recommend')">
       <image src="{{tabboxImg_2}}"></image>
       <text>亿推荐</text>
     </view>
-    <view class="item" @tap="toLink" data-link='/pages/publist'>
+    <view class="item" @tap="toLink('/pages/publist')">
       <image src="{{tabboxImg_3}}"></image>
       <text>公募基金</text>
     </view>
   </view>
 
   <view class="tab_box">
-    <view class="item" @tap="toLink" data-link='/pages/prvlist'>
+    <view class="item" @tap="toLink('/pages/prvlist')">
       <image src="{{tabboxImg_4}}"></image>
       <text>百万理财</text>
     </view>
-    <view class="item" @tap="toLink" data-link='/pages/infpage'>
+    <view class="item" @tap="toLink('/pages/infpage')">
       <image src="{{tabboxImg_5}}"></image>
       <text>资讯中心</text>
     </view>
-    <view class="item" @tap="toLink" data-link='/pages/planners'>
+    <view class="item" @tap="toLink('/pages/planners')">
       <image src="{{tabboxImg_6}}"></image>
       <text>理财师</text>
     </view>
@@ -74,8 +74,8 @@
     }
 
     methods = {
-      toLink: function(e) {
-        let targetLink = e.currentTarget.dataset.link
+      toLink: function(targetLink) {
+        // let targetLink = e.currentTarget.dataset.link
         if (targetLink.indexOf('publist') >= 0 || targetLink.indexOf('infpage') >= 0) {
           wepy.switchTab({
             url: targetLink

@@ -78,16 +78,16 @@
   <view class="page">
 
     <view class="tab_box">
-      <view data-type='jrkt' @tap='changeType' class="item {{type=='jrkt'?'active':''}}">金融课堂</view>
-      <view data-type='treasureTitle' @tap='changeType' class="item {{type=='treasureTitle'?'active':''}}">财富头条</view>
-      <view data-type='tjcl' @tap='changeType' class="item {{type=='tjcl'?'active':''}}">投基策略</view>
+      <view @tap="changeType('jrkt')" class="item {{type=='jrkt'?'active':''}}">金融课堂</view>
+      <view @tap="changeType('treasureTitle')" class="item {{type=='treasureTitle'?'active':''}}">财富头条</view>
+      <view @tap="changeType('tjcl')" class="item {{type=='tjcl'?'active':''}}">投基策略</view>
     </view>
 
 
     <!-- 金融课堂 -->
     <view class="list" wx:if="{{type=='jrkt'}}">
       <block wx:for="{{jrktList}}" wx:key="index" wx:item="item">  
-        <view class="item" data-link='{{item.link}}' @tap='toJrktDetail'>
+        <view class="item" @tap='toJrktDetail({{item.link}})'>
           <view class="left">
             <text class='title'>{{item.title}}</text>
             <view class="bottom">
@@ -107,7 +107,7 @@
     <!-- 财富头条 -->
     <view class="list" wx:if="{{type=='treasureTitle'}}">
       <block wx:for="{{trtlList}}" wx:key="index" wx:item="item">  
-        <view class="item" data-link='{{item.link}}' @tap='toArticleDetail'>
+        <view class="item" @tap='toArticleDetail({{item.link}})'>
           <view class="left">
             <text class='title'>{{item.articleTitle}}</text>
             <view class="bottom">
@@ -126,7 +126,7 @@
     <!-- 投基策略 -->
     <view class="list" wx:if="{{type=='tjcl'}}">
       <block wx:for="{{tjclList}}" wx:key="index" wx:item="item">  
-        <view class="item" data-link='{{item.link}}' @tap='toArticleDetail'>
+        <view class="item" @tap='toArticleDetail({{item.link}})'>
           <view class="left">
             <text class='title'>{{item.articleTitle}}</text>
             <view class="bottom">
@@ -171,22 +171,22 @@
     }
 
     methods = {
-      changeType(e) {
+      changeType(type) {
         let that = this
-        let type = e.currentTarget.dataset.type
+        // let type = e.currentTarget.dataset.type
         that.type = type
         that.$apply()
       },
-      toJrktDetail(e) {
-        let link = e.currentTarget.dataset.link
+      toJrktDetail(link) {
+        // let link = e.currentTarget.dataset.link
         let linkArr = link.split('?')
 
         wepy.navigateTo({
           url: '/pages/webpage?url=' + linkArr[0] + '&' + linkArr[1]
         })
       },
-      toArticleDetail(e) {
-        let link = e.currentTarget.dataset.link
+      toArticleDetail(link) {
+        // let link = e.currentTarget.dataset.link
         console.log(link)
 
         wepy.navigateTo({

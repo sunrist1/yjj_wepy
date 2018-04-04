@@ -102,20 +102,20 @@
 <template>
   <view class="page">
     <view class='type_list' style="height:{{sysHeight}}">
-      <view class="type_item {{currentType==''?'active':''}}" @tap="changeListType" data-type=''>全部</view>
-      <view class="type_item {{currentType=='2'?'active':''}}" @tap="changeListType" data-type='2'>
+      <view class="type_item {{currentType==''?'active':''}}" @tap="changeListType('')">全部</view>
+      <view class="type_item {{currentType=='2'?'active':''}}" @tap="changeListType(2)">
         <image src='{{gushouImgUrl}}'></image>
         固定收益
       </view>
-      <view class="type_item {{currentType=='3'?'active':''}}" @tap="changeListType" data-type='3'>
+      <view class="type_item {{currentType=='3'?'active':''}}" @tap="changeListType(3)">
         <image src='{{guquanImgUrl}}'></image>
         股权投资
       </view>
-      <view class="type_item {{currentType=='4'?'active':''}}" @tap="changeListType" data-type='4'>
+      <view class="type_item {{currentType=='4'?'active':''}}" @tap="changeListType(4)">
         <image src='{{yingshiImgUrl}}'></image>
         影视创新
       </view>
-      <view class="type_item {{currentType=='5'?'active':''}}" @tap="changeListType" data-type='5'>
+      <view class="type_item {{currentType=='5'?'active':''}}" @tap="changeListType(5)">
         <image src='{{zhengquanImgUrl}}'></image>
         证券投资
       </view>
@@ -123,7 +123,7 @@
 
     <scroll-view class="fund_list" scroll-y style='height:{{sysHeight}}' bindscrolltolower="getMoreList">
       <block wx:for="{{prvFundList}}" wx:key="*this" wx:item="item">
-        <view @tap='toPrvDetail' class="fund_item {{item.fundStatus == 2?'item_closed':''}}" data-fundcode='{{item.fundCode}}'>
+        <view @tap="toPrvDetail('{{item.fundCode}}')" class="fund_item {{item.fundStatus == 2?'item_closed':''}}" data-fundcode=''>
           <text class='top'>{{item.fundTitle}}</text>
           <text class='sum_money'>募集金额:2000万</text>
 
@@ -180,14 +180,15 @@
     }
 
     methods = {
-      changeListType (e) {
+      changeListType (type) {
         let that = this
-        that.currentType = e.currentTarget.dataset.type.toString()
+        // that.currentType = e.currentTarget.dataset.type.toString()
+        that.currentType = type.toString()
         that.clearListData()
         that.getFundList()
       },
-      toPrvDetail(e){
-        let fundCode = e.currentTarget.dataset.fundcode;
+      toPrvDetail(fundCode) {
+        // let fundCode = e.currentTarget.dataset.fundcode;
         wepy.navigateTo({
           url: '/pages/prvdetail?id=' + fundCode
         })
