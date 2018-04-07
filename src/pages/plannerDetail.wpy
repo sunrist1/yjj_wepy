@@ -4,7 +4,10 @@
 </style>
 <template>
   <view class='page'>
-    detail
+      <view class="top">
+        <image src='{{plannerInfo.headImg}}'></image>
+        <text>投资总监: 卢晓明</text>
+      </view>
   </view>
 </template>
 <script>
@@ -22,14 +25,18 @@
 
     onLoad(option) {
       console.log(option)
-      let id = option.id ? option.id : '143'
+      let id = option.id ? option.id : 143
       let that = this
+      console.log(id)
       wepy.getStorage({
         key: 'plannerList',
         success: function(res) {
           res.data.forEach((el) => {
-            if (el.userID === id) {
+            if (el.userID == id) {
               console.log(el)
+              el.headImg = config.service.imgUrlPath + el.headImg
+              that.plannerInfo = el
+              that.$apply()
             }
           })
         }
