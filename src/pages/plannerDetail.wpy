@@ -1,0 +1,39 @@
+<style lang="scss" scoped>
+  @import './lib.scss';
+
+</style>
+<template>
+  <view class='page'>
+    detail
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import config from '../config.js'
+  
+  export default class Webpage extends wepy.page {
+    config = {
+      navigationBarTitleText: '理财师'
+    }
+
+    data = {
+      plannerInfo: {}
+    }
+
+    onLoad(option) {
+      console.log(option)
+      let id = option.id ? option.id : '143'
+      let that = this
+      wepy.getStorage({
+        key: 'plannerList',
+        success: function(res) {
+          res.data.forEach((el) => {
+            if (el.userID === id) {
+              console.log(el)
+            }
+          })
+        }
+      })
+    }
+  }
+</script>

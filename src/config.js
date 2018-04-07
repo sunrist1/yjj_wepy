@@ -4,15 +4,15 @@
 
 // 此处主机域名修改成腾讯云解决方案分配的域名
 let host = 'https://imezdcv9.qcloud.la'  // pro
-// let yjjhost = 'https://app1.efoundation.com.cn'  //pro
-let yjjhost = 'http://192.168.1.211:8088'  // dev
+let yjjhost = 'https://app1.efoundation.com.cn'  //pro
+// let yjjhost = 'http://192.168.1.211:8088'  // dev
 // let yjjhost = 'http://192.168.0.105:3000'  // home
 // let yjjhost = 'http://192.168.1.73'  // 73测试环境
 // let yjjhost = 'http://192.168.1.76'  // 76测试环境
 
 // let imgUrlPath = 'http://192.168.0.101:3000'
-let imgUrlPath = 'http://192.168.1.211:8088'
-// let imgUrlPath = 'https://app1.efoundation.com.cn'
+// let imgUrlPath = 'http://192.168.1.211:8088'
+let imgUrlPath = 'https://app1.efoundation.com.cn'
 
 let config = {
 
@@ -79,7 +79,9 @@ let config = {
       hqbInfoUrl: `${yjjhost}/mobile/publicfund/hqbInfo`,
 
       // 获取理财师列表
-      plannersListUrl: `${yjjhost}/mobile/planners/queryList`
+      plannersListUrl: `${yjjhost}/mobile/planners/queryList`,
+      // 获取理财师详细信息
+      plannerDetail: `${yjjhost}/mobile/planners/pList`
     }
 }
 

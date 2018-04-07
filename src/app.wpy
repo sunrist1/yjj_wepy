@@ -23,12 +23,13 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/plannerDetail',
+      'pages/planners',
       'pages/index',
       'pages/prvdetail',
       'pages/infpage',
       'pages/pubdetail',
       'pages/hqb',
-      'pages/planners',
       'pages/prvlist',
       'pages/ratiopage',
       'pages/search',
