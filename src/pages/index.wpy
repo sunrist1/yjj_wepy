@@ -114,10 +114,15 @@
     }
 
     async onLoad() {
+      let that = this
       this.nativeData = await this.requestNative()
       this.banner = this.nativeData.banner
       this.$apply()
       console.log(this.nativeData)
+
+      that.$parent.getUserInfo(function(res) {
+        console.log(res)
+      })
     }
   }
 </script>

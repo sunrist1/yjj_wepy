@@ -312,6 +312,7 @@
     </view>
 
     <gotohome></gotohome>
+    <phonecall></phonecall>
   </view>
 </template>
 <script>
@@ -321,6 +322,7 @@
   // var WxParse = require('../utils/wxParse/wxParse.js')
 
   import Gotohome from '../components/gotoHome'
+  import PhoneCall from '../components/phoneCall'
 
   export default class Prvdetail extends wepy.page {
     config = {
@@ -328,7 +330,8 @@
     }
 
     components = {
-      gotohome: Gotohome
+      gotohome: Gotohome,
+      phonecall: PhoneCall
     }
 
     data = {

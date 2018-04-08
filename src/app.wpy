@@ -52,7 +52,7 @@ export default class extends wepy.app {
         text: '基金',
         iconPath: 'images/dynamic.png',
         selectedIconPath: 'images/dynamic_fill.png'
-      },{
+      }, {
         pagePath: 'pages/infpage',
         text: '资讯',
         iconPath: 'images/message.png',
