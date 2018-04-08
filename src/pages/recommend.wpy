@@ -71,6 +71,15 @@
       }
     }
   }
+  .noDataTips{
+    display: block;
+    width:100%;
+    line-height: 200rpx;
+    text-align: center;
+    font-size: 40rpx;
+    color:#333;
+    background-color: #fff;
+  }
   .prvlist{
     .fund_item{
       min-height: 150rpx;
@@ -166,15 +175,16 @@
           </view>
         </view>
       </block>
+      
     </view>
 
     <view class='prvlist' wx:else> 
-      <view class="fund_item" data-fundcode='{{item.fundCode}}'>
+      <block wx:for='{{simuList}}' wx:leu='*this'>
+        <view class="fund_item" data-fundcode='{{item.fundCode}}'>
           <text class='top'>{{item.fundTitle}}</text>
           <text class='sum_money'>募集金额:2000万</text>
 
           <view class="content">
-            
             <block wx:if="{{item.expectedReturn != '-'}}">
               <view class="item">
                 <text class='f_cherry fs_44'>{{item.expectedReturn}}%</text>
@@ -198,6 +208,9 @@
             </view>
           </view>
         </view>
+      </block>
+
+      <text wx:if='{{simuList.length < 1}}' class='noDataTips'>暂无相关数据</text>
     </view>
   </view>
 </template>

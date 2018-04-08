@@ -1,13 +1,71 @@
 <style lang="scss" scoped>
   @import './lib.scss';
 
+  .page{
+  }
+  .top{
+    text-align: center;
+    background-color: #3a86d3;
+    padding: 50rpx 0;
+    image{
+      width:300rpx;
+      height: 300rpx;
+      display: block;
+      border-radius: 50%;
+      margin:0rpx auto 35rpx;
+    }
+    text{
+      color:#fff;
+    }
+  }
+  .bottom{
+    padding:50rpx;
+    background-color: #fff;
+    .item{
+      font-size: 35rpx;
+      margin-bottom:20rpx;
+
+      image{
+        width:50rpx;
+        height: 50rpx;
+        vertical-align: middle;
+        display: inline-block;
+        margin-left: 15rpx;
+      }
+    }
+    .content{
+      font-size: 35rpx;
+      text-indent: 2em;
+      line-height: 50rpx;
+    }
+  }
 </style>
 <template>
   <view class='page'>
-      <view class="top">
-        <image src='{{plannerInfo.headImg}}'></image>
-        <text>投资总监: 卢晓明</text>
+    <view class="top">
+      <image src='{{plannerInfo.headImg}}'></image>
+      <text>{{plannerInfo.position}}:{{plannerInfo.realName}}</text>
+    </view>
+    <view class="bottom">
+      <view class="item">
+        ID账号: {{plannerInfo.plannersID}}
       </view>
+      <view class="item">
+        推荐指数: 
+        <block wx:for='{{crownCount}}' wx:key='index'>
+          <image src='{{crownImg}}'></image>
+        </block>
+        <block wx:for='{{diamondCount}}' wx:key='index'>
+          <image src='{{diamondImg}}'></image>
+        </block>
+        <block wx:for='{{starCount}}' wx:key='index'>
+          <image src='{{starImg}}'></image>
+        </block>
+      </view>
+      <view class="content">
+        {{plannerInfo.pContent}}
+      </view>
+    </view>
   </view>
 </template>
 <script>
@@ -20,7 +78,13 @@
     }
 
     data = {
-      plannerInfo: {}
+      plannerInfo: {},
+      crownImg: 'http://app1.efoundation.com.cn/public/mobile/images/planners/crown.png',
+      diamondImg: 'http://app1.efoundation.com.cn/public/mobile/images/planners/diamond.png',
+      starImg: 'http://app1.efoundation.com.cn/public/mobile/images/planners/red_star.png',
+      starCount: 1,
+      diamondCount: 0,
+      crownCount: 0
     }
 
     onLoad(option) {
@@ -33,14 +97,43 @@
         success: function(res) {
           res.data.forEach((el) => {
             if (el.userID == id) {
-              console.log(el)
               el.headImg = config.service.imgUrlPath + el.headImg
+              el.pContent = that.delHtmlTag(el.pContent)
               that.plannerInfo = el
+              console.log(el)
+              that.figureRecommend(el.tuijianIndex)
               that.$apply()
             }
           })
         }
       })
+    }
+
+    delHtmlTag(str) {
+      return str.replace(/<[^>]+>/g, '')
+    }
+
+    figureRecommend(num) {
+      let that = this
+      let star = 0
+      let diamond = 0
+      let crown = 0
+      while (num >= 25) {
+        num = num - 25
+        crown++
+      }
+
+      while (num >= 5) {
+        num = num - 5
+        diamond++
+      }
+
+      star = num
+
+      that.starCount = star
+      that.diamondCount = diamond
+      that.crownCount = crown
+      that.$apply()
     }
   }
 </script>

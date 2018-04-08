@@ -13,7 +13,7 @@
   <swiper class="carousel_img" indicator-dots="{{indicatorDots}}" circular="{{circular}}" autoplay="{{autoplay}}" interval="3000" duration="1000">
     <block wx:for="{{list.banner}}" wx:key="index" wx:for-item="item">
       <swiper-item>
-        <image src="http://app1.efoundation.com.cn/{{item.imgUrl}}" class="slide-image" width="355" height="150"/>
+        <image @tap="toLink({{item.linkUrl}})" src="http://app1.efoundation.com.cn/{{item.imgUrl}}" class="slide-image" width="355" height="150"/>
       </swiper-item>
     </block>
   </swiper>
@@ -46,7 +46,17 @@
     }
 
     methods = {
-
+      toLink(link) {
+        if (link.indexOf('http') >= 0) {
+          wepy.navigateTo({
+            url: '/pages/webpage?url=' + link
+          })
+        } else if (link.indexOf('/publicfund/plist') >= 0) {
+          wepy.switchTab({
+            url: 'publist'
+          })
+        }
+      }
     }
   }
 </script>
