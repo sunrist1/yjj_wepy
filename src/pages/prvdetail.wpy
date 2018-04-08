@@ -136,7 +136,7 @@
         </block>
       </view>
 
-      <image wx:if='{{!isGuding}}' class='chart_img' mode='widthFix' src='https://app1.efoundation.com.cn/{{fundInfo.yearInterestUrl}}'></image>
+      <image wx:if='{{fundInfo.profitType != 1}}' class='chart_img' mode='widthFix' src='https://app1.efoundation.com.cn/{{fundInfo.yearInterestUrl}}'></image>
       <canvas wx:else canvas-id='categoryCanvas' class='chart_box'></canvas>
     </view>
 
