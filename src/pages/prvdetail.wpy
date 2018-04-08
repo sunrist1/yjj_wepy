@@ -43,6 +43,9 @@
       display: block;
       margin:20rpx auto;
     }
+    .chart_box{
+      height: 450rpx;
+    }
   }
 
   .info_box{
@@ -92,7 +95,7 @@
         text{
           display: block;
           margin-bottom:20rpx;
-          text-align: left;
+          text-align: right;
         }
       }
     }
@@ -133,7 +136,8 @@
         </block>
       </view>
 
-      <image class='chart_img' mode='widthFix' src='https://app1.efoundation.com.cn/{{fundInfo.yearInterestUrl}}'></image>
+      <image wx:if='{{!isGuding}}' class='chart_img' mode='widthFix' src='https://app1.efoundation.com.cn/{{fundInfo.yearInterestUrl}}'></image>
+      <canvas wx:else canvas-id='categoryCanvas' class='chart_box'></canvas>
     </view>
 
     <view class="info_box">
@@ -306,6 +310,8 @@
         <view class="right">{{fundInfo.chengliGuimo}}万</view>
       </view>
     </view>
+
+    <gotohome></gotohome>
   </view>
 </template>
 <script>
@@ -314,28 +320,36 @@
   var wxCharts = require('../utils/wxcharts/wxcharts.js')
   // var WxParse = require('../utils/wxParse/wxParse.js')
 
+  import Gotohome from '../components/gotoHome'
+
   export default class Prvdetail extends wepy.page {
     config = {
       navigationBarTitleText: '基金详情'
     }
 
+    components = {
+      gotohome: Gotohome
+    }
+
     data = {
       curTab: 'baseInfo', // baseInfo lightSpot payBank
       fundCode: '',
-      fundInfo: {}
+      fundInfo: {},
+      isGuding: true
     }
 
     onLoad(option) {
       console.log(option)
-      this.fundCode = option.id ? option.id : '11151648730561'
+      this.fundCode = option.id ? option.id : '10181045348406'
       this.$apply()
       this.getfundDetail()
     }
 
     onShareAppMessage() {
+      let that = this
       return {
         title: '私募基金详情',
-        path: '/pages/prvdetail',
+        path: '/pages/prvdetail?id=' + that.fundCode,
         success: function(res) {
           // 转发成功
         },
@@ -380,6 +394,25 @@
           res.data.qitaFujian4 = that.filterHref(res.data.qitaFujian4)
           res.data.qitaFujian5 = that.filterHref(res.data.qitaFujian5)
 
+          if (res.data.categoryName.indexOf('固定') >= 0 && res.data.yearInterest1 != null) {
+            let incomeList = []
+            if (res.data.yearInterest1 && res.data.yearInterest1.match(/\d+.?\d*%/g).length > 0) {
+              incomeList = incomeList.concat(res.data.yearInterest1.match(/\d+.?\d*%/g))
+            }
+            if (res.data.yearInterest2 && res.data.yearInterest2.match(/\d+.?\d*%/g).length > 0) {
+              incomeList = incomeList.concat(res.data.yearInterest2.match(/\d+.?\d*%/g))
+            }
+            if (res.data.yearInterest3 && res.data.yearInterest3.match(/\d+.?\d*%/g).length > 0) {
+              incomeList = incomeList.concat(res.data.yearInterest3.match(/\d+.?\d*%/g))
+            }
+  
+            incomeList.forEach(function(el, index) {
+              incomeList[index] = el.slice(0, -1)
+            })
+  
+            that.drawCategory(incomeList)
+          }
+
           res.data.fundLiangdian = that.delHtmlTag(res.data.fundLiangdian)
           that.fundInfo = res.data
           that.$apply()
@@ -400,6 +433,34 @@
         }
       })
       return result
+    }
+
+    drawCategory(data) {
+      console.log(data)
+      new wxCharts({
+        canvasId: 'categoryCanvas',
+        type: 'column',
+        categories: ['本产品', '某理财产品', '银行定期'],
+        // dataLabel: false,
+        legend: false,
+        series: [{
+          name: '成交量1',
+          data: [7.5, 4.2, 2],
+          color: '#ff9d68',
+          labelColor: '#ff6801',
+          format: function (val, name) {
+            return val.toFixed(2) + '%'
+          }
+        }],
+        yAxis: {
+          format: function (val) {
+            return val
+          },
+          min: 0
+        },
+        width: 320,
+        height: 200
+      })
     }
 
     delHtmlTag(str) {

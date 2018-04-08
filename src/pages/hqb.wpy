@@ -102,16 +102,22 @@
   }
 
   .bottom{
-    button{
-      position: fixed;
-      bottom:0rpx;
-      left:0rpx;
+    position: fixed;
+    left:0rpx;
+    bottom:0rpx;
+    height: 90rpx;
+    image{
+      width:90rpx;
       height: 90rpx;
+    }
+    button{
       font-size: 36rpx;
+      height: 90rpx;
       background-color: $orange;
       color:#fff;
       width:100%;
       border:none;
+      
       border-radius: 0rpx;
     }
   }
@@ -161,9 +167,8 @@
       <text class='tips'>收益数据仅供参考，过往业绩不预示未来表现，不构成投资建议。投资者据此操作，风险自担。市场有风险，投资需谨慎。</text>
     </view>
 
-    <view class="bottom">
-      <button plain="{{true}}">立即充值</button>
-    </view>
+    <buybtn></buybtn>
+    <gotohome :link.sync='hqb'></gotohome>
   </view>
 </template>
 <script>
@@ -173,13 +178,17 @@
   var wxCharts = require('../utils/wxcharts/wxcharts.js')
   // var lineChart = null
 
+  import Gotohome from '../components/gotoHome'
+  import Buybtn from '../components/buyBtn'
+
   export default class Hqb extends wepy.page {
     config = {
       navigationBarTitleText: '活期宝'
     }
 
     components = {
-      // lineChart: Chart
+      gotohome: Gotohome,
+      buybtn: Buybtn
     }
 
     data = {
@@ -187,7 +196,7 @@
       fundincomeunit: 0,
       navdate: '',
       fundname: '',
-
+      homeImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/gotohome.png`,
       yLabelRows: 10,
       xLabelColor: '#000',
       chartWidth: '100rpx',

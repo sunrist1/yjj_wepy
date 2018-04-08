@@ -316,6 +316,9 @@
       <view class="title">风险收益特征:</view>
       <view class='content'>{{fundInfo.data.RISK_RETURN}}</view>
     </view>
+
+    <gotohome></gotohome>
+    <buybtn :link.sync='detail-{{fundCode}}'></buybtn>
   </view>
 </template>
 <script>
@@ -323,11 +326,19 @@
   import config from '../config.js'
   var wxCharts = require('../utils/wxcharts/wxcharts.js')
 
+  import Gotohome from '../components/gotoHome'
+  import Buybtn from '../components/buyBtn'
+
   export default class Pubdetail extends wepy.page {
     config = {
       navigationBarTitleText: '基金详情',
       navigationBarBackgroundColor: '#ff9d68',
       navigationBarTextStyle: 'white'
+    }
+
+    components = {
+      gotohome: Gotohome,
+      buybtn: Buybtn
     }
 
     data = {

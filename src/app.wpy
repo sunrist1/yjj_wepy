@@ -24,19 +24,20 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
+      'pages/hqb',
+      'pages/prvdetail',
       'pages/planners',
       'pages/plannerDetail',
-      'pages/prvdetail',
       'pages/infpage',
       'pages/pubdetail',
-      'pages/hqb',
       'pages/prvlist',
       'pages/ratiopage',
       'pages/search',
       'pages/publist',
       'pages/recommend',
       'pages/account',
-      'pages/webpage'
+      'pages/webpage',
+      'pages/yjjDownPage'
     ],
     tabBar: {
       selectedColor: '#fe602b',
@@ -51,12 +52,7 @@ export default class extends wepy.app {
         text: '基金',
         iconPath: 'images/dynamic.png',
         selectedIconPath: 'images/dynamic_fill.png'
-      }, {
-        pagePath: 'pages/account',
-        text: '个人',
-        iconPath: 'images/people.png',
-        selectedIconPath: 'images/people_fill.png'
-      }, {
+      },{
         pagePath: 'pages/infpage',
         text: '资讯',
         iconPath: 'images/message.png',

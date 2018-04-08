@@ -1,0 +1,52 @@
+<style lang="scss">
+  .gotobuy_btn{
+    position: fixed;
+    bottom: 20rpx;
+    right: 20rpx;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow:1rpx 3rpx 3rpx 3rpx #ccc;
+    height: 90rpx;
+    width:90rpx;
+    display: block;
+    padding:0;
+    image{
+      width:90rpx;
+      height: 90rpx;
+    }
+  }
+</style>
+<template>
+  <button class='launchAppBtn gotobuy_btn' open-type="launchApp" app-parameter="{{link}}" binderror="launchAppError">
+    <image src='{{moneyImgUrl}}'></image>
+  </button>
+</template>
+<script>
+  import wepy from 'wepy'
+  import config from '../config.js'
+
+  export default class Buybtn extends wepy.component {
+    data = {
+      moneyImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/money.png`
+    }
+
+    props = {
+      link: {
+        type: String,
+        default: ''
+      }
+    }
+
+    methods = {
+      launchAppError(e) {
+        console.log(e.detail.errMsg)
+        wepy.navigateTo({
+          url: '/pages/yjjDownPage'
+        })
+      }
+    }
+
+    onLoad() {
+    }
+  }
+</script>

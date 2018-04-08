@@ -161,10 +161,10 @@
         热门搜索
       </view>
       <view class='item_list'>
-        <view class='hot_fund_item' bindtap="toDetail('260108')">景顺长城新兴成长</view>
-        <view class='hot_fund_item' bindtap="toDetail('040008')">华安策略优选</view>
-        <view class='hot_fund_item' bindtap="toDetail('002425')">金鹰元溪C</view>
-        <view class='hot_fund_item' bindtap="toDetail('260101')">景顺长城优选</view>
+        <view class='hot_fund_item' bindtap="toPubDetail('260108')">景顺长城新兴成长</view>
+        <view class='hot_fund_item' bindtap="toPubDetail('040008')">华安策略优选</view>
+        <view class='hot_fund_item' bindtap="toPubDetail('002425')">金鹰元溪C</view>
+        <view class='hot_fund_item' bindtap="toPubDetail('260101')">景顺长城优选</view>
       </view>
     </view>
 

@@ -59,7 +59,7 @@ let config = {
       pubDetailUrl: `${yjjhost}/mobile/publicfund/getPublicFundDetail`,
 
       // 私募基金详情信息
-    prvDetailUrl: `${yjjhost}/mobile/privatefund/getPrivateFundDetail`,
+      prvDetailUrl: `${yjjhost}/mobile/privatefund/getPrivateFundDetail`,
 
         // 详情页净值走势
       fundNavTrade: `${yjjhost}/mobile/publicfund/navTrade`,

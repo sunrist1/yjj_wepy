@@ -1,0 +1,24 @@
+<style lang="scss" scoped>
+  .download_img{
+    width:100%;
+    /* height: 500rpx; */
+  }
+</style>
+<template>
+  <image src="https://app1.efoundation.com.cn/public/mobile/images/yjjDownload.jpg" mode='widthFix' class="download_img"/>
+</template>
+<script>
+  import wepy from 'wepy'
+  
+  export default class Webpage extends wepy.page {
+    data = {
+    }
+
+    config = {
+      navigationBarTitleText: '下载亿基金'
+    }
+
+    onLoad(option) {
+    }
+  }
+</script>

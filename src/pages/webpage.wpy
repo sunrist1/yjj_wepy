@@ -2,14 +2,37 @@
 
 </style>
 <template>
-  <web-view src="{{pageUrl}}"></web-view>
+  <view class="page">
+    <web-view src="{{pageUrl}}"></web-view>
+    <gotohome></gotohome>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
+
+  import Gotohome from '../components/gotoHome'
   
   export default class Webpage extends wepy.page {
     data = {
       pageUrl: ''
+    }
+
+    components = {
+      gotohome: Gotohome
+    }
+
+    onShareAppMessage() {
+      let that = this
+      return {
+        title: "亿基金",
+        path: '/pages/webpage?url=' + that.pageUrl,
+        success: function(res) {
+          // 转发成功
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
     }
 
     onLoad(option) {
