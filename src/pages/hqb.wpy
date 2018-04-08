@@ -321,6 +321,19 @@
       })
     }
 
+    onShareAppMessage() {
+      return {
+        title: '亿基金—活期宝',
+        path: '/pages/hqb',
+        success: function(res) {
+          // 转发成功
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
+    }
+
     methods = {
       changeType(e) {
         let that = this

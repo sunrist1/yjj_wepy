@@ -371,9 +371,17 @@
       toPdf(e) {
         let href = e.currentTarget.dataset.href
         console.log(href)
-        wepy.navigateTo({
-          url: '/pages/webpage?url=' + href
+        wepy.setStorage({
+          key:"pdfurl",
+          data:href,
+          success(res){
+            console.log(res)
+            wepy.navigateTo({
+              url: '/pages/pdfpage'
+            })
+          }
         })
+        
       }
     }
 

@@ -24,8 +24,8 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
-      'pages/hqb',
       'pages/prvdetail',
+      'pages/hqb',
       'pages/planners',
       'pages/plannerDetail',
       'pages/infpage',
@@ -37,6 +37,7 @@ export default class extends wepy.app {
       'pages/recommend',
       'pages/account',
       'pages/webpage',
+      'pages/pdfpage',
       'pages/yjjDownPage'
     ],
     tabBar: {

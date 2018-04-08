@@ -1,0 +1,30 @@
+<style lang="scss" scoped>
+
+</style>
+<template>
+  <view class="page">
+    <web-view src="{{pdfUrl}}"></web-view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import config from '../../config.js'
+
+  export default class Pdfpage extends wepy.page {
+    data = {
+      pdfUrl: ''
+    }
+
+    onLoad(option) {
+      let that = this
+      wepy.getStorage({
+        key: 'pdfurl',
+        success: function(res) {
+          console.log(res.data)
+          that.pdfUrl = config.service.yjjhost + res.data
+          that.$apply()
+        }
+      })
+    }
+  }
+</script>
