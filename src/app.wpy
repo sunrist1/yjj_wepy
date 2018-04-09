@@ -38,7 +38,8 @@ export default class extends wepy.app {
       'pages/account',
       'pages/webpage',
       'pages/pdfpage',
-      'pages/yjjDownPage'
+      'pages/yjjDownPage',
+      'pages/test'
     ],
     tabBar: {
       selectedColor: '#fe602b',
@@ -53,6 +54,11 @@ export default class extends wepy.app {
         text: '基金',
         iconPath: 'images/dynamic.png',
         selectedIconPath: 'images/dynamic_fill.png'
+      }, {
+        pagePath: 'pages/account',
+        text: '个人',
+        iconPath: 'images/people.png',
+        selectedIconPath: 'images/people_fill.png'
       }, {
         pagePath: 'pages/infpage',
         text: '资讯',

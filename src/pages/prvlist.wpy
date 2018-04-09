@@ -229,7 +229,6 @@
               icon: 'none',
               duration: 2000
             })
-            console.log('nomore')
             that.nomore = true
             that.$apply()
             return
@@ -239,11 +238,12 @@
             data.push(el)
           })
           that.prvFundList = data
-          console.log(that.prvFundList)
+          // console.log(that.prvFundList)
           that.$apply()
         }
       })
     }
+
     getMoreList() {
       this.currentPageIndex = this.currentPageIndex + 1
       this.getFundList()
@@ -253,7 +253,7 @@
       let res = wepy.getSystemInfoSync()
       var height = (res.screenHeight * 2 + 50) + 'rpx'
       this.sysHeight = height
-      console.log(height)
+      // console.log(height)
       this.$apply()
       this.getFundList()
     }

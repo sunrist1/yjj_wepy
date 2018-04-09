@@ -319,7 +319,6 @@
   import wepy from 'wepy'
   import config from '../config.js'
   var wxCharts = require('../utils/wxcharts/wxcharts.js')
-  // var WxParse = require('../utils/wxParse/wxParse.js')
 
   import Gotohome from '../components/gotoHome'
   import PhoneCall from '../components/phoneCall'
@@ -372,16 +371,15 @@
         let href = e.currentTarget.dataset.href
         console.log(href)
         wepy.setStorage({
-          key:"pdfurl",
-          data:href,
-          success(res){
+          key: 'pdfurl',
+          data: href,
+          success(res) {
             console.log(res)
             wepy.navigateTo({
               url: '/pages/pdfpage'
             })
           }
         })
-        
       }
     }
 
@@ -447,7 +445,10 @@
     }
 
     drawCategory(data) {
-      console.log(data)
+      data.sort(function(a, b) {
+        return (b * 1) - (a * 1)
+      })
+      let chartData = [[data[0] * 1, 4.2, 2]]
       new wxCharts({
         canvasId: 'categoryCanvas',
         type: 'column',
@@ -456,7 +457,7 @@
         legend: false,
         series: [{
           name: '成交量1',
-          data: [7.5, 4.2, 2],
+          data: chartData[0],
           color: '#ff9d68',
           labelColor: '#ff6801',
           format: function (val, name) {
