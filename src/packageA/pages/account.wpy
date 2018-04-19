@@ -104,7 +104,7 @@
 </style>
 <template>
   <view class="page">
-    <view class="asset_brief day_bg">
+    <view class="asset_brief {{hourTime<19&&hourTime>6?'day_bg':'night_bg'}}">
       <text data-text="我的资产" class='fs_32 asset_label'>我的资产</text>
       <text data-text="1568930.78" class='fs_70 asset_num'>1568930.78</text>
       <text data-text="资产总额(元)" class='fs_32'>资产总额(元)</text>
@@ -169,7 +169,21 @@
       pubfundImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/account_pubfund.png`,
       prvfundImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/account_prvfund.png`,
       traderecordImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/account_traderecord.png`,
-      rightImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/right.png`
+      rightImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/right.png`,
+      hourTime: 12
+    }
+
+    onLoad() {
+      let hour = new Date().getHours()
+      this.hourTime = hour
+      console.log(hour)
+      if (hour > 19 || hour < 6) {
+        wepy.setNavigationBarColor({
+          frontColor: '#ffffff',
+          backgroundColor: '#454daf'
+        })
+      }
+      this.$apply()
     }
 
     getPhoneNumber(e) {
