@@ -17,7 +17,7 @@
   }
 </style>
 <template>
-  <button class='launchAppBtn gotobuy_btn' open-type="launchApp" app-parameter="{{link}}" binderror="launchAppError">
+  <button class='launchAppBtn gotobuy_btn' open-type="launchApp" app-parameter="{{link}}" binderror="launchAppError({{link}})">
     <image src='{{moneyImgUrl}}'></image>
   </button>
 </template>
@@ -38,15 +38,15 @@
     }
 
     methods = {
-      launchAppError(e) {
-        console.log(e.detail.errMsg)
+      launchAppError() {
         wepy.navigateTo({
-          url: '/pages/yjjDownPage'
+          url: '/packageA/pages/pubbuy'
         })
       }
     }
 
-    onLoad() {
+    onLoad(option) {
+      console.log(option)
     }
   }
 </script>

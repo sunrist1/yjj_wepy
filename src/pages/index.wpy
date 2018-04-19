@@ -56,6 +56,8 @@
   import Tabbox from '../components/tabbox'
   import Newhand from '../components/newhand'
   import Indexpubfund from '../components/indexpubfund'
+
+  var qcloud = require('../utils/wafer2-client-sdk/index')
   
   export default class Index extends wepy.page {
     config = {
@@ -122,6 +124,57 @@
 
       that.$parent.getUserInfo(function(res) {
         console.log(res)
+      })
+
+      wepy.request({
+        url: `${config.service.loginUrl}`,
+        data: {},
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function(res) {
+          console.log('====================')
+          console.log(res)
+        }
+      })
+
+      qcloud.login({
+        success(result) {
+          // showSuccess('登录成功');
+          console.log('登录成功', result)
+          let key = qcloud.getSession()
+          wepy.getUserInfo({
+            success: (res) => {
+              qcloud.request({
+                // 要请求的地址
+                url: `${config.service.openIdUrl}`,
+                method: 'GET',
+                header: {
+                  'content-type': 'application/x-www-form-urlencoded' // 默认值
+                },
+                data: {
+                  reqData: res,
+                  key: key
+                },
+                // login: true,
+                success(result) {
+                  console.log(result)
+                },
+                fail(error) {
+                  // showModel('请求失败', error);
+                  console.log('request fail', error)
+                },
+                complete() {
+                  console.log('request complete')
+                }
+              })
+            }
+          })
+        },
+
+        fail(error) {
+          console.log('登录失败', error)
+        }
       })
     }
   }

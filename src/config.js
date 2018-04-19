@@ -3,7 +3,8 @@
  */
 
 // 此处主机域名修改成腾讯云解决方案分配的域名
-let host = 'https://imezdcv9.qcloud.la'  // pro
+// let host = 'https://imezdcv9.qcloud.la'  // pro
+let host = 'http://localhost:5757'  // pro
 let yjjhost = 'https://app1.efoundation.com.cn'  //pro
 // let yjjhost = 'http://192.168.1.211:8088'  // dev
 // let yjjhost = 'http://192.168.0.105:3000'  // home
@@ -11,8 +12,8 @@ let yjjhost = 'https://app1.efoundation.com.cn'  //pro
 // let yjjhost = 'http://192.168.1.76'  // 76测试环境
 
 // let imgUrlPath = 'http://192.168.0.101:3000'
-// let imgUrlPath = 'http://192.168.1.211:8088'
-let imgUrlPath = 'https://app1.efoundation.com.cn'
+let imgUrlPath = 'http://192.168.1.211:8088'
+// let imgUrlPath = 'https://app1.efoundation.com.cn'
 
 let config = {
 
@@ -33,6 +34,17 @@ let config = {
 
         // 上传图片接口
       uploadUrl: `${host}/weapp/upload`,
+
+      // 用户openId获取地址
+      openIdUrl: `${host}/weapp/openid`,
+
+      // 用户微信绑定电话号码获取地址
+      phoneUrl: `${host}/weapp/phone`,
+
+
+      /* 
+      *  ========== 亿基金数据相关接口 ==========
+      */
 
         // 首页信息
       indexDataUrl: `${yjjhost}/mobile/nativeIndex`,

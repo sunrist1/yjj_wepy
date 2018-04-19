@@ -255,13 +255,13 @@
         <view class="left">投资领域</view>
         <view class="right">{{fundInfo.touziLingyu}}</view>
       </view>
-      <view class="item" wx:if='{{fundInfo.jianbaoFujian.label}}'>
+      <!-- <view class="item" wx:if='{{fundInfo.jianbaoFujian.label}}'>
         <view class="left">产品简报</view>
         <view class="right">
           <text @tap='toPdf' data-href='{{fundInfo.jianbaoFujian.href}}' class='pdf_link f_cherry'>{{fundInfo.jianbaoFujian.label}}</text>
         </view>
-      </view>
-      <view class="item" wx:if='{{fundInfo.jianbaoFujian1.label}}'>
+      </view> -->
+      <!-- <view class="item" wx:if='{{fundInfo.jianbaoFujian1.label}}'>
         <view class="left">其他资料</view>
         <view class="right">
           <text @tap='toPdf' data-href='{{fundInfo.jianbaoFujian1.href}}' class='pdf_link f_cherry'>{{fundInfo.jianbaoFujian1.label}}</text>
@@ -270,7 +270,7 @@
           <text @tap='toPdf' wx:if='{{fundInfo.jianbaoFujian4.label}}' data-href='{{fundInfo.jianbaoFujian4.href}}' class='pdf_link f_cherry'>{{fundInfo.jianbaoFujian4.label}}</text>
           <text @tap='toPdf' wx:if='{{fundInfo.jianbaoFujian5.label}}' data-href='{{fundInfo.jianbaoFujian5.href}}' class='pdf_link f_cherry'>{{fundInfo.jianbaoFujian5.label}}</text>
         </view>
-      </view>
+      </view> -->
       <view class="item" wx:if='{{fundInfo.note}}'>
         <view class="left">备注</view>
         <view class="right">{{fundInfo.note}}</view>

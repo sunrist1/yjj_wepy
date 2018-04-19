@@ -1,11 +1,206 @@
 <style lang="scss">
-
+  @import '../../pages/lib.scss';
+  .day_bg{
+    background: url('#{$imagePath}/account_bg_day.png') 50% 30% no-repeat;
+    background-size: 100% auto;
+  }
+  .night_bg{
+    background: url('#{$imagePath}/account_bg_night.png') 50% 30% no-repeat;
+    background-size: 100% auto;
+  }
+  .asset_brief{
+    padding:100rpx 0 100rpx;
+    &>text{
+      display: block;
+      width:100%;
+      text-align: center;
+      line-height: 80rpx;
+      height: 50rpx;
+      color:#fff;
+    }
+    /* text{
+      position: relative; 
+      display: inline-block;
+      text-shadow: 1px 1px #eee;
+    }
+    text[data-text]::after {  
+      content: attr(data-text);  
+      color: transparent;  
+      position: absolute;  
+      left: 50%;  
+      transform: translateX(-50%);
+      z-index: 2;
+      -webkit-mask-image: -webkit-gradient(linear, 0 20, 0 bottom, from(#fbc561), to(rgba(0, 0, 0, 0)));
+    } */
+    .asset_num{
+      font-weight: bold;
+      margin-bottom: 20rpx;
+      letter-spacing: 3rpx;
+    }
+    .asset_label{
+      margin-bottom:50rpx;
+    }
+    .line{
+      height: 5rpx;
+      width:50rpx;
+      border-bottom:5rpx solid #fff;
+      margin:30rpx auto;
+    }
+    .classify{
+      display: flex;
+      justify-content: space-around;
+      .item{
+        width:33.33%;
+        >text{
+          width:100%;
+          color:#fff;
+          display: block;
+          text-align: center;
+          line-height: 60rpx;
+          height: 50rpx;
+          &:nth-of-type(1){
+            font-size: 36rpx;
+            letter-spacing: 2rpx;
+          }
+          &:nth-of-type(2){
+            font-size: 30rpx;
+            opacity: 0.9;
+          }
+        }
+      }
+    }
+  }
+  .opera_list{
+    background-color: #fff;
+    border-top-right-radius: 20rpx;
+    border-top-left-radius: 20rpx;
+    margin-top:-30rpx;
+    padding:30rpx;
+    .item{
+      margin-bottom:20rpx;
+      border-bottom: 2rpx solid #e8e8e8;
+      padding:20rpx 10rpx;
+      &:last-child{
+        border-bottom: 0rpx;
+      }
+      image{
+        display: inline-block;
+        height: 60rpx;
+        width:60rpx;
+        vertical-align: sub;
+        margin-right:10rpx;
+      }
+      text{
+        display: inline-block;
+      }
+      .right_icon{
+        float: right;
+        width:40rpx;
+        height: 40rpx;
+        margin-top:10rpx;
+      }
+    }
+  }
 </style>
 <template>
-  <text>account</text>
+  <view class="page">
+    <view class="asset_brief day_bg">
+      <text data-text="我的资产" class='fs_32 asset_label'>我的资产</text>
+      <text data-text="1568930.78" class='fs_70 asset_num'>1568930.78</text>
+      <text data-text="资产总额(元)" class='fs_32'>资产总额(元)</text>
+      <view class='line'></view>
+      <view class="classify">
+        <view class="item">
+          <text data-text="5042.00">5042.00</text>
+          <text data-text="昨日收益">昨日收益</text>
+        </view>
+        <view class="item">
+          <text data-text="12289.90">12289.90</text>
+          <text data-text="累计收益">累计收益</text>
+        </view>
+        <view class="item">
+          <text data-text="100万">100万</text>
+          <text data-text="私募资产">私募资产</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取电话</button> -->
+
+    <!-- 百万理财，基金管理，交易记录，活期宝 -->
+    <view class="opera_list">
+      <view class="item">
+        <image src='{{pubfundImgUrl}}'></image>
+        <text>基金管理</text>
+        <image class='right_icon' src='{{rightImgUrl}}'></image>
+      </view>
+      <view class="item">
+        <image src='{{traderecordImgUrl}}'></image>
+        <text>交易记录</text>
+        <image class='right_icon' src='{{rightImgUrl}}'></image>
+      </view>
+      <view class="item">
+        <image src='{{hqbImgUrl}}'></image>
+        <text>活期宝</text>
+        <image class='right_icon' src='{{rightImgUrl}}'></image>
+      </view>
+      <view class="item">
+        <image src='{{prvfundImgUrl}}'></image>
+        <text>百万理财</text>
+        <image class='right_icon' src='{{rightImgUrl}}'></image>
+      </view>
+    </view>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import config from '../../config.js'
+
+  var qcloud = require('../../utils/wafer2-client-sdk/index')
+
   export default class Account extends wepy.page {
+    config = {
+      navigationBarTitleText: '账户中心',
+      navigationBarBackgroundColor: '#fbb756',
+      navigationBarTextStyle: 'white'
+    }
+    data = {
+      hqbImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/account_hqb.png`,
+      pubfundImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/account_pubfund.png`,
+      prvfundImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/account_prvfund.png`,
+      traderecordImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/account_traderecord.png`,
+      rightImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/right.png`
+    }
+
+    getPhoneNumber(e) {
+      console.log(e.detail.iv)
+      console.log(e.detail.encryptedData)
+      let reqData = JSON.stringify(e.detail)
+      let key = qcloud.getSession()
+      if (e.detail.errMsg.indexOf('ok') >= 0) {
+        qcloud.request({
+          // 要请求的地址
+          url: `${config.service.phoneUrl}`,
+          method: 'post',
+          header: {
+            'content-type': 'application/x-www-form-urlencoded' // 默认值
+          },
+          data: {
+            reqData: reqData,
+            key: key
+          },
+          success(result) {
+            console.log(result)
+          },
+          fail(error) {
+            // showModel('请求失败', error);
+            console.log('request fail', error)
+          },
+          complete() {
+            console.log('request complete')
+          }
+        })
+      }
+    }
   }
 </script>

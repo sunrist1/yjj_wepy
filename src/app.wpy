@@ -17,6 +17,10 @@ import 'wepy-async-function'
 import { setStore } from 'wepy-redux'
 import configStore from './store'
 
+import config from './config'
+
+var qcloud = require('./utils/wafer2-client-sdk/index')
+
 const store = configStore()
 setStore(store)
 
@@ -24,22 +28,23 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
+      'packageA/pages/pubbuy',
+      'packageA/pages/buy_agreement',
+      'pages/pubdetail',
+      'packageA/pages/account',
       'pages/prvdetail',
       'pages/hqb',
       'pages/planners',
       'pages/plannerDetail',
       'pages/infpage',
-      'pages/pubdetail',
       'pages/prvlist',
       'pages/ratiopage',
       'pages/search',
       'pages/publist',
       'pages/recommend',
-      'pages/account',
       'pages/webpage',
       'pages/pdfpage',
-      'pages/yjjDownPage',
-      'pages/test'
+      'pages/yjjDownPage'
     ],
     tabBar: {
       selectedColor: '#fe602b',
@@ -55,7 +60,7 @@ export default class extends wepy.app {
         iconPath: 'images/dynamic.png',
         selectedIconPath: 'images/dynamic_fill.png'
       }, {
-        pagePath: 'pages/account',
+        pagePath: 'packageA/pages/account',
         text: '个人',
         iconPath: 'images/people.png',
         selectedIconPath: 'images/people_fill.png'
@@ -115,21 +120,23 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
-    this.testAsync()
+    // this.testAsync()
+    // let that = this
+    console.log(config.service.loginUrl)
+    qcloud.setLoginUrl(config.service.loginUrl)
   }
+  // sleep (s) {
+  //   return new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       resolve('promise resolved')
+  //     }, s * 1000)
+  //   })
+  // }
 
-  sleep (s) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve('promise resolved')
-      }, s * 1000)
-    })
-  }
-
-  async testAsync () {
-    const data = await this.sleep(3)
-    console.log(data)
-  }
+  // async testAsync () {
+  //   const data = await this.sleep(3)
+  //   console.log(data)
+  // }
 
   getUserInfo(cb) {
     const that = this

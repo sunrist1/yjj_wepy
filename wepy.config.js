@@ -4,6 +4,7 @@ var prod = process.env.NODE_ENV === 'production';
 module.exports = {
   wpyExt: '.wpy',
   eslint: true,
+  target: '../wafer2/client',
   cliLogs: !prod,
   build: {
     web: {

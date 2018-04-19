@@ -24,7 +24,7 @@
     onShareAppMessage() {
       let that = this
       return {
-        title: "亿基金",
+        title: '亿基金',
         path: '/pages/webpage?url=' + that.pageUrl,
         success: function(res) {
           // 转发成功
@@ -36,7 +36,7 @@
     }
 
     onLoad(option) {
-      console.log(option)
+      // console.log(option)
       let url = ''
       for (let i in option) {
         if (i !== 'url') {
@@ -45,7 +45,7 @@
           url += option[i] + '?'
         }
       }
-      console.log(url)
+      // console.log(url)
       this.pageUrl = url
       this.$apply()
     }

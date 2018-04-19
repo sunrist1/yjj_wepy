@@ -1,0 +1,430 @@
+<style lang="scss" scoped>
+  @import '../../pages/lib.scss';
+  .money_box{
+    padding:20rpx 0;
+    position: relative;
+    .text_box{
+      background-color: #fff;
+      margin-bottom: 20rpx;
+      padding:20rpx;
+      border-top:2rpx solid #e8e8e8;
+      border-bottom:2rpx solid #e8e8e8;
+      .label{
+        margin-right:20rpx;
+        vertical-align:middle;
+      }
+      text{
+        font-size: 34rpx;
+      }
+      .fundname{
+        vertical-align:middle;
+      }
+      input{
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+    .tips{
+      color:#888;
+      font-size: 28rpx;
+      margin-left:20rpx;
+    }
+    .agreement_box{
+      margin:40rpx 20rpx;
+      font-size: 30rpx;
+      .label_box{
+        display: block;
+        color:#888;
+        checkbox{
+          display: none;
+        }
+        icon{
+          vertical-align: middle;
+        }
+        .noselected{
+          height: 34rpx;
+          width: 34rpx;
+          display: inline-block;
+          border:2rpx solid #aaa;
+          border-radius: 50%;
+          vertical-align: middle;
+        }
+      }
+      .agreement_text{
+        display: block;
+        margin-left:40rpx;
+        color:#319eea;
+        line-height: 50rpx;
+      }
+    }
+    .safe_tips{
+      margin:20rpx;
+      image{
+        width:40rpx;
+        vertical-align: top;
+        margin-right: 5rpx;
+      }
+      text{
+        font-size: 28rpx;
+        color:#888;
+        display: inline-block;
+        width:90%;
+      }
+    }
+    .certificate_list{
+      padding:20rpx 50rpx;
+      .item{
+        color:$cherry;
+        margin-bottom: 10rpx;
+        font-size: 32rpx;
+        display: block;
+        text-decoration: underline;
+      }
+    }
+    .next_step{
+      position: fixed;
+      left: 0rpx;
+      bottom: 0rpx;
+      width:100%;
+      height: 80rpx;
+      line-height: 80rpx;
+      display: block;
+      background-color: $lightOrange;
+      border:0;
+      color:#fff;
+      font-size: 36rpx;
+      text-align: center;
+      border-radius: 0;
+    }
+  }
+  .bank_box{
+    .mask{
+      position: fixed;
+      height: 100%;
+      width:100%;
+      top:0;
+      left:0;
+      background-color: #333;
+      opacity: 0.7;
+      z-index: 10;
+    }
+    .content{
+      position: fixed;
+      bottom:0;
+      left: 0;
+      width:100%;
+      z-index: 9999;
+      padding-bottom:120rpx;
+      background-color: #fff;
+      .top{
+        &>image{
+          width:30rpx;
+          height: auto;
+          vertical-align: middle;
+        }
+        >text{
+          vertical-align: middle;
+          width:80%;
+          display: inline-block;
+          text-align: center;
+          margin-left: 10%;
+        }
+        padding:20rpx;
+        background-color: #e8e8e8;
+      }
+      .bank_list{
+        box-shadow: 0px -3px 2px 1px #ccc inset;
+        padding:20rpx;
+        $bank-icons:beijing,gongshang,guangda,huaxia,jianshe,jiaotong,minsheng,nongxin,nongye,pingan,pufa,renmin,shanghai,xingye,yinlian,youzheng,zhaoshang,zhongguo;
+        @each $bank in $bank-icons{
+          .#{$bank}-icon{
+            position: relative;
+            &::before{
+              content:'';
+              position: absolute;
+              top:50%;
+              left:20rpx;
+              display: block;
+              height: 60rpx;
+              width:60rpx;
+              transform:translateY(-50%);
+              background: url('#{$imagePath}/bankicons/#{$bank}.png');
+              background-size:100% 100%;
+            }
+          }
+        }
+        .item{
+          display: block;
+          padding:20rpx;
+          width:100%;
+          .context{
+            padding-left:100rpx;
+            font-size: 32rpx;
+            position: relative;
+            .quota_tips{
+              font-size: 30rpx;
+              margin-top:10rpx;
+              color:#666;
+            }
+            .selectedCheck{
+              display: none;
+            }
+          }
+        }
+        .selected{
+          .selectedCheck{
+            display: inline-block!important;
+            width: 35rpx;
+            height: auto;
+            position: absolute;
+            top:50%;
+            right:50rpx;
+            transform:translateY(-50%);
+          }
+        }
+      }
+      .money_cost{
+        padding:30rpx;
+        >view{
+          display: block;
+          width:100%;
+          text-align: center;
+        }
+        .money_num{
+          font-size: 40rpx;
+          font-weight: bold;
+          color:$cherry;
+          margin-bottom:20rpx;
+        }
+        .feeratio_money{
+          color:#666;
+          font-size: 30rpx;
+          .old_rate{
+            color:#aaa;
+            text-decoration: line-through;
+          }
+          .new_rate{
+            color:$cherry;
+          }
+        }
+      }
+      .next_step_btn{
+        position: absolute;
+        left: 0rpx;
+        bottom: 0rpx;
+        width:100%;
+        height: 80rpx;
+        line-height: 80rpx;
+        display: block;
+        background-color: $lightOrange;
+        border:0;
+        color:#fff;
+        font-size: 36rpx;
+        text-align: center;
+        border-radius: 0;
+      }
+    }
+  }
+  .pwd_box{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top:0;
+    left: 0;
+    z-index: 9999;
+    .mask{
+      background-color: #333;
+      opacity: 0.7;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top:0;
+      left: 0;
+      z-index: 99999;
+    }
+    .content{
+      background-color: #fff;
+      border-radius: 10rpx;
+      position: absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      width:80%;
+      min-height: 100rpx;
+      z-index: 9999999;
+      text-align: center;
+      padding:20rpx;
+      >image{
+        position: absolute;
+        height: 30rpx;
+        width:30rpx;
+        right: 20rpx;
+        top:20rpx;
+      }
+      >text{
+        margin:20rpx 0;
+        display: block;
+      }
+      >input{
+        border:2rpx solid #aaa;
+        height: 80rpx;
+        border-radius: 10rpx;
+        box-shadow: 0rpx 0rpx 2rpx 5rpx #e8e8e8 inset;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="page">
+    <view class="money_box">
+      <view class="text_box">
+        <text class="label">基金名称 :</text>
+        <text class='fundname'>东方惠新C(002163)</text>
+      </view>
+      <view class="text_box">
+        <text class="label">买入金额 :</text>
+        <input type="digit" placeholder="不低于100元" confirm-type='go' />
+      </view>
+      <text class="tips">15:00后交易属于下一个工作日</text>
+      <view class="agreement_box">
+        <checkbox-group @change="checkboxChange">
+          <label class="label_box">
+            <checkbox value="1" checked="{{checkAll}}"/>
+            <icon wx:if='{{checkAll}}' type="success" size="16" color="red"/>
+            <view wx:if='{{!checkAll}}' class="noselected"></view>
+            我已阅读并同意
+          </label>
+        </checkbox-group>
+        <text @tap='toAgreement(1)' class="agreement_text">《风险告知书》</text>
+        <text @tap='toAgreement(2)' class="agreement_text">《风险不匹配警示函》</text>
+        <text @tap='toAgreement(3)' class="agreement_text">《高风险产品特别警示书》</text>
+      </view>
+      <view class="safe_tips">
+        <image mode='widthFix' src='{{lightImgUrl}}'></image>
+        <text>为了您的资金安全，交易遵守"同卡进出"原则，卖出所得款项只能回到购买所用卡中了</text>
+      </view>
+      <view class="certificate_list">
+        <text @tap='toWebPage' data-link='http://app1.efoundation.com.cn/views/minsheng_deal/index.html' class="item">基金销售结算资金专用账户监督协议</text>
+        <text @tap='toWebPage' data-link='http://app1.efoundation.com.cn/views/largeAmoutTraceGuide/index.html' class="item">大额交易指引</text>
+      </view>
+      <button plain='{{true}}' @tap='triggerBankList' class='next_step'>下一步</button>
+    </view>
+
+    <view class="bank_box" wx:if='{{showBankList}}'>
+      <view class="mask" @tap='triggerBankList'></view>
+      <view class="content">
+        <view class="top">
+          <image mode='widthFix' @tap='triggerBankList' src='{{closeImgUrl}}'></image>
+          <text>请选择支付方式</text>
+        </view>
+        <view class="bank_list">
+          <view class="item beijing-icon {{selectedBankcode === '111'?'selected':''}}" data-bankcode='111' @tap='changeBank'>
+            <view class="context">
+              <view>北京银行 <text> 6217****3250</text></view>
+              <text class='quota_tips'>单笔限额10万元,单日限额40万元</text>
+              <image class='selectedCheck' mode='widthFix' src='{{selectedBankImg}}'></image>
+            </view>
+          </view>
+          <view class="item jianshe-icon {{selectedBankcode === '222'?'selected':''}}" data-bankcode='222' @tap='changeBank'>
+            <view class="context">
+              <view>建设银行 <text> 6217****3250</text></view>
+              <text class='quota_tips'>单笔限额10万元,单日限额40万元</text>
+              <image class='selectedCheck' mode='widthFix' src='{{selectedBankImg}}'></image>
+            </view>
+          </view>
+        </view>
+        <view class="money_cost">
+          <view class="money_num">需支付100000.00元</view>
+          <view class='feeratio_money'>预估手续费
+            <text class='old_rate'>100.00元</text>
+            <text class='new_rate'>10.00元</text>
+          </view>
+        </view>
+        <button plain='{{true}}' @tap='triggerPwdbox' class='next_step_btn'>下一步</button>
+      </view>
+    </view>
+
+    <view class="pwd_box" wx:if='{{showPwdBox}}'>
+      <view class="mask" @tap='triggerPwdbox'></view>
+      <view class="content">
+        <image mode='widthFix' @tap='triggerPwdbox' src='{{closeImgUrl}}'></image>
+        <text>请输入您的交易密码</text>
+        <input password @confirm='confirmPwd' placeholder="" confirm-type='done' />
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import config from '../../config.js'
+
+  export default class Hqb extends wepy.page {
+    config = {
+      navigationBarTitleText: '基金申购'
+    }
+
+    components = {
+    }
+
+    data = {
+      checkAll: false,
+      closeImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/close.png`,
+      lightImgUrl: `${config.service.imgUrlPath}/public/mobile/images/weapp/light.png`,
+      selectedBankImg: `${config.service.imgUrlPath}/public/mobile/images/weapp/check.png`,
+      selectedBankcode: '111',
+      showBankList: false,
+      showPwdBox: false
+    }
+
+    onLoad() {
+    }
+
+    methods = {
+      checkboxChange(e) {
+        let v = e.detail.value
+        let that = this
+        if (v.length > 0 && v[0] === '1') {
+          that.checkAll = true
+        } else {
+          that.checkAll = false
+        }
+        that.$apply()
+      },
+      toAgreement(num) {
+        wepy.navigateTo({
+          url: '/packageA/pages/buy_agreement?num=' + num
+        })
+      },
+      toWebPage(e) {
+        let link = e.currentTarget.dataset.link
+        wepy.navigateTo({
+          url: '/pages/webpage?url=' + link
+        })
+      },
+      changeBank(e) {
+        let code = e.currentTarget.dataset.bankcode
+        this.selectedBankcode = code
+        this.$apply()
+      },
+      handleValue(e) {
+        console.log(e)
+      },
+      triggerBankList(e) {
+        let s = this.showBankList
+        this.showBankList = !s
+        this.$apply()
+      },
+      triggerPwdbox(e) {
+        let s1 = this.showPwdBox
+        this.showPwdBox = !s1
+
+        let s2 = this.showBankList
+        this.showBankList = !s2
+        this.$apply()
+      },
+      confirmPwd(e) {
+        console.log(e.detail.value)
+      }
+    }
+  }
+</script>

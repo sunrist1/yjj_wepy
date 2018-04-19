@@ -10,7 +10,7 @@
 <script>
   import wepy from 'wepy'
   
-  export default class Webpage extends wepy.page {
+  export default class YjjDownload extends wepy.page {
     data = {
     }
 

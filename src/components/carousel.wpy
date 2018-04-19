@@ -47,6 +47,7 @@
 
     methods = {
       toLink(link) {
+        console.log(link)
         if (link.indexOf('http') >= 0) {
           wepy.navigateTo({
             url: '/pages/webpage?url=' + link
@@ -54,6 +55,11 @@
         } else if (link.indexOf('/publicfund/plist') >= 0) {
           wepy.switchTab({
             url: 'publist'
+          })
+        } else if(link.indexOf('privatefund') >= 0){
+          // 跳转私募详情页
+          wepy.navigateTo({
+            url: '/pages/prvlist'
           })
         }
       }
